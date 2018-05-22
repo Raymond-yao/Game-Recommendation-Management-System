@@ -10,7 +10,13 @@ class LoginController extends Controller {
   }
 
   function login() {
+    $params = $this->request->getParsedBody(); 
+    $account = $params["account"];
+    $password = $params["password"];
 
+    if ($account === "raymond" && $password === "123") {
+      setcookie("account", "raymond", time()+3600);
+    }
   }
 
   function index() {
