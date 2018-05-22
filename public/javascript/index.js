@@ -2,8 +2,8 @@
 (function ($) {
 
   var state = {
-    account: "",
-    password: ""
+    account: $("#account").val(),
+    password: $("#password").val()
   };
 
   $("#account, #password").on("change", function (ev) {
@@ -17,7 +17,14 @@
       $.ajax({
         method: "POST",
         url: "/login",
-        data: state
+        data: state,
+        success: function(data) {
+          if (data["status"] === "success") {
+            window.location = "/overview";
+          } else {
+            alert("login failed");
+          }
+        }
       });
     } else {
       $(".warning-account").css("display", state.account === "" ? "block" : "none");

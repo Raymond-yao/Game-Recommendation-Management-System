@@ -45,7 +45,7 @@ function login_helper($controller, $action) {
   return function(Request $request, Response $response, array $args) use ($controller, $action) {
     $cookie = verify_login();
     if ($cookie){
-      setcookie("account", $cookie, time()+3600);
+      setcookie("account", $cookie, time()+1800);
       $controller_intance = new $controller($request, $response, $args);
       return $controller_intance->$action();
     } else {
