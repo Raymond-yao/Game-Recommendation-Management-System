@@ -1,0 +1,37 @@
+#avatar {
+  background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');
+  width: 48px;
+  height: 48px;
+  background-size: cover;
+  background-position: top center;
+  border-radius: 50%;
+}
+
+.popover-bg {
+  width: 250px;
+  height: 300px;
+}
+
+#popover-override {
+  padding: 0;
+  border-radius: 45px;
+}
+
+.avatar-title {
+  width: 250px;
+  padding-left: 3px;
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+.list-count {
+  padding-left: 3px;
+}
+
+.avatar-bg {
+  background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');
+  width: 250px;
+  height: 200px;
+  background-size: cover;
+  background-position: top center;
+}
