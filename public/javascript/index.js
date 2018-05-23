@@ -16,11 +16,12 @@
     if (state.password !== "" && state.account !== "") {
       $.ajax({
         method: "POST",
+        cache: false,
         url: "/login",
         data: state,
         success: function(data) {
           if (data["status"] === "success") {
-            window.location = "/overview";
+            window.location.href = "/overview";
           } else {
             alert("login failed");
           }

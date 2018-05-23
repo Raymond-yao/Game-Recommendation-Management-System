@@ -2,6 +2,7 @@
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \Monolog\Logger;
 
 require '../vendor/autoload.php';
 require_once './controllers/Controller.php';
@@ -12,6 +13,13 @@ require_once './controllers/AccountController.php';
 $app = new \Slim\App(array(
   'debug' => true
 ));
+$container = $app->getContainer();
+$container['logger'] = function($c) {
+  $logger = new \Monolog\Logger('my_logger');
+  $file_handler = new \Monolog\Handler\StreamHandler('php://stdout');
+  $logger->pushHandler($file_handler);
+  return $logger;
+};
 
 // static files routing
 $app->get('/assets[/{type}[/{filename}]]', function (Request $request, Response $response, array $args) {
@@ -49,13 +57,13 @@ function login_helper($controller, $action) {
       $controller_intance = new $controller($request, $response, $args);
       return $controller_intance->$action();
     } else {
-      return $response->withRedirect('/', 301);
+      return (new Controller($request, $response, $args))->render("html","index.html");
     }
   };
 };
 
 $app->get('/overview', login_helper("AccountController", "overview"));
-
+$app->get('/overviewinfo', login_helper("AccountController", "info"));
 
 $app->run();
 ?>

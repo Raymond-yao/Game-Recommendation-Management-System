@@ -15,7 +15,7 @@ class Controller {
 
   }
 
-  protected function render(String $type, $data) {
+  public function render(String $type, $data) {
     switch ($type) {
       case "json":
         // $data should either be an index array or a json string
@@ -38,7 +38,7 @@ class Controller {
       }
     }
 
-    protected function static_render(String $type, $data) {
+    public function static_render(String $type, $data) {
       switch ($type) {
         case "css":
           $path = "/../../public/css/";

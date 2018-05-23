@@ -12,5 +12,9 @@ class AccountController extends Controller {
   function overview() {
   	return $this->render("html", "overview.html");
   }
+
+  function info() {
+  	
+  }
 }
 ?>
