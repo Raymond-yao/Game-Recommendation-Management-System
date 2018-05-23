@@ -22,16 +22,23 @@ class LoginController extends Controller {
     }
   }
 
+  function registerinfo() {
+  }
+
   function logout() {
     if (isset($_COOKIE["account"])) {
       setcookie("account", '', time() - 3600);
       unset($_COOKIE["account"]);
     }
-    return $this->response->withRedirect("/");
+    return $this->render("html", "logout.html");
   }
 
   function index() {
     $this->render("html", "index.html");
+  }
+
+  function register() {
+    $this->render("html", "register.html");
   }
 }
 ?>

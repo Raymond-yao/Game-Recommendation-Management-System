@@ -28,7 +28,7 @@ $app->get('/assets[/{type}[/{filename}]]', function (Request $request, Response 
   return $controller->serve();
 });
 
-// index, login and logout routing
+// index, login, logout and register routing
 $app->get('/', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
 
@@ -41,7 +41,17 @@ $app->post('/login', function (Request $request, Response $response, array $args
 });
 $app->get('/logout', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
-  return $controller->logout();
+  // decide if the user has the cookie, if yes, then the user can proceed to logout
+  // otherwise, return to main page
+  if (isset($_COOKIE["account"])) {
+    return $controller->logout();
+  } else {
+    return $controller->index();
+  }
+});
+$app->get('/register', function (Request $request, Response $response, array $args) {
+  $controller = new LoginController($request, $response, $args);
+  return $controller->register();
 });
 
 // two helper to keep the cookie alive. If the cookie times out, a user has to login again
