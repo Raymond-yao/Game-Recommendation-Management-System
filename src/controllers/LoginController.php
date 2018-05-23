@@ -14,7 +14,7 @@ class LoginController extends Controller {
     $account = $params["account"];
     $password = $params["password"];
 
-    if ($account === "raymond" && $password === "123") {
+    if (($account === "raymond" || $account === "dante" || $account === "robin" || $account === "ann") && $password === "123") {
       setcookie("account", "raymond", time() + 1800);
       return $this->render("json", array('status' => "success"));
     } else {
