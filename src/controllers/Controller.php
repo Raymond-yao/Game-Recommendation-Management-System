@@ -20,7 +20,9 @@ class Controller {
       case "json":
         // $data should either be an index array or a json string
       if (gettype($data) === "string") {
-          return $data; // expect the data in correct json format
+          $newResponse = $this->response->withHeader('Content-type', 'text/json');
+          $newResponse->getBody()->write($data);
+          return $newResponse; // expect the data in correct json format
         } else {
           return $this->response->withJSON($data, 200);
         }

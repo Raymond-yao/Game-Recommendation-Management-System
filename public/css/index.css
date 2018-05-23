@@ -12,6 +12,12 @@
   font-family: Impact, Charcoal, sans-serif;
 }
 
+.log-back-reminder {
+  margin-top: 0.2em;
+  text-align: center;  
+  font-size: 15px;
+}
+
 .subtitle {
   text-align: right;
   font-size: 16px;

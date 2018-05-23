@@ -57,7 +57,7 @@ function login_helper($controller, $action) {
       $controller_intance = new $controller($request, $response, $args);
       return $controller_intance->$action();
     } else {
-      return (new Controller($request, $response, $args))->render("html","index.html");
+      return (new Controller($request, $response, $args))->render("html","session_time_out.html");
     }
   };
 };

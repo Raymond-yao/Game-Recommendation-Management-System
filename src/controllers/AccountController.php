@@ -10,11 +10,15 @@ class AccountController extends Controller {
   }
 
   function overview() {
-  	return $this->render("html", "overview.html");
+    return $this->render("html", "overview.html");
   }
 
   function info() {
-  	
+    $path = "/../../stubs/info.json";
+    $complete_path = __DIR__  . $path;
+    $json = file_get_contents($complete_path);
+
+    return $this->render("json",$json);
   }
 }
 ?>
