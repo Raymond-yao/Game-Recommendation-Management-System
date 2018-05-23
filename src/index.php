@@ -28,7 +28,7 @@ $app->get('/assets[/{type}[/{filename}]]', function (Request $request, Response 
   return $controller->serve();
 });
 
-// index and login routing
+// index, login and logout routing
 $app->get('/', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
 
@@ -38,6 +38,10 @@ $app->post('/login', function (Request $request, Response $response, array $args
   $controller = new LoginController($request, $response, $args);
 
   return $controller->login();
+});
+$app->get('/logout', function (Request $request, Response $response, array $args) {
+  $controller = new LoginController($request, $response, $args);
+  return $controller->logout();
 });
 
 // two helper to keep the cookie alive. If the cookie times out, a user has to login again
