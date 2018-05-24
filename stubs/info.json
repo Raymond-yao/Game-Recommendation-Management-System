@@ -29,19 +29,19 @@
     },
     {
       "id": "5",
-      "cover":"https://thecdm.ca/files/ea-timeline_0.png",
+      "cover":"/assets/image/ea",
       "title":"EA Games collection",
       "desc": "Best games EA has made ever"
     },
     {
       "id": "6",
-      "cover":"https://www.telegraph.co.uk/content/dam/gaming/2017/06/06/ubisoft_new_2017_logo_2400-0_trans_NvBQzQNjv4BqZgEkZX3M936N5BQK4Va8RWtT0gK_6EfZT336f62EI5U.jpg?imwidth=450",
+      "cover":"/assets/image/ubisoft",
       "title":"Ubisoft Potato",
       "desc": "We all know Ubisoft's server is shitty, which is always called as a potato. However, this company did make some really cool games in the world! Therefore this recommendation list introduces best games held on Potato server ever."
     },
     {
       "id": "7",
-      "cover":"http://teamcherry.com.au/wp-content/uploads/banner-2.jpg",
+      "cover":"/assets/image/hollow_knight",
       "title":"Best indie games",
       "desc": "Best indie games I ever play!"
     }

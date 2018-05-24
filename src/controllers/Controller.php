@@ -38,27 +38,6 @@ class Controller {
         return $this->response;
         break;
       }
-    }
-
-    public function static_render(String $type, $data) {
-      switch ($type) {
-        case "css":
-          $path = "/../../public/css/";
-          $complete_path = __DIR__  . $path . $data . ".css";
-          $file_content = file_get_contents($complete_path);
-          $newResponse = $this->response->withHeader('Content-type', 'text/css');
-          $newResponse->getBody()->write($file_content);
-          return $newResponse;
-        break;
-        case "javascript":
-          $path = "/../../public/javascript/";
-          $complete_path = __DIR__  . $path . $data . ".js";
-          $file_content = file_get_contents($complete_path);
-          $newResponse = $this->response->withHeader('Content-type', 'text/script');
-          $newResponse->getBody()->write($file_content);
-          return $newResponse;
-        break;        
-      }
     } 
   }
 

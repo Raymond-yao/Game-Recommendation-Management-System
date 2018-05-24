@@ -10,8 +10,14 @@ require_once  './controllers/LoginController.php';
 require_once './controllers/StaticFileController.php';
 require_once './controllers/AccountController.php';
 
+
+$config['db']['host']   = 'localhost';
+$config['db']['user']   = 'root';
+$config['db']['pass']   = 'chenjiayao1802';
+$config['db']['dbname'] = 'test';
 $app = new \Slim\App(array(
-  'debug' => true
+  'debug' => true,
+  'settings' => $config
 ));
 $container = $app->getContainer();
 $container['logger'] = function($c) {
@@ -19,6 +25,15 @@ $container['logger'] = function($c) {
   $file_handler = new \Monolog\Handler\StreamHandler('php://stdout');
   $logger->pushHandler($file_handler);
   return $logger;
+};
+$container['db'] = function ($c) {
+  $db = $c['settings']['db'];
+  $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
+    $db['user'], $db['pass']);
+  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES , FALSE);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+  return $pdo;
 };
 
 // static files routing

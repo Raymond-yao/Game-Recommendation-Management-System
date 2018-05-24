@@ -1,5 +1,5 @@
 #avatar {
-  background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');
+  background-image: url('/assets/images/no_photo');
   width: 48px;
   height: 48px;
   background-size: cover;
@@ -31,7 +31,7 @@
 .overview-img-top {
   width: 100%;
   height: 180px;
-  background-image: url('https://www.socabelec.co.ke/wp-content/uploads/no-photo-14.jpg');
+  background-image: url('/assets/images/no_photo');
   background-size: cover;
   background-position: top center;
 }
