@@ -1,0 +1,48 @@
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand text-light" href="#"><div id="avatar"></div></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse bg-dark" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">Logout</a>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+  <script type="text/javascript">
+    $(function() {
+      $.ajax({
+        method: "GET",
+        url: "/accountinfo",
+        dataType: "json",
+        success: function(data) {
+          var profile_avatar = data["profile_avatar"] || "/assets/image/no_photo";
+          $('#avatar').popover({
+            trigger: 'hover',
+            container: 'body',
+            offset: 0,
+            html: true,
+            content:'<div class="popover-bg"><div class="avatar-bg" style="background-image: url(' + profile_avatar + ')"></div><div class="avatar-title">' + data["username"] + '</div><div class="list-count">Recommendation List: ' + data["count"] + '</div></div>'
+          });
+        },
+        error: function() {
+          alert("Avatar error occur !");
+        }
+      });
+    });
+  </script>

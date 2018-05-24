@@ -1,5 +1,5 @@
 
-(function ($) {
+$(function () {
 
   var state = {
     account: $("#account").val(),
@@ -32,4 +32,4 @@
       $(".warning-password").css("display", state.password === "" ? "block" : "none")       
     }
   })
-} (jQuery));
+} );

@@ -37,6 +37,9 @@ $container['db'] = function ($c) {
 };
 
 // static files routing
+$app->get('/setup_assets', function (Request $request, Response $response, array $args) {
+  return (new Controller($request, $response, $args))->render("html","assets.html");
+});
 $app->get('/assets[/{type}[/{filename}]]', function (Request $request, Response $response, array $args) {
   $controller = new StaticFileController($request, $response, $args);
 
@@ -78,21 +81,67 @@ function verify_login() {
   }
 };
 
-function login_helper($controller, $action) {
-  return function(Request $request, Response $response, array $args) use ($controller, $action) {
+function with_or_without_cookie($with_cookie_handler, $without_out_cookie_handler) {
+
+  return function(Request $request, Response $response, array $args) use ($with_cookie_handler, $without_out_cookie_handler) {
     $cookie = verify_login();
-    if ($cookie){
-      setcookie("account", $cookie, time()+1800);
-      $controller_intance = new $controller($request, $response, $args);
-      return $controller_intance->$action();
+    if ($cookie) {
+      return $with_cookie_handler($request, $response, $args);
     } else {
-      return (new Controller($request, $response, $args))->render("html","session_time_out.html");
+      return $without_out_cookie_handler($request, $response, $args);
     }
   };
 };
 
-$app->get('/overview', login_helper("AccountController", "overview"));
-$app->get('/overviewinfo', login_helper("AccountController", "info"));
+function user_or_login_expired($controller, $action) {
+  $with_cookie_handler = function(Request $request, Response $response, array $args) use ($controller, $action) {
+    $cookie = $_COOKIE["account"];
+    setcookie("account", $cookie, time()+1800);
+    $controller_intance = new $controller($request, $response, $args);
+    return $controller_intance->$action();
+  };
+  $without_out_cookie_handler = function(Request $request, Response $response, array $args) {
+    return (new Controller($request, $response, $args))->render("html","session_time_out.html");
+  };
 
+  return with_or_without_cookie($with_cookie_handler, $without_out_cookie_handler);
+};
+
+function user_or_visitor(array $actions) {
+  $user_controller = $actions["user_controller"];
+  $visitor_controller = $actions["visitor_controller"];
+  $user_action = $actions["user_action"];
+  $visitor_action = $actions["visitor_action"];
+
+  $with_cookie_handler = function(Request $request, Response $response, array $args)
+  use ($user_controller, $user_action) {
+    $controller = new $user_controller($request, $response, $args);
+    return $controller->$user_action();
+  };
+
+  $without_out_cookie_handler = function(Request $request, Response $response, array $args)
+  use ($visitor_controller,  $visitor_action) {
+    $controller = new $visitor_controller($request, $response, $args);
+    return $controller->$visitor_action();
+  };
+
+  return with_or_without_cookie($with_cookie_handler, $without_out_cookie_handler);
+}
+$app->get('/header', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->get_header();
+});
+$app->get('/overview', user_or_login_expired("AccountController", "overview"));
+$app->get('/accountinfo', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->account_info();
+});
+$app->get('/listinfo', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->list_info();
+}); 
 $app->run();
 ?>

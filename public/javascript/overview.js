@@ -3,16 +3,6 @@ $(function () {
 
   var setup = function(data) {
 
-    var profile_avatar = data["profile_avatar"] || 'https://www.socabelec.co.ke/wp-content/uploads/no-photo-14.jpg';
-    $('#avatar').popover({
-      trigger: 'hover',
-      container: 'body',
-      offset: 0,
-      html: true,
-      content:'<div class="popover-bg"><div class="avatar-bg" style="background-image: url(' + profile_avatar + ')"></div><div class="avatar-title">' + data["username"] + '</div><div class="list-count">Recommendation List: ' + data["count"] + '</div></div>'
-    });
-
-
     $("#list-container").empty();
     var recommendations = data["recommendations"];
     $.each(recommendations, function( index, rec ) {
@@ -30,13 +20,10 @@ $(function () {
 
   $.ajax({
     method: "GET",
-    url: "/overviewinfo",
+    url: "/listinfo",
     success: function(data) {
       setup(data);
     }
-  })
+  });
   
-
-
-
 })

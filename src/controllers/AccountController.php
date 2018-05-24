@@ -13,8 +13,25 @@ class AccountController extends Controller {
     return $this->render("html", "overview.html");
   }
 
-  function info() {
-    $path = "/../../stubs/info.json";
+  function get_header() {
+    $url = $this->request->getUri();
+    if (isset($_COOKIE["account"])) {
+      return $this->render("html", "user_header.html");
+    } else {
+      return $this->render("html", "visitor_header.html");
+    }
+  }
+
+  function account_info() {
+    $path = "/../../stubs/account_info.json";
+    $complete_path = __DIR__  . $path;
+    $json = file_get_contents($complete_path);
+
+    return $this->render("json",$json);
+  }
+
+  function list_info() {
+    $path = "/../../stubs/list_info.json";
     $complete_path = __DIR__  . $path;
     $json = file_get_contents($complete_path);
 
