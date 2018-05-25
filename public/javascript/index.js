@@ -49,4 +49,4 @@ $(function () {
   var bgImg = 'url(' + images[randomNumber] + ')';
 
 $('body').css({'background':bgImg, 'background-size':'cover', });
-} ());
+} );

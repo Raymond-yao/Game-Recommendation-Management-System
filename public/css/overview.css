@@ -1,6 +1,11 @@
 
+html body {
+  height: 100%;
+}
+
 #content-body {
   background-color: #dcdcdc;
+  height: 100%;
 }
 
 .overview-img-top {
@@ -143,16 +148,67 @@
   display: block;
 }
 
-#list-container {
+#list-content-section {
   background-color: white;
+}
+
+.settings-group {
+  width: 200px;
+  text-align: center;
+}
+
+.view-setting {
+  font-size: 24px;
+  font-weight: bold;
+  color: #dcdcdc;
+  cursor: pointer;
+}
+
+.view-setting:not(.selected):hover {
+  color: #ededed;
+}
+
+.selected {
+  color: #343a40;
+}
+
+.separator {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+#list-container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-
-
 .card-text {
   max-height: 50px;
   overflow: hidden;
+}
+
+.list-view-link {
+  width: 70%;
+  margin-left: 20px;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: black;
+}
+
+.list-view-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.alert.list-view: {
+  margin-bottom: 0;
+}
+
+.alert.list-view:hover {
+  color: white;
+  background-color: black;
 }

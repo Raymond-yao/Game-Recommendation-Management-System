@@ -1,3 +1,30 @@
+#header {
+  height: 50px;
+}
+
+/* for visitor header */
+.account-action-group {
+  margin-right: 14px;
+  margin-top: 8px;
+}
+
+.account-action {
+  font-size: 18px;
+}
+
+.account-action:hover {
+  text-decoration: none;
+  color: #f8f9fa;
+}
+
+.divider {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  color: white;
+}
+
+/* for user header */
 #avatar {
   background-image: url('/assets/images/no_photo');
   width: 32px;
@@ -30,10 +57,18 @@
   padding-left: 3px;
   margin-top: 10px;
   font-size: 24px;
+  font-weight: bold;
+  color: white;
 }
 
 .list-count {
   padding-left: 3px;
+  color: white;
+}
+
+.friend-count {
+  padding-left: 3px;
+  color: white;
 }
 
 .avatar-bg {
