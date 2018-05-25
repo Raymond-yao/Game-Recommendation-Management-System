@@ -1,15 +1,23 @@
 #avatar {
   background-image: url('/assets/images/no_photo');
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   background-size: cover;
   background-position: top center;
   border-radius: 50%;
 }
 
+#avatarDropdown {
+  font-size: 13px;
+}
+
 .popover-bg {
   width: 250px;
   height: 300px;
+}
+
+.dropdown-menu .dropdown-item {
+  font-size: 14px;
 }
 
 #popover-override {
