@@ -13,7 +13,7 @@ require_once './controllers/AccountController.php';
 
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = 'chenjiayao1802';
+$config['db']['pass']   = '';
 $config['db']['dbname'] = 'test';
 $app = new \Slim\App(array(
   'debug' => true,
@@ -56,6 +56,11 @@ $app->post('/login', function (Request $request, Response $response, array $args
   $controller = new LoginController($request, $response, $args);
 
   return $controller->login();
+});
+$app->post('/register', function (Request $request, Response $response, array $args) {
+  $controller = new LoginController($request, $response, $args);
+
+  return $controller->registerinfo();
 });
 $app->get('/logout', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);

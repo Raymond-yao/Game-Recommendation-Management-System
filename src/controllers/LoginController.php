@@ -23,6 +23,16 @@ class LoginController extends Controller {
   }
 
   function registerinfo() {
+    $params = $this->request->getParsedBody(); 
+    $registeraccount = $params["registeraccount"];
+    $registerpassword = $params["registerpassword"];
+    $repeatpassword = $params["repeatpassword"];
+
+    if (($registeraccount !== "") && ($registerpassword === $repeatpassword)){
+      return $this->render("json", array('status' => "success"));
+    } else {
+      return $this->render("json", array('status' => "failed"));
+    }
   }
 
   function logout() {

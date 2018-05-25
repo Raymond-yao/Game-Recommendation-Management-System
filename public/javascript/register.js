@@ -15,25 +15,26 @@
   $("#registerpassword, #repeatpassword").on("change", function (ev) {
     $(".warning-unmatchpassword").css("display", state["registerpassword"] === state["repeatpassword"] ? "none" : "block");    
   });
-  // $("#login-botton").on("click", function (ev) {
-  //   ev.preventDefault();
-  //   if (state.password !== "" && state.account !== "") {
-  //     $.ajax({
-  //       method: "POST",
-  //       cache: false,
-  //       url: "/login",
-  //       data: state,
-  //       success: function(data) {
-  //         if (data["status"] === "success") {
-  //           window.location.href = "/overview";
-  //         } else {
-  //           alert("login failed");
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     $(".warning-account").css("display", state.account === "" ? "block" : "none");
-  //     $(".warning-password").css("display", state.password === "" ? "block" : "none")       
-  //   }
-  // })
+  $("#register-botton").on("click", function (ev) {
+    ev.preventDefault();
+    if ((state.registerpassword === state.repeatpassword) && (state.registeraccount !== "")) {
+      $.ajax({
+        method: "POST",
+        cache: false,
+        url: "/register",
+        data: state,
+        success: function(data) {
+          if (data["status"] === "success") {
+            window.location.href = "/";
+          } else {
+            alert("illegal registration");
+          }
+        }
+      });
+    } else {
+      $(".warning-registeraccount").css("display", state.registeraccount === "" ? "block" : "none");
+      $(".warning-registerpassword").css("display", state.registerpassword === "" ? "block" : "none");
+      $(".warning-repeatpassword").css("display", state.repeatpassword === "" ? "block" : "none")       
+    }
+  })
 } (jQuery));

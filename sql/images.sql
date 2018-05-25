@@ -9,3 +9,6 @@ INSERT INTO `images` VALUES (1, 'ea', 'png', NULL);
 INSERT INTO `images` VALUES (2, 'ubisoft', 'jpeg', NULL);
 INSERT INTO `images` VALUES (3, 'hollow_knight', 'jpeg', NULL);
 INSERT INTO `images` VALUES (4, 'no_photo', 'jpeg', NULL);
+INSERT INTO `images` VALUES (5, 'ela', 'jpg', NULL);
+INSERT INTO `images` VALUES (6, 'r6', 'jpg', NULL);
+INSERT INTO `images` VALUES (7, 'rainbowsix', 'jpg', NULL);
