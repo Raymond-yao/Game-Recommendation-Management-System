@@ -1,7 +1,27 @@
 
 $(function () {
 
-  var setup = function(data) {
+  $.ajax({
+    method: "GET",
+    url: "/accountinfo",
+    success: function(data) {
+      var url = data["profile_avatar"];
+      if (url){
+        $("img.big-avatar").attr("src", url);
+      }
+      var cover = data["cover"];
+      if(cover) {
+        $("#overview-bg-img").css("background-image", 'url(' + cover + ')')
+      }
+      $(".username-container").text(data["username"]);
+      $(".list-value").text(data["count"]);
+    },
+    error: function(xhr) {
+      alert("avatar request failed with status: " + xhr.status());
+    }
+  });
+
+  var setupRecommendationList = function(data) {
 
     $("#list-container").empty();
     var recommendations = data["recommendations"];
@@ -22,7 +42,7 @@ $(function () {
     method: "GET",
     url: "/listinfo",
     success: function(data) {
-      setup(data);
+      setupRecommendationList(data);
     }
   });
   
