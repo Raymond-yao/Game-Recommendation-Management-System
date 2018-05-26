@@ -13,7 +13,7 @@ require_once './controllers/AccountController.php';
 
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = 'chenjiayao1802';
+$config['db']['pass']   = '';
 $config['db']['dbname'] = 'test';
 $app = new \Slim\App(array(
   'debug' => true,

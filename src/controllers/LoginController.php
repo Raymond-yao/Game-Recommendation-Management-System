@@ -14,8 +14,12 @@ class LoginController extends Controller {
     $account = $params["account"];
     $password = $params["password"];
 
-    if (($account === "raymond" || $account === "dante" || $account === "robin" || $account === "ann") && $password === "123") {
-      setcookie("account", "raymond", time() + 1800);
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare("SELECT username FROM users WHERE (email = :email AND password = :password)");
+    $stmt->execute(array(':email' => $account, ':password' => $password));
+    $username = $stmt->fetch(PDO::FETCH_OBJ)->username;
+    if ($username) {
+      setcookie("account", $username, time() + 1800);
       return $this->render("json", array('status' => "success"));
     } else {
       return $this->render("json", array('status' => "failed"));

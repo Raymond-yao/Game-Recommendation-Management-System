@@ -41,7 +41,6 @@ $(function () {
               'https://deow9bq0xqvbj.cloudfront.net/dir-logo/233639/233639.jpg',
               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ7ULdp4GylS-Pq1YsLc9kE3gvvUAmqYjkFUOKC5JEFIeKCrgl',
               'http://handeyesociety.com/wp-content/uploads/2017/02/ComicsXGames2017_CorySchmitz.png',
-              'https://khouj.com/wp-content/uploads/2018/03/game.jpg',
               'http://escolabrasileiradegames.com.br/wp2016/wp-content/uploads/2017/07/escola-brasileira-de-games-producao-e-desenvolvimento-de-games-2.jpg',
               ];
 

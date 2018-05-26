@@ -14,3 +14,4 @@ INSERT INTO `images` VALUES (6, 'r6', 'jpg', NULL);
 INSERT INTO `images` VALUES (7, 'rainbowsix', 'jpg', NULL);
 INSERT INTO `images` VALUES (8, 'dark_soul_hero', 'jpeg', NULL);
 INSERT INTO `images` VALUES (9, 'dark_soul_ava', 'jpeg', NULL);
+INSERT INTO `images` VALUES (10, 'ela_avatar', 'jpg', NULL);
