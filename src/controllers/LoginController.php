@@ -13,13 +13,9 @@ class LoginController extends Controller {
     $params = $this->request->getParsedBody(); 
     $account = $params["account"];
     $password = $params["password"];
-
-    $pdo = $GLOBALS["container"]->db;
-    $stmt = $pdo->prepare("SELECT username FROM users WHERE (email = :email AND password = :password)");
-    $stmt->execute(array(':email' => $account, ':password' => $password));
-    $username = $stmt->fetch(PDO::FETCH_OBJ)->username;
-    if ($username) {
-      setcookie("account", $username, time() + 1800);
+    $id = User::verify($account, $password);
+    if ($id) {
+      setcookie("account", $id, time() + 1800, '/', 'localhost');
       return $this->render("json", array('status' => "success"));
     } else {
       return $this->render("json", array('status' => "failed"));
@@ -41,7 +37,7 @@ class LoginController extends Controller {
 
   function logout() {
     if (isset($_COOKIE["account"])) {
-      setcookie("account", '', time() - 3600);
+      setcookie("account", '', time() - 3600, '/', 'localhost');
       unset($_COOKIE["account"]);
     }
     return $this->render("html", "logout.html");

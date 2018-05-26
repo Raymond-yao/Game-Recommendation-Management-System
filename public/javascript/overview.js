@@ -5,9 +5,9 @@ $(function () {
 
   $.ajax({
     method: "GET",
-    url: "/accountinfo",
+    url: "/accountinfo/" + visit_id,
     success: function(data) {
-      var url = data["profile_avatar"];
+      var url = data["avatar"];
       if (url){
         $("img.big-avatar").attr("src", url);
       }
@@ -16,7 +16,8 @@ $(function () {
         $("#overview-bg-img").css("background-image", 'url(' + cover + ')')
       }
       $(".username-container").text(data["username"]);
-      $(".list-value").text(data["count"]);
+      $(".list-value").text(data["list_count"]);
+      $(".friend-value").text(data["friend_count"]);
     },
     error: function(xhr) {
       alert("avatar request failed with status: " + xhr.status());

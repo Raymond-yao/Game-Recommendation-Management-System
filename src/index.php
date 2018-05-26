@@ -9,6 +9,8 @@ require_once './controllers/Controller.php';
 require_once  './controllers/LoginController.php';
 require_once './controllers/StaticFileController.php';
 require_once './controllers/AccountController.php';
+require_once './models/Model.php';
+require_once './models/User.php';
 
 
 $config['db']['host']   = 'localhost';
@@ -27,13 +29,28 @@ $container['logger'] = function($c) {
   return $logger;
 };
 $container['db'] = function ($c) {
-  $db = $c['settings']['db'];
-  $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
-    $db['user'], $db['pass']);
-  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES , FALSE);
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-  return $pdo;
+
+  class LoggedPDO {
+
+    private $pdo;
+
+    function __construct($db) {
+      $this->pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
+        $db['user'], $db['pass']);
+      $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES , FALSE);
+      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    }
+
+    public function __call(string $name , array $arguments){
+      if ($name === "prepare") {
+        $GLOBALS["container"]->logger->warn($arguments[0]);
+      }
+      return $this->pdo->$name($arguments[0]);
+    }
+  };
+  
+  return new LoggedPDO($c['settings']['db']);
 };
 
 // static files routing
@@ -101,7 +118,7 @@ function with_or_without_cookie($with_cookie_handler, $without_out_cookie_handle
 function user_or_login_expired($controller, $action) {
   $with_cookie_handler = function(Request $request, Response $response, array $args) use ($controller, $action) {
     $cookie = $_COOKIE["account"];
-    setcookie("account", $cookie, time()+1800);
+    setcookie("account", $cookie, time()+1800, '/', 'localhost');
     $controller_intance = new $controller($request, $response, $args);
     return $controller_intance->$action();
   };
@@ -137,8 +154,8 @@ $app->get('/header', function(Request $request, Response $response, array $args)
 
   return $controller->get_header();
 });
-$app->get('/overview', user_or_login_expired("AccountController", "overview"));
-$app->get('/accountinfo', function(Request $request, Response $response, array $args) {
+$app->get('/overview[/{id}]', user_or_login_expired("AccountController", "overview"));
+$app->get('/accountinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 
   return $controller->account_info();

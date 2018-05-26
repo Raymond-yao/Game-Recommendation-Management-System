@@ -27,7 +27,7 @@
         url: "/accountinfo",
         dataType: "json",
         success: function(data) {
-          var profile_avatar = data["profile_avatar"] || "/assets/image/no_photo";
+          var profile_avatar = data["avatar"] || "/assets/image/no_photo";
           $("#avatar").css("background-image", 'url(' + profile_avatar + ')');
           $("#avatarDropdown").text(data["username"]);
           $('#avatar').popover({
@@ -35,7 +35,7 @@
             container: 'body',
             offset: 0,
             html: true,
-            content:'<div class="popover-bg bg-dark"><div class="avatar-bg" style="background-image: url(' + profile_avatar + ')"></div><div class="avatar-title">' + data["username"] + '</div><div class="list-count">Recommendation Lists: ' + data["count"] + '</div><div class="friend-count">Friends: 0</div></div>'
+            content:'<div class="popover-bg bg-dark"><div class="avatar-bg" style="background-image: url(' + profile_avatar + ')"></div><div class="avatar-title">' + data["username"] + '</div><div class="list-count">Recommendation Lists: ' + data["list_count"] + '</div><div class="friend-count">Friends: 0</div></div>'
           });
         },
         error: function() {

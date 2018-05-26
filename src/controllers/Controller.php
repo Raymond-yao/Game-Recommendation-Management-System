@@ -15,7 +15,7 @@ class Controller {
 
   }
 
-  public function render(String $type, $data) {
+  public function render(String $type, $data, $replacement=NULL) {
     switch ($type) {
       case "json":
         // $data should either be an index array or a json string
@@ -33,8 +33,11 @@ class Controller {
         $path = "/../views/";
         $complete_path = __DIR__  . $path . $data;
         $html_content = file_get_contents($complete_path);
-
-        $this->response->getBody()->write($html_content);
+        if ($replacement) {
+          $this->response->getBody()->write(str_replace('<% $var %>', $replacement, $html_content));
+        } else {
+          $this->response->getBody()->write(str_replace('<% $var %>', '', $html_content));
+        }
         return $this->response;
         break;
       }
