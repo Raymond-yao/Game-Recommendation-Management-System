@@ -24,12 +24,34 @@ class LoginController extends Controller {
 
   function registerinfo() {
     $params = $this->request->getParsedBody(); 
-    $registeraccount = $params["registeraccount"];
-    $registerpassword = $params["registerpassword"];
-    $repeatpassword = $params["repeatpassword"];
+    $registerEmail = $params["registerEmail"];
+    $registerUsername = $params["registerUsername"];
+    $registerPassword = $params["registerPassword"];
+    $repeatPassword = $params["repeatPassword"];
 
-    if (($registeraccount !== "") && ($registerpassword === $repeatpassword)){
-      return $this->render("json", array('status' => "success"));
+    $pdo = $GLOBALS["container"]->db;
+    // check if this email already exist
+    $stmt = $pdo->prepare("SELECT email FROM users WHERE email = :email");
+    $stmt->execute(array(':email' => $registerEmail));
+    $email = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!empty($email)){
+      return $this->render("json", array('status' => "failed"));
+    }
+    $stmt->closeCursor();
+    
+    // insert this email to the user table
+    if (($registerEmail !== "") && ($registerPassword === $repeatPassword)){
+      // find max id in user table
+      $stmt = $pdo->prepare("SELECT MAX(id) FROM users");
+      $stmt->execute();
+      $maxId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
+      $maxId += 1;
+
+      User::create(["id" => $maxId, 
+        "username" => $registerUsername, 
+        "password" => $registerPassword,
+        "email" => $registerEmail]);
+      return $this->render("json", array('status' => "success register"));
     } else {
       return $this->render("json", array('status' => "failed"));
     }

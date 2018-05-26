@@ -2,22 +2,23 @@
 (function ($) {
 
   var state = {
-    registeraccount: $("#registeraccount").val(),
-    registerpassword: $("#registerpassword").val(),
-    repeatpassword: $("repeatpassword").val()
+    registerEmail: $("#registerEmail").val(),
+    registerUsername: $("#registerUsername").val(),
+    registerPassword: $("#registerPassword").val(),
+    repeatPassword: $("#repeatPassword").val()
   };
 
-  $("#registeraccount, #registerpassword, #repeatpassword").on("change", function (ev) {
+  $("#registerEmail, #registerUsername, #registerPassword, #repeatPassword").on("change", function (ev) {
     var elem = $(ev.target);
     state[elem.attr("id")] = elem.val().trim();
     $(".warning-" + elem.attr("id")).css("display", elem.val().trim() === "" ? "block" : "none");    
   });
-  $("#registerpassword, #repeatpassword").on("change", function (ev) {
-    $(".warning-unmatchpassword").css("display", state["registerpassword"] === state["repeatpassword"] ? "none" : "block");    
+  $("#registerPassword, #repeatPassword").on("change", function (ev) {
+    $(".warning-unmatchpassword").css("display", state["registerPassword"] === state["repeatPassword"] ? "none" : "block");    
   });
   $("#register-botton").on("click", function (ev) {
     ev.preventDefault();
-    if ((state.registerpassword === state.repeatpassword) && (state.registeraccount !== "")) {
+    if ((state.registerPassword === state.repeatPassword) && (state.registerEmail !== "") && (state.registerUsername !== "")) {
       $.ajax({
         method: "POST",
         cache: false,
@@ -26,15 +27,19 @@
         success: function(data) {
           if (data["status"] === "success") {
             window.location.href = "/";
-          } else {
+          } else if (data["status"] === "success register"){
+            alert("Thanks for register!");
+          } 
+          else {
             alert("illegal registration");
           }
         }
       });
     } else {
-      $(".warning-registeraccount").css("display", state.registeraccount === "" ? "block" : "none");
-      $(".warning-registerpassword").css("display", state.registerpassword === "" ? "block" : "none");
-      $(".warning-repeatpassword").css("display", state.repeatpassword === "" ? "block" : "none")       
+      $(".warning-registerEmail").css("display", state.registerEmail === "" ? "block" : "none");
+      $(".warning-registerUsername").css("display", state.registerUsername === "" ? "block" : "none");
+      $(".warning-registerPassword").css("display", state.registerPassword === "" ? "block" : "none");
+      $(".warning-repeatPassword").css("display", state.repeatPassword === "" ? "block" : "none")       
     }
   })
 } (jQuery));
