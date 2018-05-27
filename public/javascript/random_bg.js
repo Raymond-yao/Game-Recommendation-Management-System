@@ -6,7 +6,9 @@ $(function() {
               '/assets/image/bg3',
               '/assets/image/bg4',
               '/assets/image/bg5',
-              '/assets/image/bg6'
+              '/assets/image/bg6',
+              '/assets/image/bg7',
+              '/assets/image/bg8'
               ];
 
   var randomNumber = Math.floor(Math.random() * images.length);

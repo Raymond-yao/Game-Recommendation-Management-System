@@ -21,5 +21,7 @@ INSERT INTO `images` VALUES (13, 'bg2', 'jpg', NULL);
 INSERT INTO `images` VALUES (14, 'bg3', 'jpg', NULL);
 INSERT INTO `images` VALUES (15, 'bg4', 'jpg', NULL);
 INSERT INTO `images` VALUES (16, 'bg6', 'jpg', NULL);
-INSERT INTO `images` VALUES (17, 'bg5', 'png', NULL);
+INSERT INTO `images` VALUES (17, 'bg5', 'jpg', NULL);
+INSERT INTO `images` VALUES (18, 'bg7', 'gif', NULL);
+INSERT INTO `images` VALUES (19, 'bg8', 'gif', NULL);
 
