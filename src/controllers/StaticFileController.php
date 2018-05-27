@@ -34,6 +34,7 @@ class StaticFileController extends Controller {
       $stmt = $pdo->prepare("SELECT type FROM images WHERE filename = :fn");
       $stmt->execute(array(':fn' => $data));
       $type = $stmt->fetch(PDO::FETCH_OBJ)->type;
+      $stmt->closeCursor();
       $complete_path = __DIR__ . $path . $data . "." . $type;
       $file_content = file_get_contents($complete_path);
       $newResponse = $this->response->withHeader('Content-type', $type);

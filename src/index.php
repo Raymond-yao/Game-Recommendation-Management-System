@@ -3,6 +3,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Monolog\Logger;
+use \Monolog\Formatter\LineFormatter;
 
 require '../vendor/autoload.php';
 require_once './controllers/Controller.php';
@@ -11,12 +12,14 @@ require_once './controllers/StaticFileController.php';
 require_once './controllers/AccountController.php';
 require_once './models/Model.php';
 require_once './models/User.php';
+require_once '../sql/LoggedPDO.php';
 
-
+$config['db']['log'] = TRUE;
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
 $config['db']['pass']   = '';
 $config['db']['dbname'] = 'test';
+
 $app = new \Slim\App(array(
   'debug' => true,
   'settings' => $config
@@ -24,33 +27,29 @@ $app = new \Slim\App(array(
 $container = $app->getContainer();
 $container['logger'] = function($c) {
   $logger = new \Monolog\Logger('my_logger');
-  $file_handler = new \Monolog\Handler\StreamHandler('php://stdout');
+  $file_handler = new \Monolog\Handler\StreamHandler(__DIR__ . "/../sql.log", Logger::WARNING);
+  $formatter = new \Monolog\Formatter\LineFormatter(null, null, false, true);
+  $file_handler->setFormatter($formatter);
   $logger->pushHandler($file_handler);
   return $logger;
 };
 $container['db'] = function ($c) {
 
-  class LoggedPDO {
+  $pdo_obj = NULL;
 
-    private $pdo;
+  if ( !$c['settings']['db']["log"] ) {
+    $db = $c['settings']['db'];
+    $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
+      $db['user'], $db['pass']);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES , FALSE);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $pdo_obj = $pdo;
+  } else {
+    $pdo_obj = new LoggedPDO($c['settings']['db']);
+  }
 
-    function __construct($db) {
-      $this->pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
-        $db['user'], $db['pass']);
-      $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES , FALSE);
-      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    }
-
-    public function __call(string $name , array $arguments){
-      if ($name === "prepare") {
-        $GLOBALS["container"]->logger->warn($arguments[0]);
-      }
-      return $this->pdo->$name($arguments[0]);
-    }
-  };
-  
-  return new LoggedPDO($c['settings']['db']);
+  return $pdo_obj;
 };
 
 // static files routing
