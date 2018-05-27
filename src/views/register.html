@@ -9,40 +9,32 @@
 <body>
   <div id="header" class="bg-dark">
   </div>
-  <div id="register-section" class="bg-light">
-    <div class="title">
+  <div id="register-section">
+    <div class="title text-white">
       Get started!
-      <div class="subtitle"><span class="text-info">a game recommendation system</span></div>
+      <div class="subtitle"><span class="subtitle-text text-white">a game recommendation system</span></div>
     </div>
     <form>
       <!-- register email address -->
       <div class="form-group">
-        <label for="registerEmail">Email address</label>
-        <input type="registerEmail" class="form-control" id="registerEmail" aria-describedby="registerEmail" placeholder="Enter your Email address">
-        <small id="loginhelp" class="form-text text-muted">Already a user? <a href="/">Click to Login</a></small>
+        <input type="registerEmail" class="form-control register-input register-top" id="registerEmail" aria-describedby="registerEmail" placeholder="Email address">
         <small class="warning warning-registerEmail">Account cannot be blank</small>
         <small class="warning warning-registerEmailInvalid">Invalid Email</small>
-      </div>
-      <!-- register Username -->
-      <div class="form-group">
-        <label for="registerUsername">Username</label>
-        <input type="registerUsername" class="form-control" id="registerUsername" aria-describedby="registerUsername" placeholder="Enter your Username">
+        <!-- register Username -->
+        <input type="registerUsername" class="form-control register-input" id="registerUsername" aria-describedby="registerUsername" placeholder="Username">
         <small class="warning warning-registerEmail">Account cannot be blank</small>
-      </div>
-      <!-- register password -->
-      <div class="form-group">
-        <label for="registerPassword">Password</label>
-        <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+        <!-- register password -->
+        <input type="password" class="form-control register-input " id="registerPassword" placeholder="Password">
         <small class="warning warning-registerPassword">Password cannot be blank</small>
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat Password">
+        <input type="password" class="form-control register-input register-bottom" id="repeatPassword" placeholder="Repeat Password">
         <small class="warning warning-repeatPassword">Password cannot be blank</small>
         <small class="warning warning-unmatchpassword">Password doesn't match</small>
+        <small id="loginhelp" class="form-text text-white">Already a user? <a href="/">Click to Login</a></small>
       </div>
 
       <button id="register-botton">Sign up</button>
     </form>
+
   </div>
 
 

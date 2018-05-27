@@ -1,9 +1,4 @@
 
-
-#header {
-
-}
-
 .title {
   margin-left: auto;
   margin-right: auto;
@@ -13,13 +8,21 @@
 }
 
 .subtitle {
+  min-height: 25px;
+  position: relative;
   text-align: right;
   font-size: 16px;
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
+.subtitle-text {
+  position: absolute;
+  right: -87px;
+}
+
 #register-section {
-  max-width: 500px;
+  background: transparent;
+  max-width: 400px;
   width: 50%;
   margin-left: auto;
   margin-right: auto;
@@ -28,33 +31,53 @@
   border-radius: 15px;
 }
 
+.form-control.register-input {
+  border-radius: 0;
+  border-width: 0.5px;
+}
+
+.form-control.register-bottom {
+  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+.form-control.register-top {
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+}
+
 #register-help {
   text-align: right;
 }
 
 .warning {
+  padding-left: 10px;
   font-size: 12px;
-  color: red;
+  color: white;
+  background-color: red;
   display: none;
+  transition-duration: 0.5s;
 }
 
 #register-botton {
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   display: block;
   width: 90px;
   height: 50px;
   border: solid;
-  background-color: white;
+  background-color: #87cefa;
   border-radius: 25px;
   border-width: 0.5px;
-  border-color: #212529;
-  color: #212529;
+  border-color: #87cefa;
+  color: white;
   cursor: pointer;
 }
 
 #register-botton:hover {
-  background-color: #212529;
+  background-color: #007bff;
+  border-color: #007bff;
   color: white;
   transition: 0.5s;
 }

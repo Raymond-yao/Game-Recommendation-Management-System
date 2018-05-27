@@ -14,13 +14,21 @@
 }
 
 .subtitle {
+  min-height: 25px;
+  position: relative;
   text-align: right;
   font-size: 16px;
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
+.subtitle-text {
+  position: absolute;
+  right: -87px;
+}
+
 #login-section {
-  max-width: 500px;
+  background: transparent;
+  max-width: 400px;
   width: 50%;
   margin-left: auto;
   margin-right: auto;
@@ -42,16 +50,17 @@
   width: 90px;
   height: 50px;
   border: solid;
-  background-color: white;
+  background-color: #87cefa;
   border-radius: 25px;
   border-width: 0.5px;
-  border-color: #212529;
-  color: #212529;
+  border-color: #87cefa;
+  color: white;
   cursor: pointer;
 }
 
 #login-botton:hover {
-  background-color: #212529;
+  background-color: #007bff;
+  border-color: #007bff;
   color: white;
   transition: 0.5s;
 }
