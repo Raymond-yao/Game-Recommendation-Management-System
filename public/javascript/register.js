@@ -8,6 +8,11 @@
     repeatPassword: $("#repeatPassword").val()
   };
 
+  function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+  }
+
   $("#registerEmail, #registerUsername, #registerPassword, #repeatPassword").on("change", function (ev) {
     var elem = $(ev.target);
     state[elem.attr("id")] = elem.val().trim();
@@ -18,7 +23,7 @@
   });
   $("#register-botton").on("click", function (ev) {
     ev.preventDefault();
-    if ((state.registerPassword === state.repeatPassword) && (state.registerEmail !== "") && (state.registerUsername !== "")) {
+    if ((state.registerPassword === state.repeatPassword !== "") && (validateEmail(state.registerEmail)) && (state.registerUsername !== "")) {
       $.ajax({
         method: "POST",
         cache: false,
@@ -37,6 +42,7 @@
       });
     } else {
       $(".warning-registerEmail").css("display", state.registerEmail === "" ? "block" : "none");
+      $(".warning-registerEmailInvalid").css("display", !(validateEmail(state.registerEmail)) ? "block" : "none")
       $(".warning-registerUsername").css("display", state.registerUsername === "" ? "block" : "none");
       $(".warning-registerPassword").css("display", state.registerPassword === "" ? "block" : "none");
       $(".warning-repeatPassword").css("display", state.repeatPassword === "" ? "block" : "none")       
