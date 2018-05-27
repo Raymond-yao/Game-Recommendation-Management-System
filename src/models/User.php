@@ -26,72 +26,91 @@ class User extends Model {
     @params: User id or email
     @return a User object
   */
-  public static function get($key) {
-    $pdo = $GLOBALS["container"]->db;
-    if (gettype($key) === "string" && strpos($key, '@') !== FALSE) {
-      $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-      $stmt->execute(array(':email' => $key));
-    } else {
-      $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-      $stmt->execute(array(':id' => $key));
-    }
+    public static function get($key) {
+      $pdo = $GLOBALS["container"]->db;
+      if (gettype($key) === "string" && strpos($key, '@') !== FALSE) {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(array(':email' => $key));
+      } else {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(array(':id' => $key));
+      }
 
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt->closeCursor();
-    if (empty($result)) {
-      return FALSE;
-    } else {
-      $user = new User($result);
-      return $user;
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $stmt->closeCursor();
+      if (empty($result)) {
+        return FALSE;
+      } else {
+        $user = new User($result);
+        return $user;
+      }
     }
-  }
-  public static function create(array $key) {
+    public static function create(array $key) {
 
     // checkless!!!
-    $newValues = [];
-    foreach ($key as $k => $v) { 
-      $nk = ":" . $k;
-      $newValues[$nk] = $v; 
+      $newValues = [];
+      foreach ($key as $k => $v) { 
+        $nk = ":" . $k;
+        $newValues[$nk] = $v; 
+      }
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare('INSERT INTO users (id, username, password, avatar, cover, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, NULL, NULL, 0, 0, :email, "overview");');
+      $stmt->execute($newValues);
     }
-    $pdo = $GLOBALS["container"]->db;
-    $stmt = $pdo->prepare('INSERT INTO users (id, username, password, avatar, cover, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, NULL, NULL, 0, 0, :email, "overview");');
-    $stmt->execute($newValues);
-  }
 
-  public function save() {
-    $sql_head = "UPDATE users SET ";
-    $modified = [];
-    $sql_tail = "WHERE id = :id";
-    $count = 0;
-    foreach ($this->attributes as $key => $value) {
-      if ($value["current"] !== $value["origin"]) {
-        $count += 1;
-        if ($count != 1) {
-          $sql_head = $sql_head . ",";
+    public function friends() {
+
+      return User::getFriends($this->id);
+    }
+
+    static function getFriends($id) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare("SELECT users.* FROM users, friends WHERE(friends.followerId = :followerId AND friends.followeeId = users.id)");
+      $stmt->execute(array(':followerId' => $id));
+      $result = $stmt->fetchAll();
+      $stmt->closeCursor();
+      $res = [];
+      foreach ($result as $tuple) {
+        array_push($res, new User($tuple));
+      }
+
+      return $res;
+    }
+
+    public function save() {
+      $sql_head = "UPDATE users SET ";
+      $modified = [];
+      $sql_tail = "WHERE id = :id";
+      $count = 0;
+      foreach ($this->attributes as $key => $value) {
+        if ($value["current"] !== $value["origin"]) {
+          $count += 1;
+          if ($count != 1) {
+            $sql_head = $sql_head . ",";
+          }
+          $modified[":" . $key] = $value["current"];
+          $sql_head = $sql_head . $key . "=" . ":" . $key . " ";
         }
-        $modified[":" . $key] = $value["current"];
-        $sql_head = $sql_head . $key . "=" . ":" . $key . " ";
+      }
+
+      if (!empty($modified)) {
+        $modified[":id"] = $this->attributes["id"]["current"];
+        $pdo = $GLOBALS["container"]->db;
+        $stmt = $pdo->prepare($sql_head . $sql_tail);
+        $stmt->execute($modified);
+        $stmt->closeCursor();
       }
     }
 
-    if (!empty($modified)) {
-      $modified[":id"] = $this->attributes["id"]["current"];
+    public static function verify(string $email, string $password) {
       $pdo = $GLOBALS["container"]->db;
-      $stmt = $pdo->prepare($sql_head . $sql_tail);
-      $stmt->execute($modified);
+      $stmt = $pdo->prepare("SELECT id FROM users WHERE (email = :email AND password = :password)");
+      $stmt->execute(array(':email' => $email, ':password' => $password));
+      $res = $stmt->fetch(PDO::FETCH_ASSOC);
       $stmt->closeCursor();
+      return (empty($res)) ? FALSE : $res["id"];
     }
+
   }
 
-  public static function verify(string $email, string $password) {
-    $pdo = $GLOBALS["container"]->db;
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE (email = :email AND password = :password)");
-    $stmt->execute(array(':email' => $email, ':password' => $password));
-    $res = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt->closeCursor();
-    return (empty($res)) ? FALSE : $res["id"];
-  }
-
-}
-
-?>
+  ?>

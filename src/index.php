@@ -14,10 +14,10 @@ require_once './models/Model.php';
 require_once './models/User.php';
 require_once '../sql/LoggedPDO.php';
 
-$config['db']['log'] = TRUE;
+$config['db']['log'] = FALSE;
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = '';
+$config['db']['pass']   = 'chenjiayao1802';
 $config['db']['dbname'] = 'test';
 
 $app = new \Slim\App(array(
@@ -27,7 +27,7 @@ $app = new \Slim\App(array(
 $container = $app->getContainer();
 $container['logger'] = function($c) {
   $logger = new \Monolog\Logger('my_logger');
-  $file_handler = new \Monolog\Handler\StreamHandler(__DIR__ . "/../sql.log", Logger::WARNING);
+  $file_handler = new \Monolog\Handler\StreamHandler(($config['db']['log'] ? __DIR__ . "/../sql.log" : "php://stdout"), Logger::WARNING);
   $formatter = new \Monolog\Formatter\LineFormatter(null, null, false, true);
   $file_handler->setFormatter($formatter);
   $logger->pushHandler($file_handler);
@@ -163,6 +163,11 @@ $app->get('/listinfo', function(Request $request, Response $response, array $arg
   $controller = new AccountController($request, $response, $args);
 
   return $controller->list_info();
+});
+$app->get('/friendinfo', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->friends_info();
 }); 
 $app->run();
 ?>

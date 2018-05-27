@@ -42,8 +42,24 @@ class AccountController extends Controller {
     } else {
       return $this->render("json",["status" => "failed"]);
     }
+  }
 
+  function friends_info() {
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json",array('status' => 'unauthorized' ));
+    }
 
+    $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
+    $friends = User::getFriends($id);
+    $friend_list = [];
+    foreach ($friends as $f) {
+      array_push($friend_list, [
+        "username" => $f->username(),
+        "avatar" => $f->avatar()
+      ]);
+    }
+
+    return $this->render("json", ["friends" => $friend_list]);
   }
 
   function list_info() {
