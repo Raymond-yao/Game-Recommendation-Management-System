@@ -15,6 +15,10 @@ class Controller {
 
   }
 
+  protected function log($stuff) {
+    $GLOBALS["container"]->logger->warn($stuff);
+  }
+
   public function render(String $type, $data, $replacement=NULL) {
     switch ($type) {
       case "json":
