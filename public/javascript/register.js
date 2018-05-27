@@ -16,7 +16,8 @@
   $("#registerEmail, #registerUsername, #registerPassword, #repeatPassword").on("change", function (ev) {
     var elem = $(ev.target);
     state[elem.attr("id")] = elem.val().trim();
-    $(".warning-" + elem.attr("id")).css("display", elem.val().trim() === "" ? "block" : "none");    
+    $(".warning-" + elem.attr("id")).css("display", elem.val().trim() === "" ? "block" : "none");
+    $(".warning-registerEmailInvalid").css("display", !(validateEmail(state.registerEmail)) ? "block" : "none");    
   });
   $("#registerPassword, #repeatPassword").on("change", function (ev) {
     $(".warning-unmatchpassword").css("display", state["registerPassword"] === state["repeatPassword"] ? "none" : "block");    
@@ -42,7 +43,7 @@
       });
     } else {
       $(".warning-registerEmail").css("display", state.registerEmail === "" ? "block" : "none");
-      $(".warning-registerEmailInvalid").css("display", !(validateEmail(state.registerEmail)) ? "block" : "none")
+      $(".warning-registerEmailInvalid").css("display", !(validateEmail(state.registerEmail)) ? "block" : "none");
       $(".warning-registerUsername").css("display", state.registerUsername === "" ? "block" : "none");
       $(".warning-registerPassword").css("display", state.registerPassword === "" ? "block" : "none");
       $(".warning-repeatPassword").css("display", state.repeatPassword === "" ? "block" : "none")       
