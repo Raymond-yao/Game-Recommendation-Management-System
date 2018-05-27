@@ -87,9 +87,9 @@ class User extends Model {
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare("SELECT id FROM users WHERE (email = :email AND password = :password)");
     $stmt->execute(array(':email' => $email, ':password' => $password));
-    $id = $stmt->fetch(PDO::FETCH_OBJ)->id;
+    $res = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
-    return ($id === NULL) ? FALSE : $id;
+    return (empty($res)) ? FALSE : $res["id"];
   }
 
 }

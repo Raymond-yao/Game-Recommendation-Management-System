@@ -29,20 +29,21 @@ class AccountController extends Controller {
     }
 
     $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
-    $pdo = $GLOBALS["container"]->db;
-    $stmt = $pdo->prepare("SELECT username,avatar,cover,listcount,friendcount FROM users WHERE (id = :id )");
-    $stmt->execute(array(":id" => $id));
-    $user = $stmt->fetch(PDO::FETCH_OBJ);
-    $profile_info = array(
-      "cover" => $user->cover,
-      "avatar" => $user->avatar,
-      "username" => $user->username,
-      "list_count" => $user->listcount,
-      "friend_count" => $user->friendcount
-    );
+    $user = User::get((int) $id);
+    if ($user){
+      $profile_info = array(
+        "cover" => $user->cover(),
+        "avatar" => $user->avatar(),
+        "username" => $user->username(),
+        "list_count" => $user->listCount(),
+        "friend_count" => $user->friendCount()
+      );
+      return $this->render("json",$profile_info);
+    } else {
+      return $this->render("json",["status" => "failed"]);
+    }
 
 
-    return $this->render("json",$profile_info);
   }
 
   function list_info() {
