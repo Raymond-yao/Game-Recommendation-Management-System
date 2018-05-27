@@ -22,6 +22,8 @@ class LoggedStatement {
         $GLOBALS["container"]->logger->warn($complete_sql . "\r\n");
         return $this->stmt->$name($params);
       } else {
+        $sql = $this->stmt->queryString;
+        $GLOBALS["container"]->logger->warn($sql . "\r\n");
         return $this->stmt->$name();
       }
     }
