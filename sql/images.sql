@@ -16,4 +16,10 @@ INSERT INTO `images` VALUES (8, 'dark_soul_hero', 'jpeg', NULL);
 INSERT INTO `images` VALUES (9, 'dark_soul_ava', 'jpeg', NULL);
 INSERT INTO `images` VALUES (10, 'ela_avatar', 'jpg', NULL);
 INSERT INTO `images` VALUES (11, 'favicon', 'png', NULL);
+INSERT INTO `images` VALUES (12, 'bg1', 'jpg', NULL);
+INSERT INTO `images` VALUES (13, 'bg2', 'jpg', NULL);
+INSERT INTO `images` VALUES (14, 'bg3', 'jpg', NULL);
+INSERT INTO `images` VALUES (15, 'bg4', 'jpg', NULL);
+INSERT INTO `images` VALUES (16, 'bg6', 'jpg', NULL);
+INSERT INTO `images` VALUES (17, 'bg5', 'png', NULL);
 
