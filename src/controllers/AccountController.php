@@ -56,7 +56,9 @@ class AccountController extends Controller {
       array_push($friend_list, [
         "username" => $f->username(),
         "avatar" => $f->avatar(),
-        "cover" => $f->cover()
+        "cover" => $f->cover(),
+        "id" => $f->id(),
+        "email" => $f->email()
       ]);
     }
 

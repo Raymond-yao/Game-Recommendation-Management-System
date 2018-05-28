@@ -164,7 +164,7 @@ $app->get('/listinfo', function(Request $request, Response $response, array $arg
 
   return $controller->list_info();
 });
-$app->get('/friendinfo', function(Request $request, Response $response, array $args) {
+$app->get('/friendinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 
   return $controller->friends_info();

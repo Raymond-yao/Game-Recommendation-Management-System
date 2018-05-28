@@ -25,13 +25,19 @@
     <div id="overview-nav-bar" class="bg-dark">
       <div class="AppContainer">
         <ul class="overview-nav-bar-stat">
-          <li class="stat-item">
+          <li class="stat-item item-list" data-type="recommendation">
             <span class="stat-title list">Lists</span>
             <span class="stat-value list-value">0</span>
           </li>
-          <li class="stat-item">
+          <li class="stat-item item-friend" data-type="friend">
             <span class="stat-title friend">Friends</span>
             <span class="stat-value friend-value">0</span>
+          </li>
+          <li class="search-box">
+            <div class="search-box-container">
+              <input type="" name="search">
+              <button class="search-icon btn">search</button>
+            </div>
           </li>
         </ul>
       </div>
@@ -45,7 +51,7 @@
           <span class="view-setting selected">Card</span>
         </div>
       </div>
-      <div id="content-container">  
+      <div id="content-container">
       </div>
       <br>
       <br>
@@ -55,6 +61,27 @@
   </div>
   <script type="text/javascript">
     <% $var %>
+  </script>
+  <script type="text/template" data-template="profile-card">
+    <div class="profile-card" id="${card-id}">
+      <a href="${url-1}" class="profile-card-bg"></a>
+      <div class="profile-card-content">
+        <a href="${url-2}" class="profile-card-avatarlink">
+          <img class="profile-avatar-image" src="${avatar}">
+        </a>
+        <div class="profile-card-actions">
+          <div class="follow-botton">Following</div>
+        </div>
+        <div class="profile-card-user-info">
+          <div class="profile-username-section">
+            <a href="${url-3}" class="profile-username-link">
+              <span class="profile-username">${username}</span>
+              <span class="profile-email">${email}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </script>
 </body>
 </html>

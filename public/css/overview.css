@@ -3,6 +3,10 @@ html body {
   height: 100%;
 }
 
+img {
+  border: 0;
+}
+
 #content-body {
   background-color: #dcdcdc;
   height: 100%;
@@ -112,8 +116,29 @@ html body {
 }
 
 .overview-nav-bar-stat {
-  position: absolute;
-  left: 230px;
+  margin-left: 230px;
+
+}
+
+.search-box {
+  display: inline-block;
+}
+
+.search-box-container {
+  margin-left: 310px;
+}
+
+.search-box-container input {
+  vertical-align: 13px;
+  width: 160px;
+
+}
+
+.search-box-container button.btn {
+  vertical-align: 13px;
+  padding: 0.175rem 0.35rem;
+  background-color: green;
+  color: white;
 }
 
 .stat-item {
@@ -193,6 +218,7 @@ html body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding-left: 20px;
 }
 
 .empty-reminder {
@@ -203,6 +229,96 @@ html body {
   font-size: 60px;
   font-weight: bold;
   font-family: Impact, Charcoal, sans-serif;
+}
+
+.profile-card {
+  background-color: white;
+  box-sizing: border-box;
+  text-align: left;
+  width: 289px;
+  height: 251px;
+  box-shadow: 3px 3px 1px 0;
+  margin-left: 10px;
+  margin-top: 30px;
+}
+
+.profile-card-bg {
+  background-position: 0 50%;
+  background-size: 100%;
+  display: block;
+  height: 90px;
+  background-color: #686868;
+}
+
+.profile-card-content {
+  margin: 13px 15px;
+  position: relative;
+}
+
+.profile-card-avatarlink {
+  border-radius: 50%;
+  display: inline-block;
+  margin: -45px 2px 0 -3px;
+  padding: 3px;
+  position: relative;
+  vertical-align: bottom;
+  z-index: 1;
+}
+
+.profile-avatar-image {
+  border-radius: 50%;
+  display: block;
+  height: 70px;
+  width: 70px;
+}
+
+.profile-card-actions {
+  display: inline-block;
+  height: 35px;
+  margin: 0 0 -4px 0;
+  position: absolute;
+  right: 0;
+  vertical-align: bottom;
+}
+
+.follow-botton {
+  border: solid;
+  border-width: 1px;
+  border-radius: 25px;
+  padding: 5px;
+  font-size: 12px;
+  border-color: #686868; 
+  cursor: pointer;
+}
+
+.follow-botton:hover {
+  background-color: #686868;
+  color: white;
+  transition-duration: 0.5s;
+}
+
+.profile-card-user-info {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.profile-username-section {
+  height: 22px;
+  line-height: 1.3;
+  margin: -2px;
+  white-space: nowrap;
+}
+
+.profile-username-link span {
+  display: block;
+  color: black;
+  font-weight: bold;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.profile-username-link .profile-email {
+  font-size: 12px;
+  color: #686868;
 }
 
 .card-text {

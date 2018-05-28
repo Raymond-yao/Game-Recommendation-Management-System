@@ -73,13 +73,33 @@ $(function () {
   function friendView() {
     $("div.settings-group").hide();
     $("#content-container").empty();
+    var template = $('script[data-template="profile-card"]').text();
     var setupFriendsAvatar = function (data) {
       var friends = data["friends"];
+      $.each(friends, function( index, fri ) {
+        var card = template;
+        var params = {
+          '${card-id}': "card-" + fri["id"],
+          '${url-1}': "/overview/" + fri["id"],
+          '${url-2}': "/overview/" + fri["id"],
+          '${url-3}': "/overview/" + fri["id"],
+          '${avatar}': fri["avatar"] || "/assets/image/no_photo",
+          '${username}': fri["username"],
+          '${email}': fri["email"]
+        };
+        $.each(params, function(key, value) {
+          card = card.replace(key, value);
+        });
+        $("#content-container").append(card);
+        if (fri["cover"]){
+          $("#card-" + fri["id"] + " .profile-card-bg").css("background-image", 'url(' + fri["cover"] + ')');
+        }
+      });
 
-    }
+    };
     $.ajax({
       method: "GET",
-      url: "/friendinfo",
+      url: "/friendinfo/" + visit_id,
       success: function(data) {
         setupFriendsAvatar(data);
       }
@@ -96,7 +116,7 @@ $(function () {
     url: "/listinfo",
     success: function(data) {
       recommendations = data["recommendations"];
-      recommendationViewSwitch();
+      viewSwitch();
     }
   });
 
