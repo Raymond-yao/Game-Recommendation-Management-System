@@ -22,6 +22,10 @@ class AccountController extends Controller {
       return $this->render("html", "visitor_header.html");
     }
   }
+  
+  function explor(){
+    return $this -> render("html", "explor.html");
+  }
 
   function account_info() {
     if (!isset($_COOKIE["account"])) {

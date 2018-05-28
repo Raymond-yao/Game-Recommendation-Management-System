@@ -158,6 +158,13 @@ $app->get('/header', function(Request $request, Response $response, array $args)
   return $controller->get_header();
 });
 $app->get('/overview[/{id}]', user_or_login_expired("AccountController", "overview"));
+
+$app->get('/explor', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+  return $controller->explor();
+});
+
+
 $app->get('/accountinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 
