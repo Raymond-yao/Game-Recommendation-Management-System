@@ -55,7 +55,8 @@ class AccountController extends Controller {
     foreach ($friends as $f) {
       array_push($friend_list, [
         "username" => $f->username(),
-        "avatar" => $f->avatar()
+        "avatar" => $f->avatar(),
+        "cover" => $f->cover()
       ]);
     }
 

@@ -1,7 +1,8 @@
 
 $(function () {
   var recommendations = undefined;
-  var state = "Card";
+  var RecommendationViewState = "Card";
+  var viewState = "recommendation";
 
   $.ajax({
     method: "GET",
@@ -18,60 +19,100 @@ $(function () {
       $(".username-container").text(data["username"]);
       $(".list-value").text(data["list_count"]);
       $(".friend-value").text(data["friend_count"]);
+      $(".item-list").addClass("selected");
     },
     error: function(xhr) {
       alert("avatar request failed with status: " + xhr.status());
     }
   });
 
-  var setupRecommendationList = function(data) {
-    recommendations = data["recommendations"];
-    cardView();
+  function viewSwitch() {
+    if (viewState === "recommendation") {
+      recommendationViewSwitch();
+    } else {
+      friendView();
+    }
+  }
+
+  function recommendationViewSwitch() {
+    $("div.settings-group").show();
+    $("#content-container").empty();
+    if (recommendations.length === 0) {
+      noContent();
+    } else if (RecommendationViewState === "Card") {
+      cardView();
+    } else {
+      listView();
+    }
   };
 
-  function cardView() {
-    $("#list-container").empty();
+  function cardView() {  
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var url = rec["cover"];
       var title = rec["title"];
       var desc = rec["desc"];
       var card = '<div class="card recommendation-list"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/rl/' + id + '" class="btn btn-primary">More</a> </div> </div>';
-      $("#list-container").append(card);
+      $("#content-container").append(card);
       if (url) {
-        $("#list-container #card-" + id).css("background-image", "url(" + url + ")");
+        $("#content-container #card-" + id).css("background-image", "url(" + url + ")");
       }
-    })
+    });
+    
   }
 
   function listView() {
-    $("#list-container").empty();
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var title = rec["title"];
       var list = '<a class="list-view-link" href="/rl/' + id + '"><div class="alert alert-dark list-view" id="list-' + id + '" role="alert">' + title + '</div></a>'
-      $("#list-container").append(list);
+      $("#content-container").append(list);
     });
+  }
+
+  function friendView() {
+    $("div.settings-group").hide();
+    $("#content-container").empty();
+    var setupFriendsAvatar = function (data) {
+      var friends = data["friends"];
+
+    }
+    $.ajax({
+      method: "GET",
+      url: "/friendinfo",
+      success: function(data) {
+        setupFriendsAvatar(data);
+      }
+    });
+  }
+
+  function noContent() {
+    var reminder = '<div class="empty-reminder text-muted">Oops, you haven\'t create any list yet</div>';
+    $("#content-container").append(reminder);
   }
 
   $.ajax({
     method: "GET",
     url: "/listinfo",
     success: function(data) {
-      setupRecommendationList(data);
+      recommendations = data["recommendations"];
+      recommendationViewSwitch();
     }
   });
+
+  $(".stat-item").on("click", function(ev) {
+    $(".stat-item.selected").removeClass("selected");
+    var elem = $(ev.currentTarget);
+    elem.addClass("selected");
+    viewState = elem.data("type");
+    viewSwitch();
+  })
 
   $(".view-setting").on("click", function(ev) {
     $(".view-setting.selected").removeClass("selected");
     $(ev.target).addClass("selected");
-    state = $(ev.target).text();
-    $("#list-container").empty();
-    if (state === "Card") {
-      cardView();
-    } else {
-      listView();
-    }
+    RecommendationViewState = $(ev.target).text();
+    recommendationViewSwitch();
   });
   
 })
