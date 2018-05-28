@@ -14,7 +14,7 @@ require_once './models/Model.php';
 require_once './models/User.php';
 require_once '../sql/LoggedPDO.php';
 
-$config['db']['log'] = FALSE;
+$config['log'] = TRUE;
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
 $config['db']['pass']   = '';
@@ -70,7 +70,7 @@ $app->get('/assets[/{type}[/{filename}]]', function (Request $request, Response 
 $app->get('/', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
 
-  return $controller->index();
+  return $controller->explor();
 });
 $app->post('/login', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
@@ -89,7 +89,7 @@ $app->get('/logout', function (Request $request, Response $response, array $args
   if (isset($_COOKIE["account"])) {
     return $controller->logout();
   } else {
-    return $controller->index();
+    return $controller->explor();
   }
 });
 $app->get('/register', function (Request $request, Response $response, array $args) {
@@ -159,12 +159,10 @@ $app->get('/header', function(Request $request, Response $response, array $args)
 });
 $app->get('/overview[/{id}]', user_or_login_expired("AccountController", "overview"));
 
-$app->get('/explor', function(Request $request, Response $response, array $args) {
-  $controller = new AccountController($request, $response, $args);
-  return $controller->explor();
+$app->get('/index', function(Request $request, Response $response, array $args) {
+  $controller = new LoginController($request, $response, $args);
+  return $controller->index();
 });
-
-
 $app->get('/accountinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 

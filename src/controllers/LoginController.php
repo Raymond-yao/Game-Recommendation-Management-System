@@ -66,11 +66,15 @@ class LoginController extends Controller {
   }
 
   function index() {
-    $this->render("html", "index.html");
+    return $this->render("html", "index.html");
   }
 
   function register() {
-    $this->render("html", "register.html");
+    return $this->render("html", "register.html");
+  }
+
+  function explor(){
+    return $this -> render("html", "explor.html");
   }
 }
 ?>

@@ -35,6 +35,7 @@
             window.location.href = "/";
           } else if (data["status"] === "success register"){
             alert("Thanks for register!");
+            window.location.href = "/";
           } 
           else {
             alert("illegal registration");
