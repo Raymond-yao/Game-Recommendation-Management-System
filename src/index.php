@@ -26,8 +26,12 @@ $app = new \Slim\App(array(
 ));
 $container = $app->getContainer();
 $container['logger'] = function($c) {
+  $path = "php://stdout";
+  if ($c['settings']["log"]) {
+    $path = __DIR__ . "/../sql.log";
+  }
   $logger = new \Monolog\Logger('my_logger');
-  $file_handler = new \Monolog\Handler\StreamHandler(($config['db']['log'] ? __DIR__ . "/../sql.log" : "php://stdout"), Logger::WARNING);
+  $file_handler = new \Monolog\Handler\StreamHandler($path, Logger::WARNING);
   $formatter = new \Monolog\Formatter\LineFormatter(null, null, false, true);
   $file_handler->setFormatter($formatter);
   $logger->pushHandler($file_handler);
@@ -37,7 +41,7 @@ $container['db'] = function ($c) {
 
   $pdo_obj = NULL;
 
-  if ( !$c['settings']['db']["log"] ) {
+  if ( !$c['settings']["log"] ) {
     $db = $c['settings']['db'];
     $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
       $db['user'], $db['pass']);

@@ -35,7 +35,7 @@
             container: 'body',
             offset: 0,
             html: true,
-            content:'<div class="popover-bg bg-dark"><div class="avatar-bg" style="background-image: url(' + profile_avatar + ')"></div><div class="avatar-title">' + data["username"] + '</div><div class="list-count">Recommendation Lists: ' + data["list_count"] + '</div><div class="friend-count">Friends: 0</div></div>'
+            content:'<div class="popover-bg bg-dark"><div class="avatar-bg" style="background-image: url(' + profile_avatar + ')"></div><div class="avatar-title">' + data["username"] + '</div><div class="list-count">Recommendation Lists: ' + data["list_count"] + '</div><div class="friend-count">Friends: ' + data["friend_count"] + '</div></div>'
           });
         },
         error: function() {
