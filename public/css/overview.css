@@ -116,7 +116,7 @@ img {
 }
 
 .overview-nav-bar-stat {
-  margin-left: 230px;
+  margin-left: 200px;
 
 }
 
@@ -125,7 +125,7 @@ img {
 }
 
 .search-box-container {
-  margin-left: 310px;
+  margin-left: 350px;
 }
 
 .search-box-container input {
@@ -139,6 +139,23 @@ img {
   padding: 0.175rem 0.35rem;
   background-color: green;
   color: white;
+}
+
+.overview-follow {
+  display: inline-block;
+  position: relative;
+}
+
+.overview-follow-button.follow-button {
+  position: absolute;
+  bottom: 4px;
+  left: 6px;
+  background-color: #00BFFF;
+  color: white;
+}
+
+.overview-follow-button.follow-button:hover {
+  background-color: #00FFFF;
 }
 
 .stat-item {
@@ -281,21 +298,47 @@ img {
   vertical-align: bottom;
 }
 
-.follow-botton {
+.follow-button {
   border: solid;
   border-width: 1px;
   border-radius: 25px;
   padding: 5px;
   font-size: 12px;
-  border-color: #686868; 
+  width: 63.5px;
+  text-align: center;
+  border-color: #00BFFF; 
   cursor: pointer;
 }
 
-.follow-botton:hover {
-  background-color: #686868;
+.follow-button:hover {
+  background-color: #00BFFF;
   color: white;
   transition-duration: 0.5s;
 }
+
+.follow-button::before {
+  content: "Follow";
+}
+
+.follow-button.following {
+  background-color: #00BFFF;
+  color: white;
+}
+
+.follow-button.following::before {
+  content: "Following"
+}
+
+.follow-button.following:hover {
+  transition-duration: 0s;
+  background-color: red;
+  border-color: red;
+}
+
+.follow-button.following:hover:before {
+  content: "Unfollow";
+}
+
 
 .profile-card-user-info {
   margin-top: 8px;

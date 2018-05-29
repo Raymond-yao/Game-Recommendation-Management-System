@@ -63,6 +63,29 @@ class User extends Model {
       return User::getFriends($this->id);
     }
 
+    function isFriend($id) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare("SELECT * FROM friends WHERE followerId = :followerId AND followeeId = :followeeId");
+      $stmt->execute(array(':followerId' => $this->id(), ':followeeId' => $id));
+      $rowCount = $stmt->rowCount();
+      $stmt->closeCursor();
+      return $rowCount > 0;
+    }
+
+    function addFriend($id) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare("INSERT INTO friends(followerId, followeeId) VALUES (:followerId, :followeeId);");
+      $stmt->execute(array(':followerId' => $this->id(), ':followeeId' => $id));
+      $stmt->closeCursor();
+    }
+
+    function deleteFriend($id) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare("DELETE FROM friends WHERE followerId = :followerId AND followeeId = :followeeId");
+      $stmt->execute(array(':followerId' => $this->id(), ':followeeId' => $id));
+      $stmt->closeCursor();
+    }
+
     static function getFriends($id) {
       $pdo = $GLOBALS["container"]->db;
       $stmt = $pdo->prepare("SELECT users.* FROM users, friends WHERE(friends.followerId = :followerId AND friends.followeeId = users.id)");

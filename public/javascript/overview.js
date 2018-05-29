@@ -20,6 +20,15 @@ $(function () {
       $(".list-value").text(data["list_count"]);
       $(".friend-value").text(data["friend_count"]);
       $(".item-list").addClass("selected");
+      if (document.cookie.match(visit_id)) {
+        $(".overview-follow-button").hide();
+      } else {
+        $(".overview-follow-button").on("click", toggleFollow);
+        $(".overview-follow-button").data("followUser", visit_id)
+        if (is_friend) {
+          $(".overview-follow-button").addClass("following");
+        }
+      }
     },
     error: function(xhr) {
       alert("avatar request failed with status: " + xhr.status());
@@ -94,6 +103,13 @@ $(function () {
         if (fri["cover"]){
           $("#card-" + fri["id"] + " .profile-card-bg").css("background-image", 'url(' + fri["cover"] + ')');
         }
+        if (document.cookie.match(fri["id"])) {
+          $("#card-" + fri["id"] + " .follow-button").hide();
+        } else if (fri["following"]) {
+          $("#card-" + fri["id"] + " .follow-button").addClass("following");
+          $("#card-" + fri["id"] + " .follow-button").data("followUser" ,fri["id"]);
+          $("#card-" + fri["id"] + " .follow-button").on("click", toggleFollow);
+        }
       });
 
     };
@@ -102,6 +118,32 @@ $(function () {
       url: "/friendinfo/" + visit_id,
       success: function(data) {
         setupFriendsAvatar(data);
+      }
+    });
+  }
+
+  function toggleFollow(ev) {
+    var follow_button = $(ev.currentTarget);
+    $.ajax({
+      method: "POST",
+      url: "/manage_friend",
+      data: {
+        "action": follow_button.hasClass("following") ? "unfollow" : "follow",
+        "followee": follow_button.data("followUser")
+      },
+      success: function(data) {
+        if (data["status"] === "success") {
+          if (follow_button.hasClass("following")) {
+            follow_button.removeClass("following");
+          } else {
+            follow_button.addClass("following");
+          }
+        } else {
+          alert("sorry, an error has occured, please try again later");
+        }
+      },
+      error: function(){
+        alert("sorry, an error has occured, please try again later");
       }
     });
   }
@@ -119,6 +161,8 @@ $(function () {
       viewSwitch();
     }
   });
+
+  $(".follow-button")
 
   $(".stat-item").on("click", function(ev) {
     $(".stat-item.selected").removeClass("selected");

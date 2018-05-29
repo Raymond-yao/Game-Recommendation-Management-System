@@ -10,7 +10,11 @@ class AccountController extends Controller {
   }
 
   function overview() {
-    $replacement = "var visit_id = " . (isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"]);
+    $replacement = "var visit_id = " . (isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"]) . ";";
+    if (isset($this->args["id"]) && $this->args["id"] !== $_COOKIE["account"]) {
+      $user = User::get($_COOKIE["account"]);
+      $replacement = $replacement . " var is_friend = " . ($user->isFriend($this->args["id"]) ? "true" : "false");
+    }
     return $this->render("html", "overview.html", $replacement);
   }
 
@@ -55,6 +59,11 @@ class AccountController extends Controller {
 
     $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
     $friends = User::getFriends($id);
+    $friends_of_logged_in_users = [];
+    $check_another_user = isset($this->args["id"]) && $id !== $_COOKIE["account"];
+    if ($check_another_user) {
+      $friends_of_logged_in_users = User::getFriends($_COOKIE["account"]);
+    }
     $friend_list = [];
     foreach ($friends as $f) {
       array_push($friend_list, [
@@ -62,11 +71,44 @@ class AccountController extends Controller {
         "avatar" => $f->avatar(),
         "cover" => $f->cover(),
         "id" => $f->id(),
-        "email" => $f->email()
+        "email" => $f->email(),
+        "following" => $check_another_user ? in_array($f, $friends_of_logged_in_users) : TRUE
       ]);
     }
 
     return $this->render("json", ["friends" => $friend_list]);
+  }
+
+  function manage_friend() {
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json",array('status' => 'unauthorized' ));
+    }
+
+    $params = $this->request->getParsedBody(); 
+    if ($params["followee"] === $_COOKIE["account"]) {
+      return $this->render("json", ["status" => "failed"]);
+    }
+    $user = User::get($_COOKIE["account"]);
+    $followee = $params["followee"];
+    if ($params["action"] === "follow") {
+      if (!$user->isFriend($followee)) {
+        $user->addFriend($followee);
+        $user->friendCount($user->friendCount() + 1);
+        $user->save();
+        return $this->render("json", ["status" => "success"]);
+      } else {
+        return $this->render("json", ["status" => "failed"]);
+      }
+    } else {
+      if ($user->isFriend($followee)) {
+        $user->deleteFriend($followee);
+        $user->friendCount($user->friendCount() - 1);
+        $user->save();
+        return $this->render("json", ["status" => "success"]);
+      } else {
+        return $this->render("json", ["status" => "failed"]);
+      }
+    }
   }
 
   function list_info() {

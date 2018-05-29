@@ -177,6 +177,16 @@ $app->get('/friendinfo[/{id}]', function(Request $request, Response $response, a
   $controller = new AccountController($request, $response, $args);
 
   return $controller->friends_info();
+});
+$app->post('/manage_friend', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->manage_friend();
+});
+$app->get('/list[/{:id}]', function() {
+  $controller = new ListController();
+
+  return;
 }); 
 $app->run();
 ?>
