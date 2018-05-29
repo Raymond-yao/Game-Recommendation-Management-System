@@ -105,11 +105,13 @@ $(function () {
         }
         if (document.cookie.match(fri["id"])) {
           $("#card-" + fri["id"] + " .follow-button").hide();
-        } else if (fri["following"]) {
-          $("#card-" + fri["id"] + " .follow-button").addClass("following");
+        } else {
           $("#card-" + fri["id"] + " .follow-button").data("followUser" ,fri["id"]);
           $("#card-" + fri["id"] + " .follow-button").on("click", toggleFollow);
-        }
+          if(fri["following"]) {
+            $("#card-" + fri["id"] + " .follow-button").addClass("following");
+          }
+      }
       });
 
     };
