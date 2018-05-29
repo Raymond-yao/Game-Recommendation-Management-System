@@ -14,7 +14,7 @@ CREATE TABLE `users` (
 );
 
 INSERT INTO `users` VALUES (1, 'raymond', '123', "/assets/image/dark_soul_ava", "/assets/image/dark_soul_hero", 7, 3, "raymond@god.com", "overview");
-INSERT INTO `users` VALUES (2, 'dante', '123', "/assets/image/ela_avatar", "/assets/image/ela", 7, 2, "dante@god.com", "overview");
+INSERT INTO `users` VALUES (2, 'dante', '123', "/assets/image/ela_avatar", "/assets/image/ela", 7, 1, "dante@god.com", "overview");
 INSERT INTO `users` VALUES (3, 'ann', '123', NULL, NULL, 7, 1, "ann@god.com", "overview");
 INSERT INTO `users` VALUES (4, 'robin', '123', NULL, NULL, 7, 1, "robin@god.com", "overview");
 

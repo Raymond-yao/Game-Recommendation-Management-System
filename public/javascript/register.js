@@ -12,7 +12,6 @@
   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
   }
-
   $("#registerEmail, #registerUsername, #registerPassword, #repeatPassword").on("change", function (ev) {
     var elem = $(ev.target);
     state[elem.attr("id")] = elem.val().trim();
@@ -31,11 +30,9 @@
         url: "/register",
         data: state,
         success: function(data) {
-          if (data["status"] === "success") {
-            window.location.href = "/";
-          } else if (data["status"] === "success register"){
+          if (data["status"] === "success register"){
             alert("Thanks for register!");
-            window.location.href = "/";
+            window.location.href = "/index";
           } 
           else {
             alert("illegal registration");
