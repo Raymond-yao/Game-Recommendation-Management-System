@@ -8,6 +8,26 @@ class User extends Model {
     foreach ($data as $key => $value) {
       $this->attributes[$key] = ["current" => $value, "origin" => $value];
     }
+    $pdo = $GLOBALS["container"]->db;
+    $picQuery = $pdo->prepare("SELECT * FROM userimages JOIN images ON (userimages.id = images.id) WHERE(userimages.userid = :id AND userimages.imageType = 'avatar')");
+    $picQuery->execute([":id" => $data["id"]]);
+    $res = $picQuery->fetch(PDO::FETCH_ASSOC);
+    if (empty($res)) {
+      $this->attributes["avatar"] = ["current" => NULL, "origin" => NULL];
+    } else {
+      $url = "/assets/image/" . $res["filename"];
+      $this->attributes["avatar"] = ["current" => $url, "origin" => $url];
+    }
+
+    $picQuery = $pdo->prepare("SELECT * FROM userimages JOIN images ON (userimages.id = images.id) WHERE(userimages.userid = :id AND userimages.imageType = 'background')");
+    $picQuery->execute([":id" => $data["id"]]);
+    $res = $picQuery->fetch(PDO::FETCH_ASSOC);
+    if (empty($res)) {
+      $this->attributes["cover"] = ["current" => NULL, "origin" => NULL];
+    } else {
+      $url = "/assets/image/" . $res["filename"];
+      $this->attributes["cover"] = ["current" => $url, "origin" => $url];
+    }
   }
 
 
