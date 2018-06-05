@@ -157,7 +157,7 @@ $(function () {
 
   $.ajax({
     method: "GET",
-    url: "/listinfo",
+    url: "/listinfo/" + visit_id,
     success: function(data) {
       recommendations = data["recommendations"];
       viewSwitch();

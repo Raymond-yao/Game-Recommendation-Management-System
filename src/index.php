@@ -180,7 +180,7 @@ $app->get('/accountinfo[/{id}]', function(Request $request, Response $response, 
 
   return $controller->account_info();
 });
-$app->get('/listinfo', function(Request $request, Response $response, array $args) {
+$app->get('/listinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 
   return $controller->list_info();
