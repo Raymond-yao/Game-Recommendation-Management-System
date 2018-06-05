@@ -27,8 +27,41 @@ class AccountController extends Controller {
     }
   }
   
-  function explor(){
-    return $this -> render("html", "explor.html");
+  function updateUsername() {
+    $params = $this->request->getParsedBody();
+    $Username = $params["Username"];
+    $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
+
+    $pdo = $GLOBALS["container"]->db;
+    // check if this username already exist
+    $stmt = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
+    $stmt->execute(array(':id' => $id, ':username' => $Username));
+    $stmt->fetch(PDO::FETCH_OBJ);
+    $stmt->closeCursor();
+    return $this->render("json", array('status' => "success username"));
+  }
+
+  function updatePassword() {
+    $params = $this->request->getParsedBody();
+    $Password = $params["Password"];
+    $repeatPassword = $params["repeatPassword"];
+    $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
+
+    if ($Password === $repeatPassword) {
+      $pdo = $GLOBALS["container"]->db;
+      // check if this username already exist
+      $stmt = $pdo->prepare("UPDATE users SET password = :password WHERE id = :id");
+      $stmt->execute(array(':id' => $id, ':password' => $Password));
+      $stmt->fetch(PDO::FETCH_OBJ);
+      $stmt->closeCursor();
+      if (isset($_COOKIE["account"])) {
+        setcookie("account", '', time() - 3600, '/', 'localhost');
+        unset($_COOKIE["account"]);
+      }
+      return $this->render("json", array('status' => "success password"));
+    } else {
+      return $this->render("json", array('status' => "failed"));
+    }
   }
 
   function account_info() {

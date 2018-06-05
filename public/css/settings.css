@@ -1,0 +1,104 @@
+
+.title {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 50px;
+  text-align: center;
+  font-family: Impact, Charcoal, sans-serif;
+}
+
+.subtitle {
+  min-height: 25px;
+  position: relative;
+  text-align: right;
+  font-size: 16px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.subtitle-text {
+  position: absolute;
+  right: -87px;
+}
+
+#settings-section {
+  background: transparent;
+  max-width: 400px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em;
+  padding: 50px;
+  border-radius: 15px;
+}
+
+.form-control.settings-input {
+  border-radius: 0;
+  border-width: 0.5px;
+}
+
+.form-control.settings-bottom {
+  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+.form-control.settings-top {
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+}
+
+#settings-help {
+  text-align: right;
+}
+
+.warning {
+  padding-left: 10px;
+  font-size: 12px;
+  color: white;
+  background-color: red;
+  display: none;
+  transition-duration: 0.5s;
+}
+
+#savePassword-botton {
+  margin-top: 0px;
+  margin-left: auto;
+  display: block;
+  width: 50px;
+  height: 30px;
+  border: solid;
+  background-color: #87cefa;
+  border-radius: 0px;
+  border-width: 0.5px;
+  border-color: #87cefa;
+  color: white;
+  cursor: pointer;
+}
+
+#savePassword-botton:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  transition: 0.5s;
+}
+
+#saveUsername-botton {
+  margin-top: 0px;
+  margin-left: auto;
+  display: block;
+  width: 50px;
+  height: 30px;
+  border: solid;
+  background-color: #87cefa;
+  border-radius: 0px;
+  border-width: 0.5px;
+  border-color: #87cefa;
+  color: white;
+  cursor: pointer;
+}
+
+#saveUsername-botton:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  transition: 0.5s;
+}

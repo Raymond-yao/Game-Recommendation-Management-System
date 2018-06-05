@@ -74,7 +74,11 @@ class LoginController extends Controller {
   }
 
   function explor(){
-    return $this -> render("html", "explor.html");
+    return $this->render("html", "explor.html");
+  }
+
+  function settings() {
+    return $this->render("html", "settings.html");
   }
 }
 ?>

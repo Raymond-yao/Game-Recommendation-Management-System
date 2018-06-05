@@ -17,7 +17,7 @@ require_once '../sql/LoggedPDO.php';
 $config['log'] = TRUE;
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = 'chenjiayao1802';
+$config['db']['pass']   = '';
 $config['db']['dbname'] = 'test';
 
 $app = new \Slim\App(array(
@@ -81,6 +81,16 @@ $app->post('/register', function (Request $request, Response $response, array $a
   $controller = new LoginController($request, $response, $args);
 
   return $controller->registerinfo();
+});
+$app->post('/username', function (Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+  
+  return $controller->updateUsername();
+});
+$app->post('/password', function (Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->updatePassword();
 });
 $app->get('/logout', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
@@ -162,6 +172,14 @@ $app->get('/overview[/{id}]', user_or_login_expired("AccountController", "overvi
 $app->get('/index', function(Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
   return $controller->index();
+});
+$app->get('/settings', function(Request $request, Response $response, array $args) {
+  $controller = new LoginController($request, $response, $args);
+  if (isset($_COOKIE["account"])) {
+    return $controller->settings();
+  } else {
+    return $controller->index();
+  }
 });
 $app->get('/accountinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);

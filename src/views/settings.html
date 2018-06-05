@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> settings </title>
+  <link rel="import" href="/setup_assets">
+  <link rel="stylesheet" type="text/css" href="/assets/css/settings">
+  <script src="/assets/javascript/random_bg"></script>
+</head>
+<body>
+  <div id="header" class="bg-dark">
+  </div>
+  <div id="settings-section">
+    <div class="title text-white">
+      Refresh!
+      <div class="subtitle"><span class="subtitle-text text-white">a game recommendation system</span></div>
+    </div>
+    <form>
+        <!-- settings Username -->
+        <label for="Username" class="text-white">Username</label>
+        <input type="Username" class="form-control settings-input" id="Username" aria-describedby="Username" placeholder="New Username">
+        <small class="warning warning-Username">Username cannot be blank</small>
+        <button id="saveUsername-botton">Save</button>
+        <!-- settings password -->
+        <label for="password" class="text-white">Password</label>
+        <input type="password" class="form-control settings-input " id="Password" placeholder="New Password">
+        <small class="warning warning-Password">Password cannot be blank</small>
+        <input type="password" class="form-control settings-input settings-bottom" id="repeatPassword" placeholder="Repeat New Password">
+        <small class="warning warning-repeatPassword">Password cannot be blank</small>
+        <small class="warning warning-unmatchpassword">Password doesn't match</small>
+        <button id="savePassword-botton">Save</button>
+      </div>
+
+    </form>
+
+  </div>
+
+
+
+  <script src="/assets/javascript/settings"></script>
+</body>
+</html>
