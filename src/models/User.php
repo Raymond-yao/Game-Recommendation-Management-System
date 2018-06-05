@@ -74,7 +74,7 @@ class User extends Model {
         $newValues[$nk] = $v; 
       }
       $pdo = $GLOBALS["container"]->db;
-      $stmt = $pdo->prepare('INSERT INTO users (id, username, password, avatar, cover, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, NULL, NULL, 0, 0, :email, "overview");');
+      $stmt = $pdo->prepare('INSERT INTO users (id, username, password, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, 0, 0, :email, "overview");');
       $stmt->execute($newValues);
     }
 
