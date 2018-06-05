@@ -120,6 +120,33 @@ class User extends Model {
       return $res;
     }
 
+    function recommendationLists() {
+      return getRecommendationLists($this->id);
+    }
+
+    static function getRecommendationLists($id) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare("SELECT * FROM recommendationlists LEFT JOIN (SELECT filename, listcovers.listID FROM images JOIN listcovers ON images.id = listcovers.id) AS cover ON (cover.listID = recommendationlists.id) WHERE (creatorID = :id);");
+      $stmt->execute([":id" => $id]);
+      $res = $stmt->fetchAll();
+      $stmt->closeCursor();
+
+      $result = [];
+      foreach ($res as $tuple) {
+        $tuple_info = [
+          "id" => $tuple["id"],
+          "cover" => $tuple["filename"] === NULL ? NULL : "/assets/images/" . $tuple["filename"],
+          "title" => $tuple["title"],
+          "desc" => $tuple["description"],
+          "created_date" => $tuple["createdDate"]
+        ];
+
+        array_push($result, $tuple_info);
+      }
+
+      return ["recommendations" => $result];
+    }
+
     public function save() {
       $sql_head = "UPDATE users SET ";
       $modified = [];

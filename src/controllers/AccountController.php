@@ -149,11 +149,14 @@ class AccountController extends Controller {
   }
 
   function list_info() {
-    $path = "/../../stubs/list_info.json";
-    $complete_path = __DIR__  . $path;
-    $json = file_get_contents($complete_path);
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json",array('status' => 'unauthorized' ));
+    }
 
-    return $this->render("json",$json);
+    $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
+
+    $list_info = User::getRecommendationLists($id);
+    return $this->render("json",$list_info);
   }
 }
 ?>

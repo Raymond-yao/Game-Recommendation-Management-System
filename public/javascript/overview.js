@@ -164,8 +164,6 @@ $(function () {
     }
   });
 
-  $(".follow-button")
-
   $(".stat-item").on("click", function(ev) {
     $(".stat-item.selected").removeClass("selected");
     var elem = $(ev.currentTarget);
