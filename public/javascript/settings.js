@@ -21,7 +21,7 @@
       $.ajax({
         method: "POST",
         cache: false,
-        url:"/username",
+        url:"/updateUsername",
         data: state,
         success: function(data) {
           if (data["status"] === "success username") {
@@ -44,7 +44,7 @@
       $.ajax({
         method: "POST",
         cache: false,
-        url:"/password",
+        url:"/updatePassword",
         data: state,
         success: function(data) {
           if (data["status"] === "success password") {

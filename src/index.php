@@ -82,12 +82,12 @@ $app->post('/register', function (Request $request, Response $response, array $a
 
   return $controller->registerinfo();
 });
-$app->post('/username', function (Request $request, Response $response, array $args) {
+$app->post('/updateUsername', function (Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
   
   return $controller->updateUsername();
 });
-$app->post('/password', function (Request $request, Response $response, array $args) {
+$app->post('/updatePassword', function (Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 
   return $controller->updatePassword();
