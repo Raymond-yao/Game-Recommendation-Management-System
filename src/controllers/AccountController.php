@@ -26,6 +26,10 @@ class AccountController extends Controller {
       return $this->render("html", "visitor_header.html");
     }
   }
+
+  function settings() {
+    return $this->render("html", "settings.html");
+  }
   
   function updateUsername() {
     $params = $this->request->getParsedBody();
