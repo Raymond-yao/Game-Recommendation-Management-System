@@ -10,6 +10,7 @@ require_once './controllers/Controller.php';
 require_once  './controllers/LoginController.php';
 require_once './controllers/StaticFileController.php';
 require_once './controllers/AccountController.php';
+require_once './controllers/ListController.php';
 require_once './models/Model.php';
 require_once './models/User.php';
 require_once '../sql/LoggedPDO.php';
@@ -195,10 +196,6 @@ $app->post('/manage_friend', function(Request $request, Response $response, arra
 
   return $controller->manage_friend();
 });
-$app->get('/list[/{:id}]', function() {
-  $controller = new ListController();
-
-  return;
-}); 
+$app->get('/list[/{id}]', user_or_login_expired("ListController", "getList")); 
 $app->run();
 ?>

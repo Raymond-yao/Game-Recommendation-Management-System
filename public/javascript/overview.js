@@ -61,7 +61,7 @@ $(function () {
       var url = rec["cover"];
       var title = rec["title"];
       var desc = rec["desc"];
-      var card = '<div class="card recommendation-list"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/rl/' + id + '" class="btn btn-primary">More</a> </div> </div>';
+      var card = '<div class="card recommendation-list"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">More</a> </div> </div>';
       $("#content-container").append(card);
       if (url) {
         $("#content-container #card-" + id).css("background-image", "url(" + url + ")");
@@ -74,7 +74,7 @@ $(function () {
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var title = rec["title"];
-      var list = '<a class="list-view-link" href="/rl/' + id + '"><div class="alert alert-dark list-view" id="list-' + id + '" role="alert">' + title + '</div></a>'
+      var list = '<a class="list-view-link" href="/list/' + id + '"><div class="alert alert-dark list-view" id="list-' + id + '" role="alert">' + title + '</div></a>'
       $("#content-container").append(list);
     });
   }

@@ -125,7 +125,9 @@ img {
 }
 
 .search-box-container {
-  margin-left: 350px;
+  position: absolute;
+  top: 14px;
+  right: 0;
 }
 
 .search-box-container input {

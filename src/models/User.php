@@ -108,7 +108,7 @@ class User extends Model {
 
     static function getFriends($id) {
       $pdo = $GLOBALS["container"]->db;
-      $stmt = $pdo->prepare("SELECT users.* FROM users, friends WHERE(friends.followerId = :followerId AND friends.followeeId = users.id)");
+      $stmt = $pdo->prepare("SELECT users.* FROM users, friends WHERE(friends.followerId = :followerId AND friends.followeeId = users.id) ORDER BY username ASC");
       $stmt->execute(array(':followerId' => $id));
       $result = $stmt->fetchAll();
       $stmt->closeCursor();
