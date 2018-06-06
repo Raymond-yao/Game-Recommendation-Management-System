@@ -185,6 +185,7 @@ class User extends Model {
       $pdo = $GLOBALS["container"]->db;
       // check if this username already exist
       $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name");
+      $name .= "%";
       $stmt->execute(array(':name' => $name));
       $result = $stmt->fetchAll();
       $stmt->closeCursor();
