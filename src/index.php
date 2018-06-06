@@ -186,6 +186,11 @@ $app->get('/listinfo[/{id}]', function(Request $request, Response $response, arr
 
   return $controller->list_info();
 });
+$app->post('/searchUser', function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->searchUser();
+});
 $app->get('/friendinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 

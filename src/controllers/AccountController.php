@@ -158,5 +158,31 @@ class AccountController extends Controller {
     $list_info = User::getRecommendationLists($id);
     return $this->render("json",$list_info);
   }
+
+  function searchUser() {
+    $params = $this->request->getParsedBody();
+    $search = $params["search"];
+    if ($search !== "") {
+      $result = User::search($search);
+      $friends_of_logged_in_users = User::getFriends($_COOKIE["account"]);
+      $users = [];
+      foreach ($result as $user) {
+        array_push($users, [
+          "username" => $user->username(),
+          "avatar" => $user->avatar(),
+          "cover" => $user->cover(),
+          "id" => $user->id(),
+          "email" => $user->email(),
+          "following" => in_array($user, $friends_of_logged_in_users)
+        ]);
+      }
+      return $this->render("json", [
+        "status" => "success", 
+        "result" => $users
+      ]);
+    } else {
+      return $this->render("json", ["status" => "fail"]);
+    }
+  }
 }
 ?>

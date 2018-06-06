@@ -178,5 +178,27 @@ $(function () {
     RecommendationViewState = $(ev.target).text();
     recommendationViewSwitch();
   });
+
+  $(".search-icon").on("click", function(ev) {
+    ev.preventDefault();
+    var search = $("#search").val().trim();
+    if (search !== "") {
+      $(".stat-item.selected").removeClass("selected");
+      $.ajax({
+      method: "POST",
+      url: "/searchUser",
+      data: {
+        "search" : search
+      },
+      success: function(data) {
+        if (data["status"] === "success") {
+          // create user card
+       } else {
+        alert("Username Cannot be Empty!");
+        }
+      }
+    })
+    }
+  });
   
 })

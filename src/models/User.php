@@ -181,6 +181,20 @@ class User extends Model {
       return (empty($res)) ? FALSE : $res["id"];
     }
 
+    public static function search(string $name) {
+      $pdo = $GLOBALS["container"]->db;
+      // check if this username already exist
+      $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name");
+      $stmt->execute(array(':name' => $name));
+      $result = $stmt->fetchAll();
+      $stmt->closeCursor();
+      $res = [];
+      foreach ($result as $tuple) {
+        array_push($res, new User($tuple));
+      }
+      return $res;
+    }
+
   }
 
   ?>
