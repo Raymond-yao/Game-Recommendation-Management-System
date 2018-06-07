@@ -3,9 +3,66 @@
 <head>
   <title> List </title>
   <link rel="import" href="/setup_assets">
-  <link rel="stylesheet" type="text/css" href="/assets/css/index">
+  <link rel="stylesheet" type="text/css" href="/assets/css/overview">
+  <link rel="stylesheet" type="text/css" href="/assets/css/list">
+  <script src="/assets/javascript/list"></script>
 </head>
 <body>
   <div id="header" class="bg-dark"></div>
+  <div id="content-body">
+    <div id="overview-bg-img">
+    </div>
+    <div id="list-content-section" class="AppContainer">
+      <div id="article-container">
+        <div id="article-title-section">
+          <div id="article-title">
+            <span class="article-title-text">UNKNOWN</span>
+          </div>
+          <div class="article-subinfo">
+            <div class="description">
+              
+            </div>
+            <div class="author-info-section">
+              <div id="article-avatar-section">
+                <a class="navbar-brand creator-link" href="#"><div id="article-avatar"></div></a>
+              </div>
+              <div class="author-info profile-username-link">
+                <span class="author-info-text username">Unknown</span>
+                <span class="author-info-text profile-email">unknown@who.com</span>
+                <span class="author-info-text created-date text-muted">Created on: 2018 MAY 30</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="article-content-section"></div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    <% $var %>
+  </script>
+  <script type="text/template" data-template="game-recommendation">
+    <div class="game-recommendation" id="${game-id}">
+      <div class="game-info-section">
+        <div class="game-cover"></div>
+        <div class="game-details">
+          <span class="game-name details-text">
+            ${game_name}
+          </span>
+          <span class="game-company details-text">
+            ${company}
+          </span>
+          <span class="sale-date details-text">
+            ${sale_date}
+          </span>
+        </div>
+      </div>
+      <div class="recommendation-reason">
+        <p>
+          ${reason}
+        </p>
+      </div>
+    </div>
+  </script>
 </body>
 </html>

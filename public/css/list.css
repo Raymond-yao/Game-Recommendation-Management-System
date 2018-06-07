@@ -1,0 +1,133 @@
+
+#article-title-section {
+  width: 100%;
+  padding: 30px;
+}
+
+#overview-bg-img {
+  background-color: #DDDDDD;
+}
+
+#article-avatar {
+  background-image: url('/assets/images/no_photo');
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: top center;
+  border-radius: 50%;
+}
+
+#article-avatar-section {
+  display: inline-block;
+}
+
+#article-title {
+  margin-top: 15px;
+  border: 2px dotted #DDDDDD;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.article-title-text {
+  font-weight: bold;
+  font-size: 36px;
+  font-family: Impact, Charcoal, sans-serif;
+}
+
+.author-info-section {
+  display: inline-block;
+  float: right;
+  width: fit-content;
+  background-color: #DDDDDD;
+  padding: 7px;
+  padding-right: 30px;
+}
+
+.description {
+  display: inline-block;
+  width: 60%;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.author-info {
+  display: inline-block;
+  height: 64px;
+  vertical-align: top;
+}
+
+.article-subinfo {
+  margin-top: 10px;
+  position: relative;
+  padding: 5px;
+}
+
+.author-info-text {
+  display: block;
+}
+
+.author-info-text .profile-email {
+  font-size: 14px;
+}
+
+.username {
+  font-size: 24px;
+}
+
+.created-date {
+  font-size: 10px;
+}
+
+#article-content-section {
+  margin-top: 60px;
+  padding: 15px;
+}
+
+.game-recommendation {
+  padding: 9px;
+  height: 300px;
+  border: dotted;
+  border-color: #DDDDDD;
+  border-left: 0;
+  border-right: 0;
+}
+
+.game-info-section {
+  display: inline-block;
+  width: 30%;
+  background-color: #686868;
+  height: 100%;
+}
+
+.game-cover {
+  height: 119px;
+  background-image: url("/assets/image/dark_soul_hero");
+  background-size: 290px auto;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+.recommendation-reason{
+  width: 65%;
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+  padding-top: 5px;
+  padding-left: 15px;
+}
+
+.game-details {
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.details-text.game-name {
+  font-size: 20px;
+}
+
+.details-text {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: block;
+}
