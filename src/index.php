@@ -6,13 +6,15 @@ use \Monolog\Logger;
 use \Monolog\Formatter\LineFormatter;
 
 require '../vendor/autoload.php';
+require_once './models/Model.php';
+require_once './models/User.php';
+require_once './models/RecommendationList.php';
 require_once './controllers/Controller.php';
 require_once  './controllers/LoginController.php';
 require_once './controllers/StaticFileController.php';
 require_once './controllers/AccountController.php';
 require_once './controllers/ListController.php';
-require_once './models/Model.php';
-require_once './models/User.php';
+
 require_once '../sql/LoggedPDO.php';
 
 $config['log'] = TRUE;

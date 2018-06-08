@@ -4,6 +4,7 @@ $(function() {
   function setupListInfo(info) {
     $("#article-avatar").css("background-image", "url(" + info["creator"]["avatar"] + ")");
     $("#overview-bg-img").css("background-image", "url(" + info["cover"] + ")");
+    $("title").text(info["title"]);
     $(".article-title-text").text(info["title"]);
     $(".description").text(info["description"]);
     $(".author-info-text.username").text(info["creator"]["username"]);

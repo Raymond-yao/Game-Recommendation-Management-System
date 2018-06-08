@@ -48,7 +48,7 @@ CREATE TABLE `Games` (
 
 CREATE TABLE `RecommendationReasons` (
   id INTEGER PRIMARY KEY,
-  content CHAR(200),
+  content CHAR(255),
   listID INTEGER NOT NULL,
   gameID INTEGER NOT NULL,
   FOREIGN KEY (gameID ) REFERENCES Games(id) 
@@ -213,7 +213,6 @@ INSERT INTO `Images` VALUES (22, 'ac_origins', 'jpg');
 INSERT INTO `Images` VALUES (23, 'black_flag', 'jpg');
 
 INSERT INTO `ListCovers` VALUES(3, 2);
-INSERT INTO `ListCovers` VALUES(4, 3);
 INSERT INTO `ListCovers` VALUES(1, 4);
 INSERT INTO `ListCovers` VALUES(2, 5);
 
