@@ -100,9 +100,9 @@
 }
 
 .game-cover {
-  height: 119px;
+  height: 120px;
   background-image: url("/assets/image/dark_soul_hero");
-  background-size: 290px auto;
+  background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: top center;
 }
