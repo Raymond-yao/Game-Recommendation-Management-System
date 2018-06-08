@@ -176,7 +176,7 @@ $app->get('/index', function(Request $request, Response $response, array $args) 
   $controller = new LoginController($request, $response, $args);
   return $controller->index();
 });
-$app->get('/settings', user_or_login_expired("AccountController", "index"));
+$app->get('/settings', user_or_login_expired("AccountController", "settings"));
 
 $app->get('/accountinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
