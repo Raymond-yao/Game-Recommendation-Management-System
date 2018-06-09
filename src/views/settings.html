@@ -4,38 +4,95 @@
   <title> settings </title>
   <link rel="import" href="/setup_assets">
   <link rel="stylesheet" type="text/css" href="/assets/css/settings">
-  <script src="/assets/javascript/random_bg"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/css/index">
+  <script src="/assets/javascript/settings"></script>
 </head>
 <body>
   <div id="header" class="bg-dark">
   </div>
-  <div id="settings-section">
-    <div class="title text-white">
-      Refresh!
-      <div class="subtitle"><span class="subtitle-text text-white">a game recommendation system</span></div>
-    </div>
-    <form>
-        <!-- settings Username -->
-        <label for="Username" class="text-white">Username</label>
-        <input type="Username" class="form-control settings-input" id="Username" aria-describedby="Username" placeholder="New Username">
-        <small class="warning warning-Username">Username cannot be blank</small>
-        <button id="saveUsername-botton">Save</button>
-        <!-- settings password -->
-        <label for="password" class="text-white">Password</label>
-        <input type="password" class="form-control settings-input " id="Password" placeholder="New Password">
-        <small class="warning warning-Password">Password cannot be blank</small>
-        <input type="password" class="form-control settings-input settings-bottom" id="repeatPassword" placeholder="Repeat New Password">
-        <small class="warning warning-repeatPassword">Password cannot be blank</small>
-        <small class="warning warning-unmatchpassword">Password doesn't match</small>
-        <button id="savePassword-botton">Save</button>
+  <div class="container">
+    <div class="row setting-section">
+      <div class="col-4 menu-col">
+        <div class="user-info">
+          <div class="user-cover bg-dark">
+            <a href="#" class="avatar-change">
+              <div class="avatar-container">
+                <img class="setting-avatar" src="/assets/image/no_photo">
+              </div>
+            </a>
+          </div>
+          <div class="username-container">
+            <span class="setting-user-text username">Unknown</span>
+            <span class="setting-user-text email text-muted">unknown@who.com</span>
+          </div>
+        </div>
+        <div id="menu">
+          <ul>
+            <li class="setting-opt account selected" data-type="account">Account</li>
+            <li class="setting-opt password" data-type="password">Password</li>
+          </ul>
+        </div>
       </div>
+      <div class="col-6">
+        <div id="setting-container">
 
-    </form>
+          <!-- settings Account -->
+          <div class="setting-container-content account">
+            <div class="setting-name-section">Account</div>
+            <div class="account-setting-section">
+              <form>
+                <div class="row">
+                  <div class="col-3"> 
+                    <span>Username</span>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <input type="Username" class="form-control settings-input" id="username" placeholder="New Username">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <span>Email</span>
+                  </div>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <input type="Email" class="form-control settings-input" id="email" placeholder="New Email">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button id="saveUsername-botton" class="btn">Save</button>
+            </form>
+          </div>
 
+          <!-- settings password -->
+          <div class="setting-container-content password hidden">
+            <div class="setting-name-section">Password</div>
+            <div class="account-setting-section">
+              <form>
+                <div class="row">
+                  <div class="col-3"> 
+                    <span>Password</span>
+                  </div>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <input type="password" class="form-control settings-input " id="Password" placeholder="New Password">
+                      <small class="warning warning-Password">Password cannot be blank</small>
+                      <input type="password" class="form-control settings-input settings-bottom" id="repeatPassword" placeholder="Repeat New Password">
+                      <small class="warning warning-repeatPassword">Password cannot be blank</small>
+                      <small class="warning warning-unmatchpassword">Password doesn't match</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button id="savePassword-botton" class="btn">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-
-
-  <script src="/assets/javascript/settings"></script>
+</div>
 </body>
 </html>

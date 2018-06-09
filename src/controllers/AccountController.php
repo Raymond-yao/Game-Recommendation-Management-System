@@ -28,36 +28,59 @@ class AccountController extends Controller {
   }
 
   function settings() {
-    return $this->render("html", "settings.html");
-  }
-  
-  function updateUsername() {
-    $params = $this->request->getParsedBody();
-    $Username = $params["Username"];
-    $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
-    $user = User::get($id);
-    $user->username($Username);
-    $user->save();
-    return $this->render("json", array('status' => "success username"));
-  }
-
-  function updatePassword() {
-    $params = $this->request->getParsedBody();
-    $Password = $params["Password"];
-    $repeatPassword = $params["repeatPassword"];
-    $id = isset($this->args["id"]) ? $this->args["id"] : $_COOKIE["account"];
-
-    if ($Password === $repeatPassword) {
+    if ($this->request->isXhr()) {
+      $id = $_COOKIE["account"];
       $user = User::get($id);
-      $user->password($Password);
-      $user->save();
-      if (isset($_COOKIE["account"])) {
-        setcookie("account", '', time() - 3600, '/', 'localhost');
-        unset($_COOKIE["account"]);
-      }
-      return $this->render("json", array('status' => "success password"));
+      return $this->render("json", [
+        "avatar" => $user->avatar(), 
+        "cover" => $user->cover(),
+        "username" => $user->username(),
+        "email" =>$user->email()
+      ]);
     } else {
-      return $this->render("json", array('status' => "failed"));
+      return $this->render("html", "settings.html");
+    }
+  }
+
+  function update() {
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json",array('status' => 'unauthorized' ));
+    }
+
+    $params = $this->request->getParsedBody();
+    $updateType = $params["updateType"];
+    $id = $_COOKIE["account"];
+    $user = User::get($id);
+
+    switch ($updateType) {
+      case 'account':
+      if (isset($params["email"])){
+        $email = $params["email"];
+        $user->email($email);
+      }
+      if (isset($params["username"])){
+        $username = $params["username"];
+        $user->username($username);
+      }
+      $user->save();
+      return $this->render("json", array('status' => "success"));
+      break;
+
+      case 'password':
+      $Password = $params["Password"];
+      $repeatPassword = $params["repeatPassword"];
+      if ($Password === $repeatPassword) {
+        $user->password($Password);
+        $user->save();
+        if (isset($_COOKIE["account"])) {
+          setcookie("account", '', time() - 3600, '/', 'localhost');
+          unset($_COOKIE["account"]);
+        }
+        return $this->render("json", array('status' => "success password"));
+      } else {
+        return $this->render("json", array('status' => "failed"));
+      }
+      break;
     }
   }
 

@@ -85,16 +85,6 @@ $app->post('/register', function (Request $request, Response $response, array $a
 
   return $controller->registerinfo();
 });
-$app->post('/updateUsername', function (Request $request, Response $response, array $args) {
-  $controller = new AccountController($request, $response, $args);
-  
-  return $controller->updateUsername();
-});
-$app->post('/updatePassword', function (Request $request, Response $response, array $args) {
-  $controller = new AccountController($request, $response, $args);
-
-  return $controller->updatePassword();
-});
 $app->get('/logout', function (Request $request, Response $response, array $args) {
   $controller = new LoginController($request, $response, $args);
   // decide if the user has the cookie, if yes, then the user can proceed to logout
@@ -177,7 +167,11 @@ $app->get('/index', function(Request $request, Response $response, array $args) 
   return $controller->index();
 });
 $app->get('/settings', user_or_login_expired("AccountController", "settings"));
-
+$app->post('/settings', function (Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+  
+  return $controller->update();
+});
 $app->get('/accountinfo[/{id}]', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
 

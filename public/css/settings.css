@@ -1,104 +1,174 @@
 
-.title {
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 50px;
-  text-align: center;
-  font-family: Impact, Charcoal, sans-serif;
+html {
+  height: 100%;
+  background-color: #dcdcdc;
 }
 
-.subtitle {
-  min-height: 25px;
+html body {
+  background-color: #dcdcdc;
+}
+
+.menu-col {
+  max-width: 320px;
+}
+
+.setting-section {
+  margin-top: 30px;
+}
+
+#setting-container {
+  height: 230px;
+  background-color: white;
+}
+
+.user-info {
+  height: 200px;
+  background-color: white;
+}
+
+.user-cover {
+  background-color: "#686868";
+  background-size: cover;
+  background-position: top center;
+  height: 120px;
   position: relative;
-  text-align: right;
-  font-size: 16px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
-.subtitle-text {
+.avatar-container {
+  left: 20px;
+  bottom: -50px;
+  height: 80px;
+  width: 80px;
+  overflow: hidden;
+  border-radius: 50%;
   position: absolute;
-  right: -87px;
+  z-index: 3;
 }
 
-#settings-section {
-  background: transparent;
-  max-width: 400px;
-  width: 50%;
+.setting-avatar {
+  left: 0;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  position: absolute;
+}
+
+.username-container {
+  margin-top: 8px;
+  padding-left: 36%;
+}
+
+.setting-user-text {
+  font-size: 20px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  display: block;
+}
+
+.setting-user-text.email {
+  font-size: 12px;
+}
+
+#menu {
+  margin-top: 15px;
+  height: 100px;
+  background-color: white;
+}
+
+#menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.setting-opt {
+  height: 35px;
+  padding-top: 5px;
+  padding-left: 10%;
+  padding-right: 8px;
+  border:solid;
+  border-color: #dcdcdc;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-width: 0.5px;
+  cursor:pointer;
+}
+
+.setting-opt:hover{
+  transition: 0.3s;
+  background-color: #686868;
+  color: white;
+}
+
+.setting-opt:hover:after {
+  transition: 0.3s;
+  content: "<";
+  margin-left: 5px;
+}
+
+.setting-opt:hover:before {
+  transition: 0.3s;
+  content: ">";
+  margin-right: 5px;
+}
+
+.setting-opt.selected {
+  background-color: #686868;
+  color: white;
+}
+
+.setting-opt.selected::before {
+  content: ">";
+  margin-right: 5px;
+}
+
+.setting-opt.selected::after {
+  content: "<";
+  margin-left: 5px;
+}
+
+.account-setting-section {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+#setting-container .hidden {
+  display: none;
+}
+
+.setting-name-section {
+  height: 50px;
+  padding-top: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  padding-left: 10px;
+  font-size: 24px;
+  border-bottom: 1px solid;
+  border-color: #686868;
+}
+
+.settings-input {
+  height: 25px;
+}
+
+.settings-bottom {
+  margin-top: 10px;
+}
+
+#saveUsername-botton, #savePassword-botton {
+  border:solid;
+  border-color: #686868;
+  border-width: 1px;
+  border-radius: 15px;
+  display: block;
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2em;
-  padding: 50px;
-  border-radius: 15px;
+  background-color: white;
+  color: #686868;
 }
 
-.form-control.settings-input {
-  border-radius: 0;
-  border-width: 0.5px;
-}
-
-.form-control.settings-bottom {
-  border-bottom-left-radius: .25rem;
-  border-bottom-right-radius: .25rem;
-}
-
-.form-control.settings-top {
-  border-top-left-radius: .25rem;
-  border-top-right-radius: .25rem;
-}
-
-#settings-help {
-  text-align: right;
-}
-
-.warning {
-  padding-left: 10px;
-  font-size: 12px;
-  color: white;
-  background-color: red;
-  display: none;
-  transition-duration: 0.5s;
-}
-
-#savePassword-botton {
-  margin-top: 0px;
-  margin-left: auto;
-  display: block;
-  width: 50px;
-  height: 30px;
-  border: solid;
-  background-color: #87cefa;
-  border-radius: 0px;
-  border-width: 0.5px;
-  border-color: #87cefa;
-  color: white;
-  cursor: pointer;
-}
-
-#savePassword-botton:hover {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: white;
+#saveUsername-botton, #savePassword-botton:hover {
   transition: 0.5s;
-}
-
-#saveUsername-botton {
-  margin-top: 0px;
-  margin-left: auto;
-  display: block;
-  width: 50px;
-  height: 30px;
-  border: solid;
-  background-color: #87cefa;
-  border-radius: 0px;
-  border-width: 0.5px;
-  border-color: #87cefa;
+  background-color: #686868;
   color: white;
-  cursor: pointer;
-}
-
-#saveUsername-botton:hover {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: white;
-  transition: 0.5s;
 }
