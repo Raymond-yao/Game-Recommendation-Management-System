@@ -67,7 +67,8 @@ $(function () {
         $("#content-container #card-" + id).css("background-image", "url(" + url + ")");
       }
     });
-    
+    var stub_card = '<div class="card" style="cursor:  pointer;width:  246px; margin-left:  50px; margin-top:  3em; border: dotted; border-color:  #dcdcdc; border-width:  3px;"> <span style=" display:  block; margin-top:  50%; text-align:  center; font-size: 75px; color:  #dcdc;">+</span></div>';
+    $("#content-container").append(stub_card);
   }
 
   function listView() {
