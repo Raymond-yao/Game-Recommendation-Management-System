@@ -17,7 +17,7 @@ html body {
 }
 
 #setting-container {
-  height: 230px;
+  min-height: 230px;
   background-color: white;
 }
 
@@ -102,28 +102,20 @@ html body {
 .setting-opt:hover:after {
   transition: 0.3s;
   content: "<";
+  color: yellow;
   margin-left: 5px;
 }
 
 .setting-opt:hover:before {
   transition: 0.3s;
   content: ">";
+  color: yellow;
   margin-right: 5px;
 }
 
 .setting-opt.selected {
   background-color: #686868;
   color: white;
-}
-
-.setting-opt.selected::before {
-  content: ">";
-  margin-right: 5px;
-}
-
-.setting-opt.selected::after {
-  content: "<";
-  margin-left: 5px;
 }
 
 .account-setting-section {
@@ -150,8 +142,44 @@ html body {
   height: 25px;
 }
 
+.setting-item {
+  font-weight: bold;
+}
+
 .settings-bottom {
   margin-top: 10px;
+}
+
+.image-label {
+  overflow: hidden;
+}
+
+.avatar-preview {
+  display: none;
+  width: 150px;
+  height: 150px;
+  border: dotted;
+  border-color: #dcdcdc;
+  margin-bottom: 40px;
+}
+
+.cover-preview {
+ display: none;
+ width: 100%;
+ height: auto;
+ border: dotted;
+ border-color: #dcdcdc;
+ margin-bottom: 40px; 
+}
+
+.cover-preview img{
+  height: 100%;
+  width: 100%;
+}
+
+.avatar-preview img {
+  height: 100%;
+  width: 100%;
 }
 
 #saveUsername-botton, #savePassword-botton {

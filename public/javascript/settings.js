@@ -1,6 +1,9 @@
 
 $(function () {
 
+  var avatar = undefined;
+  var cover = undefined;
+
   $.ajax({
     method: "GET",
     url: "/settings",
@@ -14,7 +17,62 @@ $(function () {
     }
   });
 
-  $(".setting-opt").on("click", function(ev) {
+  $("input#avatar-image").on("change", function(ev) {
+    var file = ev.currentTarget.files[0];
+    if (file){
+      avatar = file;
+      $(".avatar-label").text(file.name);
+      var reader  = new FileReader();
+
+      reader.addEventListener("load", function () {
+        $(".avatar-preview img").attr("src", reader.result);
+        $(".avatar-preview").css("display", "block");
+      }, false);
+      reader.readAsDataURL(file);
+    }
+  });
+
+  $("input#cover-image").on("change", function(ev) {
+    var file = ev.currentTarget.files[0];
+    if (file){
+      cover = file;
+      $(".cover-label").text(file.name);
+      var reader  = new FileReader();
+
+      reader.addEventListener("load", function () {
+        $(".cover-preview img").attr("src", reader.result);
+        $(".cover-preview").css("display", "block");
+      }, false);
+      reader.readAsDataURL(file);
+    }
+  });
+
+  $("#image-submit-btn").on("click", function(ev) {
+    ev.preventDefault();
+
+    data = new FormData();
+    data.append("updateType", "image");
+    if (avatar){
+      data.append("avatar", avatar);
+    }
+    if (cover) {
+      data.append("cover", cover);
+    }
+    $.ajax({
+      processData: false,  
+      contentType: false,
+      method: "POST",
+      url:"/settings",
+      data: data,
+      success: function(data) {
+        alert("picture update success!");
+        window.location.reload();
+      }
+    });
+  });
+
+  $(".setting-opt, .avatar-change").on("click", function(ev) {
+    ev.preventDefault();
     $(".setting-opt.selected").removeClass("selected");
     $(ev.currentTarget).addClass("selected");
     var type = $(ev.currentTarget).data("type");

@@ -65,7 +65,16 @@ class User extends Model {
         return $user;
       }
     }
+    
     public static function create(array $key) {
+      $pdo = $GLOBALS["container"]->db;
+      // find max id in user table
+      $pdo->beginTransaction();
+      $stmt = $pdo->prepare("SELECT MAX(id) FROM users");
+      $stmt->execute();
+      $maxId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
+      $maxId += 1;
+      $key["id"] = $maxId;
 
     // checkless!!!
       $newValues = [];
@@ -73,9 +82,15 @@ class User extends Model {
         $nk = ":" . $k;
         $newValues[$nk] = $v; 
       }
-      $pdo = $GLOBALS["container"]->db;
-      $stmt = $pdo->prepare('INSERT INTO users (id, username, password, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, 0, 0, :email, "overview");');
-      $stmt->execute($newValues);
+      try {
+        $stmt = $pdo->prepare('INSERT INTO users (id, username, password, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, 0, 0, :email, "overview");');
+        $stmt->execute($newValues);
+        $pdo->commit();
+        return TRUE;
+      } catch (PDOException $e) {
+        $pdo->rollBack();
+        return FALSE;
+      }
     }
 
     public function friends() {
@@ -153,6 +168,7 @@ class User extends Model {
       $sql_tail = "WHERE id = :id";
       $count = 0;
       foreach ($this->attributes as $key => $value) {
+        if ($key === "avatar" || $key === "cover") continue;
         if ($value["current"] !== $value["origin"]) {
           $count += 1;
           if ($count != 1) {
@@ -162,14 +178,84 @@ class User extends Model {
           $sql_head = $sql_head . $key . "=" . ":" . $key . " ";
         }
       }
-
+      $pdo = $GLOBALS["container"]->db;
       if (!empty($modified)) {
         $modified[":id"] = $this->attributes["id"]["current"];
-        $pdo = $GLOBALS["container"]->db;
         $stmt = $pdo->prepare($sql_head . $sql_tail);
         $stmt->execute($modified);
         $stmt->closeCursor();
       }
+
+      // update avatar and background
+      $avatar_changed = $this->attributes["avatar"]["current"] !== $this->attributes["avatar"]["origin"];
+      $background_changed = $this->attributes["cover"]["current"] !== $this->attributes["cover"]["origin"];
+      if ($avatar_changed || $background_changed){
+        //try{
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare("SELECT MAX(id) FROM images");
+        $stmt->execute();
+        $maxId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
+        $stmt = $pdo->prepare("INSERT INTO images (id, filename ,Type) VALUES (:id, :fn, :type);");
+
+        if ($avatar_changed) {
+          $filename = explode(".", $this->attributes["avatar"]["current"]);
+          $maxId += 1;
+          $stmt->execute([
+            ":id" => $maxId, 
+            ":fn" => $filename[0],
+            ":type" => $filename[1]
+          ]);
+          $this->setupHelper($maxId, "avatar");
+        }
+
+        if ($background_changed) {
+          $filename = explode(".", $this->attributes["cover"]["current"]);
+          $maxId += 1;
+          $stmt->execute([
+            ":id" => $maxId, 
+            ":fn" => $filename[0],
+            ":type" => $filename[1]
+          ]);
+          $this->setupHelper($maxId, "background");
+        }
+
+        $pdo->commit();
+        // } catch(PDOException $e) {
+        //   $pdo->rollBack();
+        // }
+      }
+    }
+
+    private function setupHelper($image_id, $type) {
+      /*
+       * this function assumes a picture has already been added to /public/images and IMAGES table. 
+       * what this function does is to simply remove the exisiting user images (if there is) and replace a 
+       * new one
+      */
+      $attr = $type === "background" ? "cover" : $type;  // A mistake dated back from my crappy php design, forgive me :P
+      $pdo = $GLOBALS["container"]->db;
+      if ($this->attributes[$attr]["origin"] !== NULL) {
+        $stmt = $pdo->prepare('SELECT id FROM userimages WHERE userID = :id AND imageType = "' . $type . '"');
+        $stmt->execute([
+          ":id" => $this->id()
+        ]);
+        $id = $stmt->fetch(PDO::FETCH_ASSOC)["id"];
+        $stmt = $pdo->prepare('DELETE FROM userimages WHERE userID = :id AND imageType = "' . $type . '"');
+        $stmt->execute([
+          ":id" => $this->id()
+        ]);
+        $stmt = $pdo->prepare("DELETE FROM images WHERE id = :id ;");
+        $stmt->execute([
+          ":id" => $id
+        ]);
+        
+      }
+
+      $stmt = $pdo->prepare('INSERT INTO userimages (id, userID, imageType) VALUES (:id, :userID, "' . $type . '")');
+      $stmt->execute([
+        ":id" => $image_id,
+        ":userID" => $this->id()
+      ]);
     }
 
     public static function verify(string $email, string $password) {

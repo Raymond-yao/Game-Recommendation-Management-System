@@ -41,17 +41,16 @@ class LoginController extends Controller {
     
     // insert this email to the user table
     if (($registerEmail !== "") && ($registerPassword === $repeatPassword)){
-      // find max id in user table
-      $stmt = $pdo->prepare("SELECT MAX(id) FROM users");
-      $stmt->execute();
-      $maxId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
-      $maxId += 1;
-
-      User::create(["id" => $maxId, 
+      $status = User::create([ 
         "username" => $registerUsername, 
         "password" => $registerPassword,
-        "email" => $registerEmail]);
-      return $this->render("json", array('status' => "success register"));
+        "email" => $registerEmail
+      ]);
+      if ($status){
+        return $this->render("json", array('status' => "success register"));
+      } else {
+        return $this->render("json", array('status' => "failed"));
+      }
     } else {
       return $this->render("json", array('status' => "failed"));
     }

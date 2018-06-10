@@ -15,7 +15,7 @@
       <div class="col-4 menu-col">
         <div class="user-info">
           <div class="user-cover bg-dark">
-            <a href="#" class="avatar-change">
+            <a href="#" class="avatar-change" data-type="image">
               <div class="avatar-container">
                 <img class="setting-avatar" src="/assets/image/no_photo">
               </div>
@@ -43,7 +43,7 @@
               <form>
                 <div class="row">
                   <div class="col-3"> 
-                    <span>Username</span>
+                    <span class="setting-item">Username</span>
                   </div>
                   <div class="col-6">
                     <div class="form-group">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="row">
                   <div class="col-3">
-                    <span>Email</span>
+                    <span class="setting-item">Email</span>
                   </div>
                   <div class="col-8">
                     <div class="form-group">
@@ -73,7 +73,7 @@
               <form>
                 <div class="row">
                   <div class="col-3"> 
-                    <span>Password</span>
+                    <span class="setting-item">Password</span>
                   </div>
                   <div class="col-8">
                     <div class="form-group">
@@ -89,10 +89,53 @@
               <button id="savePassword-botton" class="btn">Save</button>
             </form>
           </div>
+
+          <!-- settings avatar and background -->
+          <div class="setting-container-content image hidden">
+            <div class="setting-name-section">Avatar and Background</div>
+            <div class="account-setting-section">
+              <form>
+                <div class="row">
+                  <div class="col-3"> 
+                    <span class="setting-item">Avatar</span>
+                  </div>
+                  <div class="file-reader col-8">
+                    <div class="input-group mb-3">
+                      <div class="custom-file image-file">
+                        <input type="file" class="custom-file-input image-input" id="avatar-image">
+                        <label class="custom-file-label image-label avatar-label" for="avatar">Choose file</label>
+                      </div>
+                    </div>
+                    <div class="avatar-preview">
+                      <img src="#">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3"> 
+                    <span class="setting-item">Background</span>
+                  </div>
+                  <div class="file-reader col-8">
+                    <div class="input-group mb-3">
+                      <div class="custom-file image-file">
+                        <input type="file" class="custom-file-input image-input" id="cover-image">
+                        <label class="custom-file-label image-label cover-label" for="cover">Choose file</label>
+                      </div>
+                    </div>
+                    <div class="cover-preview">
+                      <img src="#">
+                    </div>
+                  </div>
+                </div>
+
+                <button id="image-submit-btn" class="btn">Save</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </body>
 </html>

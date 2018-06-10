@@ -81,6 +81,30 @@ class AccountController extends Controller {
         return $this->render("json", array('status' => "failed"));
       }
       break;
+
+      case 'image':
+      $this->log($params["updateType"]);
+      $files = $this->request->getUploadedFiles();
+      if (isset($files["avatar"])) {
+        $avatar = $files["avatar"];
+        $ext = "." . explode("/", $avatar->getClientMediaType())[1];
+        $filename = uniqid();
+        $this->log($filename);
+        $this->log($ext);
+        $avatar->moveTo(__DIR__ . "/../../public/images/" . $filename . $ext);
+        $user->avatar($filename . $ext);
+      }
+
+      if (isset($files["cover"])) {
+        $cover = $files["cover"];
+        $ext = "." . explode("/", $cover->getClientMediaType())[1];
+        $filename = uniqid();
+        $cover->moveTo(__DIR__ . "/../../public/images/" . $filename . $ext);
+        $user->cover($filename . $ext);
+      }
+
+      $user->save();
+      break;
     }
   }
 
