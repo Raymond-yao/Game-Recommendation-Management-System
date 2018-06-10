@@ -67,6 +67,19 @@ img {
     font-size: 14px;
   }
 
+  .stub-card-link {
+    width:246px; 
+    margin-left:50px; 
+    margin-top:3em; 
+    border: dotted; 
+    border-color: #dcdcdc; 
+    border-width: 3px;
+  }
+
+  .stub-card-link:hover {
+    text-decoration: none;
+  }
+
   .AppContainer {
     position: relative;
     height: 100%;
