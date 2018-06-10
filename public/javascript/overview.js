@@ -67,8 +67,10 @@ $(function () {
         $("#content-container #card-" + id).css("background-image", "url(" + url + ")");
       }
     });
-    var stub_card = '<div class="card" style="cursor:  pointer;width:  246px; margin-left:  50px; margin-top:  3em; border: dotted; border-color:  #dcdcdc; border-width:  3px;"> <span style=" display:  block; margin-top:  50%; text-align:  center; font-size: 75px; color:  #dcdc;">+</span></div>';
-    $("#content-container").append(stub_card);
+    if (visit_id === document.cookie){
+      var stub_card = '<div class="card" style="cursor:  pointer;width:  246px; margin-left:  50px; margin-top:  3em; border: dotted; border-color:  #dcdcdc; border-width:  3px;"> <span style=" display:  block; margin-top:  50%; text-align:  center; font-size: 75px; color:  #dcdc;">+</span></div>';
+      $("#content-container").append(stub_card);
+    }
   }
 
   function listView() {
@@ -112,7 +114,7 @@ $(function () {
           if(fri["following"]) {
             $("#card-" + fri["id"] + " .follow-button").addClass("following");
           }
-      }
+        }
       });
 
     };
@@ -152,8 +154,13 @@ $(function () {
   }
 
   function noContent() {
-    var reminder = '<div class="empty-reminder text-muted">Oops, you haven\'t create any list yet</div>';
-    $("#content-container").append(reminder);
+    if (visit_id === document.cookie) {
+      var stub_card = '<div class="card" style="cursor:  pointer;width:  246px; margin-left:  50px; margin-top:  3em; border: dotted; border-color:  #dcdcdc; border-width:  3px;"> <span style=" display:  block; margin-top:  50%; text-align:  center; font-size: 75px; color:  #dcdc;">+</span></div>';
+      $("#content-container").append(stub_card);
+    } else {
+      var reminder = '<div class="empty-reminder text-muted">Oops, you haven\'t create any list yet</div>';
+      $("#content-container").append(reminder);
+    }
   }
 
   $.ajax({
@@ -186,16 +193,16 @@ $(function () {
     if (search !== "") {
       $(".stat-item.selected").removeClass("selected");
       $.ajax({
-      method: "POST",
-      url: "/searchUser",
-      data: {
-        "search" : search
-      },
-      success: function(data) {
-        if (data["status"] === "success") {
+        method: "POST",
+        url: "/searchUser",
+        data: {
+          "search" : search
+        },
+        success: function(data) {
+          if (data["status"] === "success") {
           // create user card
-       } else {
-        alert("Username Cannot be Empty!");
+        } else {
+          alert("Username Cannot be Empty!");
         }
       }
     })
