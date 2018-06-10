@@ -104,5 +104,38 @@ class RecommendationList extends Model {
 
     return $game_data;
   }
+
+  static function creatRecList(Array $keys) {
+    // get max list id:maxId
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare("SELECT MAX(id) FROM RecommendationLists");
+    $stmt->execute();
+    $maxId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
+    $maxId += 1;
+    //get date
+    $creatorID = $_COOKIE["account"];
+    $date = date("Y-m-d");
+    //insert in to RecommendationLists
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare('INSERT INTO RecommendationLists (id, title, description, createdDate, creatorID) VALUES (:id, :title, :description, :createdDate, :creatorID)');
+    $stmt->execute(array(':id'=>$maxId, ':title'=>$keys["title"], ':description'=>$keys["desc"], 'createdDate'=>$date, 'creatorID'=>$creatorID));
+    //get max image id:maxIId
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare("SELECT MAX(id) FROM Images");
+    $stmt->execute();
+    $maxIId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
+    $maxIId += 1;
+    //insert into image
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare('INSERT INTO Images (id, filename, type) VALUES (:id, :filename, :type)');
+    $stmt->execute(array(':id'=>$maxIId, ':filename'=>$keys["filename"], ':type'=>$keys["type"]));
+    //insert into listCovers
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare('INSERT INTO ListCovers (id, listID) VALUES (:id, :listID)');
+    $stmt->execute(array(':id'=>$maxIId, 'listID'=>$maxId));
+
+    return RecommendationList::get($maxId);
+
+  }
 }
 ?>

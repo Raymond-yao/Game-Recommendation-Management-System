@@ -35,5 +35,21 @@ class ListController extends Controller {
       return $this->render("html", "list.html", $replacement);
     }    
   }
+
+  function createList() {
+    return $this->render("html", "create.html");
+  }// send page to browser
+
+  function create() {
+    $params = $this->request->getParsedBody(); 
+    $title = $params["title"];
+    $desc = $params["desc"];
+    $file = $this->request->getUploadedFiles();
+    $file["cover"]->moveTo(__DIR__ . "/../../public/images/1.jpg");
+    $key = ["title"=>$title, "filename"=>"1", "type"=>"jpg", "desc"=>$desc];
+    
+    $rec = RecommendationList::creatRecList($key);
+    return $this->render("json", ["status" => "success", "id" => $rec->id()]);
+  }
 }
 ?>
