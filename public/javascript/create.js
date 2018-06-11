@@ -25,7 +25,11 @@ $(function () {
     }
   });
 
-	$("#Submit").on("click", function (ev) {
+  $('#add-game').on("click", function() {
+    $('#popup-site').trigger("click");
+  })
+
+  $("#Submit").on("click", function (ev) {
     ev.preventDefault();
     var info = {
       title: $("#title").val(),
@@ -53,4 +57,50 @@ $(function () {
       });
     }
   });
+
+  var modal = $('#popup-site');
+  var container = $('#popup-container');
+
+  var btn = $("#add-game");
+
+  var span = $(".close-popup");
+
+  btn.on("click" , function() {
+    modal.css("display", "block");
+  });
+
+  span.on("click", function() {
+    modal.css("display", "none");
+  });
+  $.ajax({
+    method: "GET",
+    url: "/gameList",
+    success: function(data) {
+      var category = $('script[data-template="category"]').text();
+      $.each(data, function(init, games) {
+        var categ = category;
+        categ = categ.replace("${init}", init);
+        categ = categ.replace("${init_id}", init);
+        container.append(categ);
+        $.each(games, function(index, game) {
+          var game_pic = $('script[data-template="game-pic"]').text();
+          var params = {
+            "${cover_url}": game["cover"],
+            "${game_name}": game["name"],
+            "${company}": game["company"],
+            "${date}": game["date"]
+          };
+
+          $.each(params, function(key, value) {
+            game_pic = game_pic.replace(key, value);
+          });
+          $("#category-" + init + " .category-container").append(game_pic);
+        });
+      });
+    },
+    error: function(xhr) {
+      alert("avatar request failed with status: " + xhr.status());
+    }
+  });
+
 });

@@ -137,5 +137,39 @@ class RecommendationList extends Model {
     return RecommendationList::get($maxId);
 
   }
+
+  static function getAllGames() {
+    $pdo = $GLOBALS["container"]->db;
+    $stmt = $pdo->prepare("SELECT *, SUBSTRING(name, 1, 1) AS init FROM games ORDER BY name ASC");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    $stmt->closeCursor();
+    $game_data = [];
+
+    foreach ($result as $t) {
+      $picQuery = $pdo->prepare("SELECT * FROM gamecovers JOIN images ON (gamecovers.id = images.id) WHERE(gamecovers.gameID = :id);");
+      $picQuery->execute([":id" => $t["id"]]);
+      $res = $picQuery->fetch(PDO::FETCH_ASSOC);
+      $stmt->closeCursor();
+      $cover = NULL;
+      if (!empty($res)) {
+        $cover = "/assets/image/" . $res["filename"];
+      }
+
+      $game = [
+        "name" => $t["name"],
+        "date" => $t["salesDate"],
+        "company" => $t["company"],
+        "cover" => $cover
+      ];
+
+      $init = $t["init"];
+      if (!isset($game_data[$init])) {
+        $game_data[$init] = [];
+      }
+      array_push($game_data[$init], $game);
+    }
+    return $game_data;
+  }
 }
 ?>

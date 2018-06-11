@@ -51,5 +51,10 @@ class ListController extends Controller {
     $rec = RecommendationList::creatRecList($key);
     return $this->render("json", ["status" => "success", "id" => $rec->id()]);
   }
+
+  function sendGameList() {
+    $GL = RecommendationList::getAllGames();
+    return $this->render("json", $GL);
+  }
 }
 ?>
