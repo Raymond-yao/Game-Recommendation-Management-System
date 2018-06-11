@@ -211,6 +211,9 @@ INSERT INTO `Images` VALUES (20, 'rain_world', 'jpg');
 INSERT INTO `Images` VALUES (21, 'rainbow_six_siege', 'jpg');
 INSERT INTO `Images` VALUES (22, 'ac_origins', 'jpg');
 INSERT INTO `Images` VALUES (23, 'black_flag', 'jpg');
+INSERT INTO `Images` VALUES (24, 'bf1', 'jpg');
+INSERT INTO `Images` VALUES (25, 'needforspeed', 'jpg');
+
 
 INSERT INTO `ListCovers` VALUES(3, 2);
 INSERT INTO `ListCovers` VALUES(1, 4);
@@ -222,6 +225,8 @@ INSERT INTO `GameCovers` VALUES(23, 3);
 INSERT INTO `GameCovers` VALUES(20, 4);
 INSERT INTO `GameCovers` VALUES(3, 5);
 INSERT INTO `GameCovers` VALUES(8, 8);
+INSERT INTO `GameCovers` VALUES(24, 6);
+INSERT INTO `GameCovers` VALUES(25, 7);
 
 INSERT INTO `UserImages` VALUES(9, 1, "avatar");
 INSERT INTO `UserImages` VALUES(8, 1, "background");
