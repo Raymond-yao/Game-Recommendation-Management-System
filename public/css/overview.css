@@ -68,6 +68,7 @@ img {
   }
 
   .stub-card-link {
+    min-height: 351px;
     width:246px; 
     margin-left:50px; 
     margin-top:3em; 

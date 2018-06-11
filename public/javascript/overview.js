@@ -41,6 +41,7 @@ $(function () {
     } else {
       friendView();
     }
+    $('[data-toggle="tooltip"]').tooltip();
   }
 
   function recommendationViewSwitch() {
@@ -61,7 +62,7 @@ $(function () {
       var url = rec["cover"];
       var title = rec["title"];
       var desc = rec["desc"];
-      var card = '<div class="card recommendation-list"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">More</a> </div> </div>';
+      var card = '<div class="card recommendation-list" data-toggle="tooltip" data-placement="top" title="' + title + '"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">More</a> </div> </div>';
       $("#content-container").append(card);
       if (url) {
         $("#content-container #card-" + id).css("background-image", "url(" + url + ")");
@@ -77,7 +78,7 @@ $(function () {
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var title = rec["title"];
-      var list = '<a class="list-view-link" href="/list/' + id + '"><div class="alert alert-dark list-view" id="list-' + id + '" role="alert">' + title + '</div></a>'
+      var list = '<a class="list-view-link" href="/list/' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '"><div class="alert alert-dark list-view" id="list-' + id + '" role="alert">' + title + '</div></a>'
       $("#content-container").append(list);
     });
   }
@@ -85,36 +86,10 @@ $(function () {
   function friendView() {
     $("div.settings-group").hide();
     $("#content-container").empty();
-    var template = $('script[data-template="profile-card"]').text();
     var setupFriendsAvatar = function (data) {
       var friends = data["friends"];
       $.each(friends, function( index, fri ) {
-        var card = template;
-        var params = {
-          '${card-id}': "card-" + fri["id"],
-          '${url-1}': "/overview/" + fri["id"],
-          '${url-2}': "/overview/" + fri["id"],
-          '${url-3}': "/overview/" + fri["id"],
-          '${avatar}': fri["avatar"] || "/assets/image/no_photo",
-          '${username}': fri["username"],
-          '${email}': fri["email"]
-        };
-        $.each(params, function(key, value) {
-          card = card.replace(key, value);
-        });
-        $("#content-container").append(card);
-        if (fri["cover"]){
-          $("#card-" + fri["id"] + " .profile-card-bg").css("background-image", 'url(' + fri["cover"] + ')');
-        }
-        if (document.cookie.match(fri["id"])) {
-          $("#card-" + fri["id"] + " .follow-button").hide();
-        } else {
-          $("#card-" + fri["id"] + " .follow-button").data("followUser" ,fri["id"]);
-          $("#card-" + fri["id"] + " .follow-button").on("click", toggleFollow);
-          if(fri["following"]) {
-            $("#card-" + fri["id"] + " .follow-button").addClass("following");
-          }
-        }
+        profileCardAdder(fri);
       });
 
     };
@@ -126,6 +101,38 @@ $(function () {
       }
     });
   }
+
+  function profileCardAdder(profile) {
+    var template = $('script[data-template="profile-card"]').text();
+    var id = profile["id"];
+    var params = {
+      '${card-id}': "card-" + id,
+      '${url-1}': "/overview/" + id,
+      '${url-2}': "/overview/" + id,
+      '${url-3}': "/overview/" + id,
+      '${avatar}': profile["avatar"] || "/assets/image/no_photo",
+      '${username}': profile["username"],
+      '${email}': profile["email"]
+    };
+    $.each(params, function(key, value) {
+      template = template.replace(key, value);
+    });
+
+    $("#content-container").append(template);
+    if (profile["cover"]){
+      $("#card-" + id + " .profile-card-bg").css("background-image", 'url(' + profile["cover"] + ')');
+    }
+    if (document.cookie.match(id)) {
+      $("#card-" + id + " .follow-button").hide();
+    } else {
+      $("#card-" + id + " .follow-button").data("followUser" ,id);
+      $("#card-" + id + " .follow-button").on("click", toggleFollow);
+      if(profile["following"]) {
+        $("#card-" + id + " .follow-button").addClass("following");
+      }
+    }
+  }
+
 
   function toggleFollow(ev) {
     var follow_button = $(ev.currentTarget);
@@ -158,7 +165,7 @@ $(function () {
       var stub_card = $('script[data-template="stub-card"]').text();
       $("#content-container").append(stub_card);
     } else {
-      var reminder = '<div class="empty-reminder text-muted">Oops, you haven\'t create any list yet</div>';
+      var reminder = '<div class="empty-reminder text-muted">Oops, seems like this user hasn\'t created any list yet</div>';
       $("#content-container").append(reminder);
     }
   }

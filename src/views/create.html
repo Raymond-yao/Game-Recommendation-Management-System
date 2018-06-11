@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>create</title>
+  <title>Create</title>
   <link rel="import" href="/setup_assets">
   <link rel="stylesheet" type="text/css" href="/assets/css/list">
   <link rel="stylesheet" type="text/css" href="/assets/css/overview">
@@ -28,14 +28,27 @@
               <textarea id="desc" placeholder="List description"></textarea>
             </div>
             <div>
-              <span id="add-game"> Add Game </span>
+              <span id="add-game" data-toggle="modal" data-target="#popup-site"> Add Game </span>
             </div>
-            <div id="popup-site" class="popup">
-              <div class="popup-content">
-                <div class="popup-icon-section">
-                  <span class="close-popup">&times;</span>
+
+            <!-- Modal -->
+            <div data-spy="scroll" data-target="initial-container" data-offset="0" class="modal fade" id="popup-site" tabindex="-1" role="dialog">
+              <div id="game-management-toolbar">
+                <div class="initial-container">
+                  <span id="create-game">Add +</span>
                 </div>
-                <div id="popup-container"></div>
+              </div>
+              <div class="modal-dialog modal-lg popup-content" style="border-radius: 25px;" role="document">
+                <div class="modal-content" style="border-radius: 25px;">
+                  <div class="popup-icon-section">
+                    <span class="close-popup" data-dismiss="modal">&times;</span>
+                  </div>
+                  <div class="modal-body">
+                    <div>
+                      <div id="popup-container"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
