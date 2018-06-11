@@ -134,29 +134,6 @@ img {
 
 }
 
-.search-box {
-  display: inline-block;
-}
-
-.search-box-container {
-  position: absolute;
-  top: 14px;
-  right: 0;
-}
-
-.search-box-container input {
-  vertical-align: 13px;
-  width: 160px;
-
-}
-
-.search-box-container button.btn {
-  vertical-align: 13px;
-  padding: 0.175rem 0.35rem;
-  background-color: green;
-  color: white;
-}
-
 .overview-follow {
   display: inline-block;
   position: relative;
@@ -385,12 +362,17 @@ img {
   overflow: hidden;
 }
 
+.list-group {
+  width: 65%;
+}
+
+.list-group-item:hover {
+  color: white;
+  background-color: #686868;
+}
+
 .list-view-link {
-  width: 70%;
-  margin-left: 20px;
-  margin-bottom: 0.3rem;
-  display: block;
-  color: black;
+  color: inherit;
 }
 
 .list-view-link:hover {

@@ -2,6 +2,100 @@
   height: 50px;
 }
 
+.search-box {
+  display: inline-block;
+}
+
+.search-box-container {
+  margin-right: 10px;
+  position: relative;
+}
+
+.search-box-container input {
+  font-size: 12px;
+  padding-left: 10px;
+  width: 160px;
+  border-radius: 25px;
+  border: 0px;
+}
+
+.search-icon{
+  position: absolute;
+  top: 0;
+  right: 7px;
+  cursor: pointer;
+  transform: rotate(-45deg);
+  font-size: 20px;
+}
+
+.follow-button {
+  border: solid;
+  border-width: 1px;
+  border-radius: 25px;
+  padding: 5px;
+  font-size: 12px;
+  width: 63.5px;
+  text-align: center;
+  border-color: #00BFFF; 
+  cursor: pointer;
+}
+
+.follow-button:hover {
+  background-color: #00BFFF;
+  color: white;
+  transition-duration: 0.5s;
+}
+
+.follow-button::before {
+  content: "Follow";
+}
+
+.follow-button.following {
+  background-color: #00BFFF;
+  color: white;
+}
+
+.follow-button.following::before {
+  content: "Following"
+}
+
+.follow-button.following:hover {
+  transition-duration: 0s;
+  background-color: red;
+  border-color: red;
+}
+
+.follow-button.following:hover:before {
+  content: "Unfollow";
+}
+
+
+.profile-card-user-info {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.profile-username-section {
+  height: 22px;
+  line-height: 1.3;
+  margin: -2px;
+  white-space: nowrap;
+}
+
+.profile-username-link span {
+  display: block;
+  color: black;
+  font-weight: bold;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.profile-username-link .profile-email {
+  font-size: 12px;
+  color: #686868;
+}
+
+
+
 /* for visitor header */
 .account-action-group {
   margin-right: 14px;

@@ -113,7 +113,7 @@ INSERT INTO `users` VALUES (1, 'raymond', '123', 2, 3, "raymond@god.com", "overv
 INSERT INTO `users` VALUES (2, 'dante', '123', 1, 2, "dante@god.com", "overview");
 INSERT INTO `users` VALUES (3, 'ann', '123', 1, 1, "ann@god.com", "overview");
 INSERT INTO `users` VALUES (4, 'robin', '123', 2, 1, "robin@god.com", "overview");
-INSERT INTO `users` VALUES (5, 'root', '123', 0, 1, "root@god.com", "overview");
+INSERT INTO `users` VALUES (5, 'root', '123', 0, 0, "root@god.com", "overview");
 
 
 INSERT INTO `friends` VALUES (1, 2);

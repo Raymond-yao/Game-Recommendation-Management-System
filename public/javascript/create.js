@@ -8,7 +8,7 @@ $(function () {
     }
   });
 
-  $('#overview-bg-img').on("click", function() {
+  $('#overview-bg-overlay').on("click", function() {
     $('#pic').trigger("click");
   });
 

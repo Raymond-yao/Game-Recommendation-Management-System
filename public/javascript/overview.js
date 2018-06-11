@@ -41,7 +41,6 @@ $(function () {
     } else {
       friendView();
     }
-    $('[data-toggle="tooltip"]').tooltip();
   }
 
   function recommendationViewSwitch() {
@@ -54,6 +53,7 @@ $(function () {
     } else {
       listView();
     }
+    $('[data-toggle="tooltip"]').tooltip();
   };
 
   function cardView() {  
@@ -75,11 +75,12 @@ $(function () {
   }
 
   function listView() {
+    $("#content-container").append('<ul class="list-group"></ul>');
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var title = rec["title"];
-      var list = '<a class="list-view-link" href="/list/' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '"><div class="alert alert-dark list-view" id="list-' + id + '" role="alert">' + title + '</div></a>'
-      $("#content-container").append(list);
+      var list = '<li class="list-group-item" id="list-' + id + '"><a class="list-view-link" href="/list/' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '">' + title + '</a></li>'
+      $("ul.list-group").append(list);
     });
   }
 
@@ -192,28 +193,6 @@ $(function () {
     $(ev.target).addClass("selected");
     RecommendationViewState = $(ev.target).text();
     recommendationViewSwitch();
-  });
-
-  $(".search-icon").on("click", function(ev) {
-    ev.preventDefault();
-    var search = $("#search").val().trim();
-    if (search !== "") {
-      $(".stat-item.selected").removeClass("selected");
-      $.ajax({
-        method: "POST",
-        url: "/searchUser",
-        data: {
-          "search" : search
-        },
-        success: function(data) {
-          if (data["status"] === "success") {
-          // create user card
-        } else {
-          alert("Username Cannot be Empty!");
-        }
-      }
-    })
-    }
   });
   
 })
