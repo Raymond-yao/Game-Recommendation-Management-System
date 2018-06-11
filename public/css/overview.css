@@ -43,6 +43,20 @@ img {
   margin-right: auto;
 }
 
+.stub-card-link {
+  min-height: 351px;
+  width:284px; 
+  margin-left:50px; 
+  margin-top:3em; 
+  border: dotted; 
+  border-color: #dcdcdc; 
+  border-width: 3px;
+}
+
+.stub-card-link:hover {
+  text-decoration: none;
+}
+
 @media(max-width: 1400px) {
   #overview-bg-img {
     width: 100%;
@@ -59,14 +73,6 @@ img {
     box-shadow: 5px 10px 5px 0;
   }
 
-  .card-title{
-    font-size: 18px;
-  }
-
-  .card-text {
-    font-size: 14px;
-  }
-
   .stub-card-link {
     min-height: 351px;
     width:246px; 
@@ -79,6 +85,14 @@ img {
 
   .stub-card-link:hover {
     text-decoration: none;
+  }
+
+  .card-title{
+    font-size: 18px;
+  }
+
+  .card-text {
+    font-size: 14px;
   }
 
   .AppContainer {
