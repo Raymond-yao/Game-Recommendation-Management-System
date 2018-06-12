@@ -56,5 +56,20 @@ class ListController extends Controller {
     $GL = RecommendationList::getAllGames();
     return $this->render("json", $GL);
   }
+
+  function delete() {
+    $params = $this->request->getQueryParams(); 
+    $listid = $params["listid"];
+    $pdo = $GLOBALS["container"]->db;
+    // check if this email already exist
+    $stmt = $pdo->prepare("DELETE FROM RecommendationLists WHERE id = :listID");
+    $stmt->execute(array(':listID' => $listid));
+    $stmt->closeCursor();
+
+    $user = User::get($_COOKIE["account"]);
+    $user->listCount($user->listCount() - 1);
+    $user->save();
+    return $this->render("json", ["status" => "success", "id" => $listid]);
+  }
 }
 ?>

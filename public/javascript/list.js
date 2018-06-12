@@ -54,5 +54,17 @@ $(function() {
     error: function() {
       alert("sorry, something goes wrong");
     }
-  })
+  });
+
+  $("#confirmDelete").on("click", function(ev) {
+    $.ajax({
+      method: "GET",
+      url: "/delete",
+      data: {"listid": list_id},
+      success: function(data) {
+        var list_id = data["id"];
+        window.location.href = "/overview";
+      }
+    })
+  });
 })

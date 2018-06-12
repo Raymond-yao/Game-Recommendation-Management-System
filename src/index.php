@@ -198,6 +198,7 @@ $app->post('/manage_friend', function(Request $request, Response $response, arra
   return $controller->manage_friend();
 });
 $app->get('/list[/{id}]', user_or_login_expired("ListController", "getList")); 
+$app->get('/delete', user_or_login_expired("ListController", "delete")); 
 $app->get('/create', user_or_login_expired("ListController", "createList"));
 $app->post('/create', user_or_login_expired("ListController", "create"));
 $app->get('/gameList', user_or_login_expired("ListController", "sendGameList"));

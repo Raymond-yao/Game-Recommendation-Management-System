@@ -3,6 +3,7 @@ $(function () {
   var recommendations = undefined;
   var RecommendationViewState = "Card";
   var viewState = "recommendation";
+  var list_id = undefined;
 
   $.ajax({
     method: "GET",
@@ -62,7 +63,7 @@ $(function () {
       var url = rec["cover"];
       var title = rec["title"];
       var desc = rec["desc"];
-      var card = '<div class="card recommendation-list" data-toggle="tooltip" data-placement="top" title="' + title + '"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">Go to</a><span class="dropdown-toggle more-option" data-toggle="dropdown"></span><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="/edit/' + id + '">Edit</a><a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#deleteConfirm">Delete</a></div></div> </div>';
+      var card = '<div class="card recommendation-list" data-toggle="tooltip" data-placement="top" title="' + title + '"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">Go to</a><span class="dropdown-toggle more-option" data-toggle="dropdown"></span><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="/edit/' + id + '">Edit</a><a class="dropdown-item delete-dropdown" href="javascript:;" data-toggle="modal" data-target="#deleteConfirm" data-delete="' + id + '">Delete</a></div></div> </div>';
       $("#content-container").append(card);
       if (url) {
         $("#content-container #card-" + id).css("background-image", "url(" + url + ")");
@@ -179,6 +180,9 @@ $(function () {
     success: function(data) {
       recommendations = data["recommendations"];
       viewSwitch();
+      $(".delete-dropdown").on("click", function(ev) {
+        list_id = $(ev.currentTarget).data("delete");
+      });
     }
   });
 
@@ -195,6 +199,18 @@ $(function () {
     $(ev.target).addClass("selected");
     RecommendationViewState = $(ev.target).text();
     recommendationViewSwitch();
+  });
+
+  $("#confirmDelete").on("click", function(ev) {
+    $.ajax({
+      method: "GET",
+      url: "/delete",
+      data: {"listid": list_id},
+      success: function(data) {
+        var list_id = data["id"];
+        window.location.reload();
+      }
+    })
   });
   
 })
