@@ -195,7 +195,7 @@ html body {
   color: #686868;
 }
 
-#saveUsername-botton, #savePassword-botton:hover {
+#saveUsername-botton:hover, #savePassword-botton:hover {
   transition: 0.5s;
   background-color: #686868;
   color: white;
