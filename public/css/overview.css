@@ -43,6 +43,16 @@ img {
   margin-right: auto;
 }
 
+.more-option {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+#confirmDelete:hover {
+  border-color: red;
+  background-color: red;
+}
+
 .stub-card-link {
   min-height: 351px;
   width:284px; 

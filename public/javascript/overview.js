@@ -62,7 +62,7 @@ $(function () {
       var url = rec["cover"];
       var title = rec["title"];
       var desc = rec["desc"];
-      var card = '<div class="card recommendation-list" data-toggle="tooltip" data-placement="top" title="' + title + '"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">More</a> </div> </div>';
+      var card = '<div class="card recommendation-list" data-toggle="tooltip" data-placement="top" title="' + title + '"> <div class="card-img-top overview-img-top" id=card-'+ id +'></div> <div class="card-body"> <h5 class="card-title">' + title + '</h5> <p class="card-text">' + desc + '</p> <a href="/list/' + id + '" class="btn btn-primary">Go to</a><span class="dropdown-toggle more-option" data-toggle="dropdown"></span><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="/edit/' + id + '">Edit</a><a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#deleteConfirm">Delete</a></div></div> </div>';
       $("#content-container").append(card);
       if (url) {
         $("#content-container #card-" + id).css("background-image", "url(" + url + ")");

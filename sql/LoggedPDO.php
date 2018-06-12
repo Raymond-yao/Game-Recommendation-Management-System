@@ -52,7 +52,12 @@ class LoggedPDO {
       $original_stmt = $this->pdo->$name($arguments[0]);
       return new LoggedStatement($original_stmt);
     } 
-    return $this->pdo->$name($arguments[0]);
+
+    if (sizeof($arguments) !== 0){
+      return $this->pdo->$name($arguments[0]);
+    } else {
+      return $this->pdo->$name();
+    }
   }
 };
 ?>
