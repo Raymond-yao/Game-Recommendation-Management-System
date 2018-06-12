@@ -149,10 +149,18 @@ $(function () {
       },
       success: function(data) {
         if (data["status"] === "success") {
+          popup();
+          var curr = $("span.friend-value").text();
           if (follow_button.hasClass("following")) {
             follow_button.removeClass("following");
+            if (document.cookie.match(visit_id)) {
+              $("span.friend-value").text((curr * 1) - 1);
+            }
           } else {
             follow_button.addClass("following");
+            if (document.cookie.match(visit_id)) {
+              $("span.friend-value").text((curr * 1) + 1);
+            }
           }
         } else {
           alert("sorry, an error has occured, please try again later");

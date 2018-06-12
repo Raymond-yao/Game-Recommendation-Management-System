@@ -64,9 +64,8 @@
     </div>
   </script>
 
-
   <script type="text/javascript">
-    $(function() {
+    var popup = function() {
       $.ajax({
         method: "GET",
         url: "/accountinfo",
@@ -75,6 +74,7 @@
           var profile_avatar = data["avatar"] || "/assets/image/no_photo";
           $("#avatar").css("background-image", 'url(' + profile_avatar + ')');
           $("#avatarDropdown").text(data["username"]);
+          $('#avatar').popover('dispose');
           $('#avatar').popover({
             trigger: 'hover',
             container: 'body',
@@ -87,7 +87,10 @@
           alert("Avatar error occur !");
         }
       });
+    }
 
+    $(function() {
+      popup();
       var ids = [];
       function profileHelper(profile) {
         var template = $('script[data-template="user-card"]').text();
