@@ -55,6 +55,9 @@ $(function () {
       listView();
     }
     $('[data-toggle="tooltip"]').tooltip();
+    $(".delete-dropdown").on("click", function(ev) {
+      list_id = $(ev.currentTarget).data("delete");
+    });
   };
 
   function cardView() {  
@@ -188,9 +191,6 @@ $(function () {
     success: function(data) {
       recommendations = data["recommendations"];
       viewSwitch();
-      $(".delete-dropdown").on("click", function(ev) {
-        list_id = $(ev.currentTarget).data("delete");
-      });
     }
   });
 
@@ -215,7 +215,6 @@ $(function () {
       url: "/delete",
       data: {"listid": list_id},
       success: function(data) {
-        var list_id = data["id"];
         window.location.reload();
       }
     })
