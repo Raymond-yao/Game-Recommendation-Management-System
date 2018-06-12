@@ -13,6 +13,14 @@ $(function() {
     $(".author-info-text.profile-email").text(info["creator"]["email"]);
     $(".creator-link").attr("href", "/overview/" + info["creator"]["id"]);
     $(".author-info-text.created-date").text(info["created_date"]);
+    if (document.cookie.match(info["creator"]["id"])){
+      $(".edit").attr("href", "/edit/" + list_id);
+    } else {
+      $(".article-action-group").hide();
+    }
+    $(".breadcrumb-item.author a").text(info["creator"]["username"]);
+    $(".breadcrumb-item.author a").attr("href", "/overview/" + info["creator"]["id"]);
+    $(".breadcrumb-item.title").text(info["title"]);
   }
 
   function setupGames(info) {

@@ -71,6 +71,8 @@ $(function () {
     if (document.cookie.match(visit_id)){
       var stub_card = $('script[data-template="stub-card"]').text();
       $("#content-container").append(stub_card);
+    } else {
+      $(".more-option").hide();
     }
   }
 

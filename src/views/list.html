@@ -17,10 +17,18 @@
         <div id="article-title-section">
           <div id="article-title">
             <span class="article-title-text">UNKNOWN</span>
-            <div class="article-action-group">
-              <a href="#" class="btn btn-primary">Edit</a>
-              <a href="javascript:;" class="btn btn-secondary delete-article" data-toggle="modal" data-target="#deleteConfirm">Delete</a>
-            </div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item author"><a href="#">Unknown</a></li>
+                <li class="breadcrumb-item active title" aria-current="page">Title</li>
+                <li class="ml-auto article-action-group">
+                  <div>
+                    <a href="#" class="btn btn-primary edit">Edit</a>
+                    <a href="javascript:;" class="btn btn-secondary delete-article" data-toggle="modal" data-target="#deleteConfirm">Delete</a>
+                  </div>
+                </li>
+              </ol>
+            </nav>
           </div>
           <div class="article-subinfo">
             <div class="description">

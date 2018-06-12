@@ -17,13 +17,13 @@
   border-radius: 50%;
 }
 
-.article-action-group {
-  float: right;
-}
-
 .btn-secondary.delete-article:hover {
   border-color: red;
   background-color: red;
+}
+
+li.breadcrumb-item {
+  padding-top: 5px;
 }
 
 #article-avatar-section {
