@@ -16,8 +16,21 @@ CREATE TABLE `Users` (
   listCount INTEGER,
   friendCount INTEGER,
   email VARCHAR(255),
-  landingPage CHAR(10)
+  landingPage CHAR(10),
+  CHECK (length(password) >= 3 AND length(username) >= 3)
 );
+
+DELIMITER //
+CREATE TRIGGER trig_user_check 
+BEFORE INSERT ON `Users` 
+FOR EACH ROW
+BEGIN
+  IF (LENGTH(NEW.password) < 3 OR LENGTH(NEW.username) < 3)
+  THEN 
+  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'username or password too short';
+  END IF;
+END //
+DELIMITER ;
 
 CREATE TABLE `Friends` (
   followerId INTEGER,

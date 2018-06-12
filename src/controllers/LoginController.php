@@ -46,11 +46,7 @@ class LoginController extends Controller {
         "password" => $registerPassword,
         "email" => $registerEmail
       ]);
-      if ($status){
-        return $this->render("json", array('status' => "success register"));
-      } else {
-        return $this->render("json", array('status' => "failed"));
-      }
+      return $this->render("json", $status);
     } else {
       return $this->render("json", array('status' => "failed"));
     }

@@ -35,7 +35,7 @@
             window.location.href = "/index";
           } 
           else {
-            alert("illegal registration");
+            alert(data["reason"]);
           }
         }
       });

@@ -86,10 +86,11 @@ class User extends Model {
         $stmt = $pdo->prepare('INSERT INTO users (id, username, password, listCount, friendCount, email, landingPage) VALUES (:id, :username, :password, 0, 0, :email, "overview");');
         $stmt->execute($newValues);
         $pdo->commit();
-        return TRUE;
+        return ['status' => "success register"];
       } catch (PDOException $e) {
         $pdo->rollBack();
-        return FALSE;
+        $GLOBALS["container"]->logger->warn($e->getMessage());
+        return ["status" => "failed", "reason" => "username or password is too short, at least 3 characters each"];
       }
     }
 
