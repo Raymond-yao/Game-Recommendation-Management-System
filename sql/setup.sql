@@ -30,6 +30,16 @@ BEGIN
   SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'username or password too short';
   END IF;
 END //
+
+CREATE TRIGGER update_user_check 
+BEFORE UPDATE ON `Users` 
+FOR EACH ROW
+BEGIN
+  IF (LENGTH(NEW.password) < 3 OR LENGTH(NEW.username) < 3)
+  THEN 
+  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'username or password too short';
+  END IF;
+END //
 DELIMITER ;
 
 CREATE TABLE `Friends` (

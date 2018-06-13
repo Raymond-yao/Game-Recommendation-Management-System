@@ -62,8 +62,8 @@ class AccountController extends Controller {
         $username = $params["username"];
         $user->username($username);
       }
-      $user->save();
-      return $this->render("json", array('status' => "success"));
+      $msg = $user->save();
+      return $this->render("json", $msg);
       break;
 
       case 'password':
@@ -71,12 +71,12 @@ class AccountController extends Controller {
       $repeatPassword = $params["repeatPassword"];
       if ($Password === $repeatPassword) {
         $user->password($Password);
-        $user->save();
-        if (isset($_COOKIE["account"])) {
+        $msg = $user->save();
+        if (isset($_COOKIE["account"]) && $msg["status"] === "success") {
           setcookie("account", '', time() - 3600, '/', 'localhost');
           unset($_COOKIE["account"]);
         }
-        return $this->render("json", array('status' => "success password"));
+        return $this->render("json", $msg);
       } else {
         return $this->render("json", array('status' => "failed"));
       }

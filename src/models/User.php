@@ -168,30 +168,35 @@ class User extends Model {
       $modified = [];
       $sql_tail = "WHERE id = :id";
       $count = 0;
-      foreach ($this->attributes as $key => $value) {
-        if ($key === "avatar" || $key === "cover") continue;
-        if ($value["current"] !== $value["origin"]) {
-          $count += 1;
-          if ($count != 1) {
-            $sql_head = $sql_head . ",";
+
+      try{
+        foreach ($this->attributes as $key => $value) {
+          if ($key === "avatar" || $key === "cover") continue;
+          if ($value["current"] !== $value["origin"]) {
+            $count += 1;
+            if ($count != 1) {
+              $sql_head = $sql_head . ",";
+            }
+            $modified[":" . $key] = $value["current"];
+            $sql_head = $sql_head . $key . "=" . ":" . $key . " ";
           }
-          $modified[":" . $key] = $value["current"];
-          $sql_head = $sql_head . $key . "=" . ":" . $key . " ";
         }
-      }
-      $pdo = $GLOBALS["container"]->db;
-      if (!empty($modified)) {
-        $modified[":id"] = $this->attributes["id"]["current"];
-        $stmt = $pdo->prepare($sql_head . $sql_tail);
-        $stmt->execute($modified);
-        $stmt->closeCursor();
+        $pdo = $GLOBALS["container"]->db;
+        if (!empty($modified)) {
+          $modified[":id"] = $this->attributes["id"]["current"];
+          $stmt = $pdo->prepare($sql_head . $sql_tail);
+          $stmt->execute($modified);
+          $stmt->closeCursor();
+        }
+      }catch (PDOException $e) {
+        $GLOBALS["container"]->logger->warn($e->getMessage());
+        return ["status" => "failed", "reason" => "username or password is too short, at least 3 characters each"];
       }
 
       // update avatar and background
       $avatar_changed = $this->attributes["avatar"]["current"] !== $this->attributes["avatar"]["origin"];
       $background_changed = $this->attributes["cover"]["current"] !== $this->attributes["cover"]["origin"];
       if ($avatar_changed || $background_changed){
-        //try{
         $pdo->beginTransaction();
         $stmt = $pdo->prepare("SELECT MAX(id) FROM images");
         $stmt->execute();
@@ -219,12 +224,9 @@ class User extends Model {
           ]);
           $this->setupHelper($maxId, "background");
         }
-
         $pdo->commit();
-        // } catch(PDOException $e) {
-        //   $pdo->rollBack();
-        // }
       }
+      return ["status" => "success"];
     }
 
     private function setupHelper($image_id, $type) {

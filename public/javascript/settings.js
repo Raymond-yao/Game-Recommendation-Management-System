@@ -118,10 +118,10 @@ $(function () {
       success: function(data) {
         if (data["status"] === "success") {
           alert("successfully update your account info");
-          window.location.href = "/overview";
+          window.location.reload();
         }
         else {
-          alert("update account info failed");
+          alert(data["reason"]);
         }
       }
     });
@@ -142,7 +142,7 @@ $(function () {
             window.location.href = "/index";
           }
           else {
-            alert("illegal password");
+            alert(data["reason"]);
           }
         }
       });
