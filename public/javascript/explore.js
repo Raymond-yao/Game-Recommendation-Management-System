@@ -52,7 +52,6 @@ $(function(){
                var i = 1;
                 data.forEach(element => {
                     var url = element["list_info"]["cover"];
-                    console.log(element);
                     if(url == null){
                         url = "/assets/image/no_photo";
                     }
