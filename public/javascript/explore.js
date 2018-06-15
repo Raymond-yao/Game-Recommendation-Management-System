@@ -61,7 +61,7 @@ $(function(){
                     $("#top"+i+"-title").text(title);
                     $("#top"+i+"-des").text(description);
                     $("#top"+i).on("click", function () {
-                        window.location.href = "/list/" + element["list_info"]["creator"]["id"];
+                        window.location.href = "/list/" + element["list_info"]["id"];
                     })
                     i++;
                 });
