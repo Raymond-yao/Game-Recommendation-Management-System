@@ -69,6 +69,7 @@ class LoginController extends Controller {
   }
 
   function explor(){
+    setcookie("account", 'visitor', time() + 3600, '/', 'localhost');
     return $this->render("html", "explor.html");
   }
 

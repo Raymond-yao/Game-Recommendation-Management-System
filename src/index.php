@@ -125,6 +125,9 @@ function user_or_login_expired($controller, $action) {
   $with_cookie_handler = function(Request $request, Response $response, array $args) use ($controller, $action) {
     $cookie = $_COOKIE["account"];
     setcookie("account", $cookie, time()+1800, '/', 'localhost');
+    if ($cookie === "visitor" && !($controller === 'ListController' && $action === 'getList')) {
+      return (new Controller($request, $response, $args))->render("html","session_time_out.html");
+    }
     $controller_intance = new $controller($request, $response, $args);
     return $controller_intance->$action();
   };

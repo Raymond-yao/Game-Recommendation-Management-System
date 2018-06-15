@@ -20,7 +20,7 @@ class AccountController extends Controller {
 
   function get_header() {
     $url = $this->request->getUri();
-    if (isset($_COOKIE["account"])) {
+    if (isset($_COOKIE["account"]) && $_COOKIE["account"] !== "visitor") {
       return $this->render("html", "user_header.html");
     } else {
       return $this->render("html", "visitor_header.html");

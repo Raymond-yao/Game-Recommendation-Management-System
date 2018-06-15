@@ -85,6 +85,9 @@ class ListController extends Controller {
   }
 
   function delete() {
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json", ["status" => "unauthorized"]);
+    }
     $params = $this->request->getQueryParams(); 
     $listid = $params["listid"];
     $pdo = $GLOBALS["container"]->db;
