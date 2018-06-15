@@ -21,6 +21,8 @@ $(document).ready(function() {
 });
 
 
+
+
 $(window).scroll(function() {
 
     if ($(this).scrollTop() > 50) {
@@ -31,6 +33,7 @@ $(window).scroll(function() {
 });
 
 
+
 function toggleIcon(e) {
     $(e.target)
         .prev('.panel-heading')
@@ -38,34 +41,41 @@ function toggleIcon(e) {
         .toggleClass('fa-plus fa-minus');
 }
 
-function mytheme(index) {
-    switch (index) {
-        case 0:
-            changeColor('cyan');
-            break;
-        case 1:
-            changeColor('orange');
-            break;
-        case 2:
-            changeColor('lightgreen');
-            break;
-        case 3:
-            changeColor('red');
-            break;
-        case 4:
-            changeColor('green');
-            break;
-        case 5:
-            changeColor('blue');
-            break;
-        default:
-            changeColor('blue');
-    }
-    var selectedClass = document.getElementById('wrapper').className;
-    localStorage.setItem("selectedColor", selectedClass);
-}
 
-function changeColor(color) {
-    $('#wrapper').removeClass();
-    $('#wrapper').addClass(color);
-}
+$(function(){
+    
+    var random_list_id = Math.floor(Math.random() * 3) + 1;        
+        $.ajax({
+            method: "GET",
+            url: "/toplists/" + random_list_id,
+            success: function(data) {
+               var i = 1;
+                data.forEach(element => {
+                    var url = element["list_info"]["cover"];
+                    console.log(element);
+                    if(url == null){
+                        url = "/assets/image/no_photo";
+                    }
+                    var title = element["list_info"]["title"];
+                    var description = element["list_info"]["description"];
+                    $("#top"+i+"-bg").css("background-image", 'url(' + url + ')');
+                    $("#top"+i+"-title").text(title);
+                    $("#top"+i+"-des").text(description);
+                    $("#top"+i).on("click", function () {
+                        window.location.href = "/list/" + element["list_info"]["creator"]["id"];
+                    })
+                    i++;
+                });
+            },
+            error: function() {
+              alert("sorry, something goes wrong");
+            }
+          } )
+    
+          
+
+})
+
+
+
+

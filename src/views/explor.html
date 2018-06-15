@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="/assets/javascript/explore"></script>
+
 </head>
 
 <body id="wrapper">
@@ -56,34 +57,34 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
             <div class="item active">
-                <div class="fill" style="background-image:url('/assets/image/dark_soul_ava');"></div>
+                <div class="fill" id ="top1-bg" ></div>
                 <div class="carousel-caption slide-up">
-                    <h1 class="banner_heading">Must Buy in May</h1>
-                    <p class="banner_txt">New released games in May, balabalabala</p>
+                    <h1 class="banner_heading" id="top1-title"></h1>
+                    <p class="banner_txt" id="top1-des" ></p>
                     <div class="slider_btn">
-                        <button type="button" class="btn btn-default slide">Learn More <i class="fa fa-caret-right"></i></button>
+                        <button type="button" class="btn btn-default slide" id="top1">Learn More <i class="fa fa-caret-right"></i></button>
                     </div>
                 </div>
             </div>
 
             <div class="item">
-                <div class="fill" style="background-image:url('/assets/image/rainbowsix');"></div>
+                <div class="fill" id ="top2-bg"></div>
                 <div class="carousel-caption slide-up">
-                    <h1 class="banner_heading">Must Buy in Steam</h1>
-                    <p class="banner_txt">New released games in May on Steam, balabalabala</p>
+                    <h1 class="banner_heading" id ="top2-title"></h1>
+                    <p class="banner_txt" id ="top2_des"></p>
                     <div class="slider_btn">
-                        <button type="button" class="btn btn-default slide">Learn More <i class="fa fa-caret-right"></i></button>
+                        <button type="button" class="btn btn-default slide" id="top2">Learn More <i class="fa fa-caret-right"></i></button>
                     </div>
                 </div>
             </div>
 
             <div class="item">
-                <div class="fill" style="background-image:url('/assets/image/super-mario-odyssey');"></div>
+                <div class="fill" id ="top3-bg"></div>
                 <div class="carousel-caption slide-up">
-                    <h1 class="banner_heading">Must Buy in Nintendo Switch</h1>
-                    <p class="banner_txt">New released games in May on Nintendo Switch, balabalabala</p>
+                    <h1 class="banner_heading" id ="top3-title"></h1>
+                    <p class="banner_txt" id ="top3-des"></p>
                     <div class="slider_btn">
-                        <button type="button" class="btn btn-default slide">Learn More <i class="fa fa-caret-right"></i></button>
+                        <button type="button" class="btn btn-default slide" id="top3">Learn More <i class="fa fa-caret-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -99,6 +100,9 @@
         </a>
 
     </div>
+    <script type="text/javascript">
+        <% $var %>
+    </script>
 
     <section id="bottom-footer">
         <div class="container">
@@ -113,6 +117,8 @@
             </div>
         </div>
     </section>
+
+</body>
     
 
 </html>

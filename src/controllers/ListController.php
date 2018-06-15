@@ -11,6 +11,7 @@ class ListController extends Controller {
 
   function getList() {
     if ($this->request->isXhr()) {
+
       $list = RecommendationList::get($this->args["id"]);
       $creator = User::get($list->creatorID());
       $data = [
@@ -34,6 +35,32 @@ class ListController extends Controller {
       $replacement = "var list_id = " . $this->args["id"] . ";";
       return $this->render("html", "list.html", $replacement);
     }    
+  }
+  function getTopLists() {
+    if ($this->request->isXhr()) {
+      $topList = [];
+      for($i = 0 ; $i <= 2 ; $i++){
+        $list = RecommendationList::get($this->args["id"]+$i);
+        $creator = User::get($list->creatorID());
+        $data = [
+          "list_info" => [
+            "created_date" => $list->createdDate(),
+            "description" => $list->description(),
+            "cover" => $list->cover(),
+            "title" => $list->title(),
+            "creator" => [
+              "id" => $creator->id(),
+              "username" => $creator->username(),
+              "email" => $creator->email(),
+              "avatar" => $creator->avatar()
+            ]
+          ],
+          "games" => $list->getGames()
+        ];
+        array_push($topList,$data);
+      }
+      return $this->render("json", $topList);
+    }  
   }
 
   function createList() {

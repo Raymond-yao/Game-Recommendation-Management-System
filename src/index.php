@@ -20,7 +20,7 @@ require_once '../sql/LoggedPDO.php';
 $config['log'] = TRUE;
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = '';
+$config['db']['pass']   = '1026';
 $config['db']['dbname'] = 'test';
 
 $app = new \Slim\App(array(
@@ -181,6 +181,11 @@ $app->get('/listinfo[/{id}]', function(Request $request, Response $response, arr
   $controller = new AccountController($request, $response, $args);
 
   return $controller->list_info();
+});
+$app->get('/toplists[/{id}]', function(Request $request, Response $response, array $args) {
+  $controller = new ListController($request, $response, $args);
+
+  return $controller->getTopLists();
 });
 $app->post('/searchUser', function(Request $request, Response $response, array $args) {
   $controller = new AccountController($request, $response, $args);
