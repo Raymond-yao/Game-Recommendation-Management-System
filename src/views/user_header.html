@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse bg-dark container" id="navbar">
       <div class="search-box-container ml-auto">
         <input id="search" type="text" name="search" placeholder="Any user interested?">
-        <span class="search-icon" data-toggle="modal" data-target="#search-result-dialog">&#9906</span>
+        <span class="search-icon" data-toggle="modal" data-target="#search-result-dialog" data-type="1">&#9906</span>
       </div>
       <a class="navbar-brand text-light" href="/overview"><div id="avatar"></div></a>
       <ul class="navbar-nav">
@@ -35,7 +35,13 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" style="display: flex; flex-wrap: wrap;">
+        <div class="modal-body">
+          <div class="search-criteria-container">
+            <span class="search-criteria selected btn" data-type="1">MATCH NAME</span>
+            <span class="search-criteria btn" data-type="2">NOT FOLLOWED</span>
+            <span class="search-criteria btn" data-type="3">following EVERYONE</span>
+          </div>
+          <div class="result-container" style="display: flex; flex-wrap: wrap;"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -109,21 +115,26 @@
           template = template.replace(key, value);
         });
 
-        $(".modal-body").append(template);
+        $(".result-container").append(template);
       }
-
-      $(".search-icon").on("click", function(ev) {
+      $(".search-criteria").on("click", function(ev) {
+        $(".search-criteria.selected").removeClass("selected");
+        $(ev.currentTarget).addClass("selected");
+      })
+      $(".search-icon, .search-criteria").on("click", function(ev) {
+        var type = $(ev.currentTarget).data("type");
         var search = $("#search").val().trim();
-        if (search.trim() !== "") {
+        if (search.trim() !== "" || type === 3) {
           $.ajax({
             method: "POST",
             url: "/searchUser",
             data: {
-              "search" : search
+              "search" : search,
+              "type": type
             },
             success: function(data) {
               if (data["status"] === "success") {
-                $(".modal-body").empty();
+                $(".result-container").empty();
                 var result_list = data["result"];
                 $.each(result_list, function(i, profile) {
                   profileHelper(profile);

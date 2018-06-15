@@ -20,7 +20,7 @@ class AccountController extends Controller {
 
   function get_header() {
     $url = $this->request->getUri();
-    if (isset($_COOKIE["account"])) {
+    if (isset($_COOKIE["account"]) && $_COOKIE["account"] !== "visitor") {
       return $this->render("html", "user_header.html");
     } else {
       return $this->render("html", "visitor_header.html");
@@ -202,9 +202,9 @@ class AccountController extends Controller {
   function searchUser() {
     $params = $this->request->getParsedBody();
     $search = $params["search"];
-    if ($search !== "") {
-      $result = User::search($search);
-      $friends_of_logged_in_users = User::getFriends($_COOKIE["account"]);
+    $type = $params["type"];
+    if (trim($search) !== "" || $type === '3') {
+      $result = User::search($search, $type, $_COOKIE["account"]);
       $users = [];
       foreach ($result as $user) {
         array_push($users, [
@@ -213,7 +213,6 @@ class AccountController extends Controller {
           "cover" => $user->cover(),
           "id" => $user->id(),
           "email" => $user->email(),
-          "following" => in_array($user, $friends_of_logged_in_users)
         ]);
       }
       return $this->render("json", [
