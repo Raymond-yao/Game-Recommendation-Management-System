@@ -44,6 +44,7 @@ class ListController extends Controller {
         $creator = User::get($list->creatorID());
         $data = [
           "list_info" => [
+            "id" => $list->id(),
             "created_date" => $list->createdDate(),
             "description" => $list->description(),
             "cover" => $list->cover(),
