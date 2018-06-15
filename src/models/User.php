@@ -270,12 +270,32 @@ class User extends Model {
       return (empty($res)) ? FALSE : $res["id"];
     }
 
-    public static function search(string $name) {
+    public static function search(string $name, $type, $id = NULL) {
       $pdo = $GLOBALS["container"]->db;
-      // check if this username already exist
-      $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name");
-      $name .= "%";
-      $stmt->execute(array(':name' => $name));
+      switch ($type) {
+        case 1:
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name");
+        $name .= "%";
+        $stmt->execute(array(':name' => $name));
+        break;
+        case 2:
+        if ($id){
+          $stmt = $pdo->prepare(" SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2);");
+          $name .= "%";
+          $stmt->execute(array(':name' => $name, ':id1' => $id, 'id2' => $id));
+        }
+        break;
+        case 3:
+        if ($name === "") {
+          $stmt = $pdo->prepare("SELECT * FROM users res WHERE NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id));");
+          $stmt->execute();
+        } else {
+          $stmt = $pdo->prepare("SELECT * FROM users res WHERE res.username LIKE :name AND NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id));");
+          $name .= "%";
+          $stmt->execute(array(':name' => $name));
+        }
+        break;
+      }
       $result = $stmt->fetchAll();
       $stmt->closeCursor();
       $res = [];

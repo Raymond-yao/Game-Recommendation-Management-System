@@ -20,7 +20,7 @@ require_once '../sql/LoggedPDO.php';
 $config['log'] = TRUE;
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = '1026';
+$config['db']['pass']   = '';
 $config['db']['dbname'] = 'test';
 
 $app = new \Slim\App(array(

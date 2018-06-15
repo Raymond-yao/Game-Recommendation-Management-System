@@ -40,6 +40,21 @@
   cursor: pointer;
 }
 
+.search-criteria {
+  padding:5px;
+}
+
+.search-criteria.selected {
+  background-color: skyblue;
+  color: white;
+}
+
+.search-criteria:hover {
+  background-color: skyblue;
+  transition: 0.5s;
+  color: white;
+}
+
 .follow-button:hover {
   background-color: #00BFFF;
   color: white;
