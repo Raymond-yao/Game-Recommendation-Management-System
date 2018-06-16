@@ -67,6 +67,10 @@ img {
   text-decoration: none;
 }
 
+.stub-list-link:hover {
+  text-decoration: none;
+}
+
 @media(max-width: 1400px) {
   #overview-bg-img {
     width: 100%;
@@ -392,7 +396,16 @@ img {
 
 .list-group-item:hover {
   color: white;
-  background-color: #686868;
+  background-color: #dcdcdc;
+}
+
+.list-group-item .list-more-options {
+  display: none;
+  float: right;
+}
+
+.list-group-item:hover .list-more-options {
+  display: inline-block;
 }
 
 .list-view-link {

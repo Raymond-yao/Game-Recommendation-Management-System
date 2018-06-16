@@ -55,7 +55,7 @@ $(function () {
       listView();
     }
     $('[data-toggle="tooltip"]').tooltip();
-    $(".delete-dropdown").on("click", function(ev) {
+    $(".delete-dropdown, .delete-article").on("click", function(ev) {
       list_id = $(ev.currentTarget).data("delete");
     });
   };
@@ -76,7 +76,7 @@ $(function () {
       var stub_card = $('script[data-template="stub-card"]').text();
       $("#content-container").append(stub_card);
     } else {
-      $(".more-option").hide();
+      $(".more-option").remove();
     }
   }
 
@@ -85,9 +85,15 @@ $(function () {
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var title = rec["title"];
-      var list = '<li class="list-group-item" id="list-' + id + '"><a class="list-view-link" href="/list/' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '">' + title + '</a></li>'
+      var list = '<li class="list-group-item" id="list-' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '"><a class="list-view-link" href="/list/' + id + '">' + title + '</a><div class="list-more-options"> <a href="/edit/' + id + '" class="btn edit" style="height:21px;font-size:14px">Edit</a> <a href="javascript:;" class="btn delete-article" data-toggle="modal" data-target="#deleteConfirm" data-delete="' + id + '" style="height:21px;font-size:14px">Delete</a></div></li>'
       $("ul.list-group").append(list);
     });
+    if (document.cookie.match(visit_id)){
+      var stub_list_item = $('script[data-template="stub-list"]').text();
+      $("ul.list-group").append(stub_list_item);
+    } else {
+      $(".list-more-options").remove();
+    }
   }
 
   function friendView() {
