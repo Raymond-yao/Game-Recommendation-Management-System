@@ -204,7 +204,9 @@ class AccountController extends Controller {
     $search = $params["search"];
     $type = $params["type"];
     if (trim($search) !== "" || $type === '3') {
-      $result = User::search($search, $type, $_COOKIE["account"]);
+      $res = User::search($search, $type, $_COOKIE["account"]);
+      $result = $res["result"];
+      $count = $res["count"];
       $users = [];
       foreach ($result as $user) {
         array_push($users, [
@@ -216,7 +218,8 @@ class AccountController extends Controller {
         ]);
       }
       return $this->render("json", [
-        "status" => "success", 
+        "status" => "success",
+        "count" => $count,
         "result" => $users
       ]);
     } else {

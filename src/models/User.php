@@ -277,32 +277,42 @@ class User extends Model {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name");
         $name .= "%";
         $stmt->execute(array(':name' => $name));
+        $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users WHERE username LIKE :name) AS result");
+        $count_query->execute(array(':name' => $name));
         break;
         case 2:
         if ($id){
-          $stmt = $pdo->prepare(" SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2);");
+          $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2);");
           $name .= "%";
-          $stmt->execute(array(':name' => $name, ':id1' => $id, 'id2' => $id));
+          $stmt->execute(array(':name' => $name, ':id1' => $id, ':id2' => $id));
+          $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2)) AS result");
+          $count_query->execute(array(':name' => $name, ':id1' => $id, ':id2' => $id));
         }
         break;
         case 3:
         if ($name === "") {
           $stmt = $pdo->prepare("SELECT * FROM users res WHERE NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id));");
           $stmt->execute();
+          $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users res WHERE NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id))) AS result");
+          $count_query->execute();
         } else {
           $stmt = $pdo->prepare("SELECT * FROM users res WHERE res.username LIKE :name AND NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id));");
           $name .= "%";
           $stmt->execute(array(':name' => $name));
+          $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users res WHERE res.username LIKE :name AND NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id))) AS result");
+          $count_query->execute(array(':name' => $name));
         }
         break;
       }
       $result = $stmt->fetchAll();
+      $count = $count_query->fetch(PDO::FETCH_ASSOC)["count"];
+      $count_query->closeCursor();
       $stmt->closeCursor();
       $res = [];
       foreach ($result as $tuple) {
         array_push($res, new User($tuple));
       }
-      return $res;
+      return ["count" => $count, "result" => $res];
     }
 
   }

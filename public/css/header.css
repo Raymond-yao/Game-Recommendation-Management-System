@@ -55,6 +55,23 @@
   color: white;
 }
 
+.result-counter {
+  border:solid;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-color: #686868;
+  border-width: 0.5px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.counter {
+  font-weight: bold;
+  font-size: 24px;
+  color: skyblue;
+}
+
 .follow-button:hover {
   background-color: #00BFFF;
   color: white;
