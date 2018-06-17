@@ -177,6 +177,9 @@ a.available-init:hover {
 #add-game {
   cursor: pointer;
 }
+.remove-game {
+  cursor: pointer;
+}
 
 #overview-bg-container {
   position: relative;
@@ -258,6 +261,11 @@ input.input-text {
 }
 
 #Submit {
+  display: block;
+  margin-left: 90%;
+}
+
+#Cancel {
   display: block;
   margin-left: 90%;
 }

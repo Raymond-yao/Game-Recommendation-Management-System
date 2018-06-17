@@ -36,6 +36,7 @@
               <span id="add-game" data-toggle="modal" data-target="#popup-site"> Add Game </span>
             </div>
 
+            <div id="game-preview"></div>
             <!-- Modal -->
             <div data-spy="scroll" data-target="initial-container" data-offset="0" class="modal fade" id="popup-site" tabindex="-1" role="dialog">
               <div id="game-management-toolbar">
@@ -60,6 +61,7 @@
         </div>
         <div>
           <button id="Submit"> Submit </button>
+          <a href= "/overview" id="Cancel"> Cancel </a>
         </div>
       </form>
     </div>
@@ -77,7 +79,7 @@
 </script>
 
 <script type="text/template" data-template="game-pic">
-  <div class="game-container">
+  <div class="game-container" id="game-${order}">
     <div class="game-pic">
       <img src="${cover_url}">
     </div>
@@ -96,5 +98,28 @@
     </div>
   </div>
 </script>
+
+  <script type="text/template" data-template="game-recommendation">
+    <div class="game-recommendation" id="game-preview-${game-id}">
+      <div class="game-info-section">
+        <div class="game-cover"></div>
+        <div class="game-details">
+          <span class="game-name details-text">
+            ${game_name}
+          </span>
+          <span class="game-company details-text">
+            ${company}
+          </span>
+          <span class="sale-date details-text">
+            ${sale_date}
+          </span>
+        </div>
+      </div>
+      <div id="game-rec-${gameRec-id}" class="recommendation-reason">
+        <textarea placeholder="List description"></textarea>
+      </div>
+      <span id="remove-game-${remove-id}" class="remove-game"> Remove </span>
+    </div>
+  </script>
 </body>
 </html>
