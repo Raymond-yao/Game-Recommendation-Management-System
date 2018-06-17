@@ -65,6 +65,30 @@ class RecommendationList extends Model {
     }
   }
 
+  static function searchGame($params) {
+    $showing = $params["showing"];
+    $criteria = $params["criteria"];
+    $value = $params["value"];
+    $pdo = $GLOBALS["container"]->db;
+    $sql_head = "SELECT " . $showing;
+    if ($criteria === "year"){
+      $stmt = $pdo->prepare($sql_head . " FROM games WHERE salesDate > date(:year)");
+      $value .= "-1-1";
+      $stmt->execute([":year" => $value]);
+    } else {
+      $stmt = $pdo->prepare($sql_head. " FROM games WHERE company LIKE :name");
+      $value = "%" . $value . "%";
+      $stmt->execute([":name" => $value]);
+    }
+
+    $result = $stmt->fetchAll();
+    $res = [];
+    foreach ($result as $value) {
+      array_push($res, ["value" => $value[$showing] ]);
+    }
+    return $res;
+  }
+
   function createdDate() {
     $months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     $date = $this->attributes["createdDate"]["current"];

@@ -215,5 +215,10 @@ $app->get('/stat',  function(Request $request, Response $response, array $args) 
 
   return $controller->stat();
 });
+$app->get('/searchgame',  function(Request $request, Response $response, array $args) {
+  $controller = new ListController($request, $response, $args);
+
+  return $controller->searchGame();
+});
 $app->run();
 ?>

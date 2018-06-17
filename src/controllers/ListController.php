@@ -38,6 +38,15 @@ class ListController extends Controller {
       return $this->render("html", "list.html", $replacement);
     }    
   }
+
+  function searchGame() {
+    $params = $this->request->getQueryParams();
+    $result = RecommendationList::searchGame($params);
+    return $this->render("json", [
+      "games" => $result
+    ]);
+  }
+
   function getTopLists() {
     if ($this->request->isXhr()) {
       $topList = [];
