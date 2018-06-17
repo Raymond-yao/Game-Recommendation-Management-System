@@ -134,6 +134,27 @@ $(function () {
         type: type
       }
       if (type === "count"){
+        var extreme_container = $("script[data-template=count-extrme]").text();
+        $("#stat-container").prepend(extreme_container);
+        $(".extreme-control").on("click", function(ev) {
+          $(".extreme-control.selected").removeClass("selected");
+          $(ev.currentTarget).addClass("selected");
+          $.ajax({
+            method: "GET",
+            url: "/stat",
+            data: {
+              type: "extreme_count",
+              extreme: $(ev.currentTarget).data("extreme")
+            },
+            success: function(data) {
+              $(".extreme-title").text(data["type"] + ":");
+              $(".extreme-value").text(data["value"]);
+            },
+            error: function() {
+              alert("sorry, an error occured");
+            }
+          });
+        });
         $.ajax({
           method: "GET",
           url: "/stat",
@@ -318,5 +339,5 @@ $(function () {
       }
     })
   });
-  
+
 })

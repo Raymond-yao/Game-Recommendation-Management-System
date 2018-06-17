@@ -145,9 +145,24 @@ class User extends Model {
       $type = $args["type"];
       $extreme_query = NULL;
       switch ($type) {
+        case 'extreme_count':
+        if ($args["extreme"] === "max"){
+          $extreme_query = $pdo->prepare("SELECT MAX(data.listcount) AS ext FROM (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS data;");
+        } else {
+          $extreme_query = $pdo->prepare("SELECT MIN(data.listcount) AS ext FROM (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS data;");
+        }
+
+        $extreme_query->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $res = $extreme_query->fetch(PDO::FETCH_ASSOC)["ext"];
+        return [
+          "type" => strtoupper($args["extreme"]),
+          "value" => $res 
+        ];
+
+        break;
         case 'count':
         $stmt = $pdo->prepare("SELECT comp.username, comp.listcount FROM (SELECT data.username, COUNT(creatorID) AS listcount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;
-");
+          ");
         $stmt->execute([":id1" => $this->id(), ":id2" => $this->id()]);
         $data = $stmt->fetchAll();
         return ["users" => $data];

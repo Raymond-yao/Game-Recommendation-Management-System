@@ -196,8 +196,8 @@ INSERT INTO `RecommendationReasons` VALUES(3, "I love being both a pirate and an
 INSERT INTO `RecommendationReasons` VALUES(4, "I love its graphic effect", 1, 4);
 INSERT INTO `RecommendationReasons` VALUES(5, "love its story", 1, 5);
 INSERT INTO `RecommendationReasons` VALUES(7, "love suffering", 1, 8);
-INSERT INTO `RecommendationReasons` VALUES(8, "I love its graphic effect", 2, 5);
-INSERT INTO `RecommendationReasons` VALUES(9, "good music, epic story ... from there I read a history of the honour bugs' kindom", 2, 4);
+INSERT INTO `RecommendationReasons` VALUES(8, "I love its graphic effect", 2, 4);
+INSERT INTO `RecommendationReasons` VALUES(9, "good music, epic story ... from there I read a history of the honour bugs' kindom", 2, 5);
 INSERT INTO `RecommendationReasons` VALUES(10, "A better CS with more complicated siege environment", 3, 1);
 INSERT INTO `RecommendationReasons` VALUES(11, "the culture of Egypt attracts me so much", 3, 2);
 INSERT INTO `RecommendationReasons` VALUES(12, "An interesting combination of pirates and assassin", 3, 3);

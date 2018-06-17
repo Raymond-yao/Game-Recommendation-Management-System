@@ -203,7 +203,7 @@ class AccountController extends Controller {
     $user = User::get($_COOKIE["account"]);
     $params = $this->request->getQueryParams();
     $args = ["type" => $params["type"]];
-    if ($params["type"] === "average") {
+    if ($params["type"] === "average" || $params["type"] === "extreme_count") {
       $args["extreme"] = $params["extreme"];
     }
     $stat = $user->getStat($args);
