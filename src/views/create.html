@@ -28,15 +28,15 @@
               <span class="title-text">Title Here:</span>
               <input id="title" class="input-text" placeholder="List title">
             </div>
-            <div>
+            <div class="form-group">
               <span class="title-text">Description:</span>
-              <textarea id="desc" placeholder="List description"></textarea>
-            </div>
-            <div>
-              <span id="add-game" data-toggle="modal" data-target="#popup-site"> Add Game </span>
+              <textarea class="form-control" id="desc" placeholder="List description"></textarea>
             </div>
 
             <div id="game-preview"></div>
+            <div id="add-game-container">
+              <span id="add-game" data-toggle="modal" data-target="#popup-site"> Add Game </span>
+            </div>
             <!-- Modal -->
             <div data-spy="scroll" data-target="initial-container" data-offset="0" class="modal fade" id="popup-site" tabindex="-1" role="dialog">
               <div id="game-management-toolbar">
@@ -59,12 +59,17 @@
             </div>
           </div>
         </div>
-        <div>
-          <button id="Submit"> Submit </button>
-          <a href= "/overview" id="Cancel"> Cancel </a>
+        <div class="create-form-button-group ml-auto">
+          <button id="Submit" class="btn btn-primary"> Submit </button>
+          <a href= "/overview" id="Cancel" class="btn"> Cancel </a>
         </div>
       </form>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
   </div>
 </div>
 </div>
@@ -99,27 +104,29 @@
   </div>
 </script>
 
-  <script type="text/template" data-template="game-recommendation">
-    <div class="game-recommendation" id="game-preview-${game-id}">
-      <div class="game-info-section">
-        <div class="game-cover"></div>
-        <div class="game-details">
-          <span class="game-name details-text">
-            ${game_name}
-          </span>
-          <span class="game-company details-text">
-            ${company}
-          </span>
-          <span class="sale-date details-text">
-            ${sale_date}
-          </span>
-        </div>
+<script type="text/template" data-template="game-recommendation">
+  <div class="game-recommendation" id="game-preview-${game-id}">
+    <div class="game-info-section" style="position:relative">
+      <div id="remove-game-${remove-id}" class="remove-game"><span class="remove-game-text"> Remove </span></div>
+      <div class="game-cover">
       </div>
-      <div id="game-rec-${gameRec-id}" class="recommendation-reason">
-        <textarea placeholder="List description"></textarea>
+      <div class="game-details">
+        <span class="game-name details-text">
+          ${game_name}
+        </span>
+        <span class="game-company details-text">
+          ${company}
+        </span>
+        <span class="sale-date details-text">
+          ${sale_date}
+        </span>
       </div>
-      <span id="remove-game-${remove-id}" class="remove-game"> Remove </span>
     </div>
-  </script>
+    <div id="game-rec-${gameRec-id}" class="recommendation-reason form-group">
+      <div class="reason-input-label">REASON: <span id="remove-game-cross-${cross-id}" class="remove-game-cross">X</span></div>
+      <textarea class="form-control recommendation-reason-input" placeholder="Input why you recommend this game!"></textarea>
+    </div>
+  </div>
+</script>
 </body>
 </html>

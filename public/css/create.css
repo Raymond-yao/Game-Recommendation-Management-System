@@ -127,6 +127,16 @@ a.available-init:hover {
   position: relative;
 }
 
+.reason-input-label {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: Impact, Charcoal, sans-serif;
+}
+
+.recommendation-reason-input {
+  height: 85%;
+}
+
 .game-pic-overlay {
   width: 250px;
   height: 141px;
@@ -174,11 +184,61 @@ a.available-init:hover {
   display: none;
 }
 
+#add-game-container {
+  margin: auto;
+  width: fit-content;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
 #add-game {
   cursor: pointer;
+  border: solid;
+  border-color: #686868;
+  border-width: 1px;
+  border-radius: 15px;
+  padding: 8px;
+  background-color: white;
+  color: #686868;
 }
+
+#add-game:hover {
+  background-color: #686868;
+  color: white;
+  transition: 0.5s;
+}
+
 .remove-game {
   cursor: pointer;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  background-color: rgba(0,0,0,0.4);
+  opacity: 0;
+}
+
+.remove-game-text {
+  font-weight: bold;
+  font-size: 24px;
+  color: white;
+  text-align: center;
+  margin-top: 50%;
+  display: block;
+}
+
+.remove-game-cross {
+  cursor: pointer;
+  float: right;
+  color: red;
+  font-family: initial;
+  margin-bottom: 2px;
+}
+
+.remove-game:hover {
+  transition: 0.5s;
+  opacity: 1;
 }
 
 #overview-bg-container {
@@ -244,28 +304,26 @@ a.available-init:hover {
 
 .title-text {
   font-weight: bold;
-  font-size: 36px;
+  font-size: 24px;
   font-family: Impact, Charcoal, sans-serif;
 }
 
 input.input-text {
   font-weight: bold;
-  font-size: 30px;
+  font-size: 24px;
   font-family: Impact, Charcoal, sans-serif;
 }
 
 #desc {
   width: 60%;
-  display: block;
+  display: inline-block;
+  vertical-align: text-top;
+  margin-left: 20px;
   height: 100px;
 }
 
-#Submit {
-  display: block;
-  margin-left: 90%;
-}
-
-#Cancel {
-  display: block;
-  margin-left: 90%;
+.create-form-button-group {
+  width: fit-content;
+  margin-bottom: 40px;
+  margin-right: 15px;
 }

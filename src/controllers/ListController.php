@@ -87,6 +87,9 @@ class ListController extends Controller {
     
     
     $rec = RecommendationList::creatRecList($key);
+    $user = User::get($_COOKIE["account"]);
+    $user->listCount($user->listCount() + 1);
+    $user->save();
     return $this->render("json", ["status" => "success", "id" => $rec->id()]);
   }
 

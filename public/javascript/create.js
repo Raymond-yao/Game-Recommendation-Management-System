@@ -107,6 +107,7 @@ $(function () {
           "${company}": gameData[id]["company"],
           "${sale_date}": gameData[id]["date"],
           "${remove-id}": gameData[id]["id"],
+          "${cross-id}": gameData[id]["id"],
           "${gameRec-id}": gameData[id]["id"]
         };
         $.each(para, function(key,value) {
@@ -117,6 +118,15 @@ $(function () {
         $(".close-popup").trigger("click");
         
         $("#remove-game-" + id).on("click", function(){
+          $("#game-preview-" + id).remove();
+          var index = chosenGameIDs.indexOf(id);
+          chosenGameIDs = jQuery.grep(chosenGameIDs, function(value){
+            return value != id;
+          });
+          recReasons = recReasons.splice(index, 1);
+        });
+
+        $("#remove-game-cross-" + id).on("click", function(){
           $("#game-preview-" + id).remove();
           var index = chosenGameIDs.indexOf(id);
           chosenGameIDs = jQuery.grep(chosenGameIDs, function(value){
