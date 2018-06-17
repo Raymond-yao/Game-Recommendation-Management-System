@@ -199,6 +199,20 @@ class AccountController extends Controller {
     return $this->render("json",$list_info);
   }
 
+  function stat() {
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json",array('status' => 'unauthorized' ));
+    }
+    $user = User::get($_COOKIE["account"]);
+    $params = $this->request->getQueryParams();
+    $args = ["type" => $params["type"]];
+    if ($params["type"] === "average") {
+      $args["extreme"] = $params["extreme"];
+    }
+    $stat = $user->getStat($args);
+    return $this->render("json", $stat);
+  }
+
   function searchUser() {
     $params = $this->request->getParsedBody();
     $search = $params["search"];

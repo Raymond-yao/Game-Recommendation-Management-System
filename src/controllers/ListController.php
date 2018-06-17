@@ -29,6 +29,8 @@ class ListController extends Controller {
         ],
         "games" => $list->getGames()
       ];
+      $list->viewCount($list->viewCount() + 1);
+      $list->save();
       return $this->render("json", $data);
     } else {
 

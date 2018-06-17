@@ -140,6 +140,40 @@ class User extends Model {
       return getRecommendationLists($this->id);
     }
 
+    function getStat($args) {
+      $pdo = $GLOBALS["container"]->db;
+      $type = $args["type"];
+      $extreme_query = NULL;
+      switch ($type) {
+        case 'count':
+        $stmt = $pdo->prepare("SELECT comp.username, comp.listcount FROM (SELECT data.username, COUNT(creatorID) AS listcount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;
+");
+        $stmt->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $data = $stmt->fetchAll();
+        return ["users" => $data];
+        break;
+        case 'average':
+        $stmt = $pdo->prepare("SELECT comp.username,comp.id ,comp.avgViewCount FROM (SELECT data.username,data.id, AVG(viewCount) AS avgViewCount FROM (SELECT viewCount,title,creatorID,username,fri.id,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;");
+        if ($args["extreme"] === "max"){
+          $extreme_query = $pdo->prepare("SELECT MAX(comp.avgViewCount) as ext FROM (SELECT data.username, AVG(viewCount) AS avgViewCount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;");
+        } else {
+          $extreme_query = $pdo->prepare("SELECT MIN(comp.avgViewCount) as ext FROM (SELECT data.username, AVG(viewCount) AS avgViewCount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;");
+        }
+        $stmt->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $extreme_query->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $data = $stmt->fetchAll();
+        $ext = $extreme_query->fetch(PDO::FETCH_ASSOC)["ext"];
+        return [
+          "extreme" => [
+            "type" => strtoupper($args["extreme"]),
+            "value" => $ext 
+          ],
+          "users"=> $data
+        ];
+        break;
+      }
+    }
+
     static function getRecommendationLists($id) {
       $pdo = $GLOBALS["container"]->db;
       $stmt = $pdo->prepare("SELECT * FROM recommendationlists LEFT JOIN (SELECT filename, listcovers.listID FROM images JOIN listcovers ON images.id = listcovers.id) AS cover ON (cover.listID = recommendationlists.id) WHERE (creatorID = :id);");

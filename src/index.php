@@ -210,5 +210,10 @@ $app->get('/delete', user_or_login_expired("ListController", "delete"));
 $app->get('/create', user_or_login_expired("ListController", "createList"));
 $app->post('/create', user_or_login_expired("ListController", "create"));
 $app->get('/gameList', user_or_login_expired("ListController", "sendGameList"));
+$app->get('/stat',  function(Request $request, Response $response, array $args) {
+  $controller = new AccountController($request, $response, $args);
+
+  return $controller->stat();
+});
 $app->run();
 ?>

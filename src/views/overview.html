@@ -5,6 +5,7 @@
   <link rel="import" href="/setup_assets">
   <link rel="stylesheet" type="text/css" href="/assets/css/overview">
   <script src="/assets/javascript/overview"></script>
+  <script src="/assets/javascript/chart"></script>
 </head>
 <body>
   <div id="header" class="bg-dark">
@@ -32,6 +33,10 @@
           <li class="stat-item item-friend" data-type="friend">
             <span class="stat-title friend">Friends</span>
             <span class="stat-value friend-value">0</span>
+          </li>
+          <li class="stat-item item-stat" data-type="stat">
+            <span class="stat-title">Stat</span>
+            <span class="stat-value">&#8734</span>
           </li>
           <li class="overview-follow">
             <div class="overview-follow-button follow-button"></div>
@@ -116,5 +121,28 @@
       </div>
     </div>
   </script>
+  <script type="text/template" data-template="stat-console">
+    <div id="stat-console">
+    <div class="stat-section">
+      <div class="stat-type" data-stat="count"><span class="stat-type-text">List Count<span></div>
+      <div class="stat-type" data-stat="average"><span class="stat-type-text">Average list view<span></div>
+    </div>
+    <div id="stat-container">
+    <div id="chart-container">
+    </div>
+    </div>
+  </div>
+  </script>
+  <script type="text/template" data-template="average-list">
+    <div class="extreme-value-container">
+      <span class="extreme-title">Extrme:</span>
+      <span class="extreme-value">0.00</span>
+      <div class="extreme-control-container">
+        <span class="extreme-control btn" data-extreme="max">Max</span>
+        <span class="extreme-control btn" data-extreme="min">Min</span>
+      </div>
+    </div>
+  </script>
+  
 </body>
 </html>

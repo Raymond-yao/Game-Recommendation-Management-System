@@ -148,12 +148,12 @@ INSERT INTO `friends` VALUES (2, 3);
 INSERT INTO `friends` VALUES (3, 1);
 INSERT INTO `friends` VALUES (4, 1);
 
-INSERT INTO `RecommendationLists` VALUES (1, 'Steam best games', 'Here are some games which I think is the best in Steam', DATE("2018-5-31"), 1, 0);
-INSERT INTO `RecommendationLists` VALUES (2, 'Best indie games', 'Best indie games I ever play!', DATE("2018-5-31"), 1, 0);
-INSERT INTO `RecommendationLists` VALUES (3, '2017 Summer Sales recommendations', 'Here are 10 games which I think is the best in Steam', DATE("2018-5-31"), 2, 0);
-INSERT INTO `RecommendationLists` VALUES (4, 'EA Games collection', 'Best games EA has made ever', DATE("2018-5-31"), 3, 0);
-INSERT INTO `RecommendationLists` VALUES (5, 'Ubisoft Potato', "Ubisoft's server is shitty, but it did make some really cool games!", DATE("2018-5-31"), 4, 0);
-INSERT INTO `RecommendationLists` VALUES (6, '2016 Winter Sales recommendations', 'What Game should you play in 2016 winter!', DATE("2018-5-31"), 4, 0);
+INSERT INTO `RecommendationLists` VALUES (1, 'Steam best games', 'Here are some games which I think is the best in Steam', DATE("2018-5-31"), 1, 17);
+INSERT INTO `RecommendationLists` VALUES (2, 'Best indie games', 'Best indie games I ever play!', DATE("2018-5-31"), 1, 22);
+INSERT INTO `RecommendationLists` VALUES (3, '2017 Summer Sales recommendations', 'Here are 10 games which I think is the best in Steam', DATE("2018-5-31"), 2, 30);
+INSERT INTO `RecommendationLists` VALUES (4, 'EA Games collection', 'Best games EA has made ever', DATE("2018-5-31"), 3, 99);
+INSERT INTO `RecommendationLists` VALUES (5, 'Ubisoft Potato', "Ubisoft's server is shitty, but it did make some really cool games!", DATE("2018-5-31"), 4, 10);
+INSERT INTO `RecommendationLists` VALUES (6, '2016 Winter Sales recommendations', 'What Game should you play in 2016 winter!', DATE("2018-5-31"), 4, 20);
 
 INSERT INTO `Games` VALUES(1, "Tom Clancy's Rainbow Six Siege", DATE("2015-12-1"), "Ubisoft", 9, "https://rainbow6.ubisoft.com/siege/en-ca/home/");
 INSERT INTO `Games` VALUES(2, "Assassin's Creed: Origins", DATE("2017-10-27"), "Ubisoft", 8.5, "https://store.steampowered.com/app/582160/Assassins_Creed_Origins/");
