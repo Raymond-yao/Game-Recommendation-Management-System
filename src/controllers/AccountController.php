@@ -83,14 +83,11 @@ class AccountController extends Controller {
       break;
 
       case 'image':
-      $this->log($params["updateType"]);
       $files = $this->request->getUploadedFiles();
       if (isset($files["avatar"])) {
         $avatar = $files["avatar"];
         $ext = "." . explode("/", $avatar->getClientMediaType())[1];
         $filename = uniqid();
-        $this->log($filename);
-        $this->log($ext);
         $avatar->moveTo(__DIR__ . "/../../public/images/" . $filename . $ext);
         $user->avatar($filename . $ext);
       }

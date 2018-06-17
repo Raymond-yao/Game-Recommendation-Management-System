@@ -118,7 +118,7 @@ class RecommendationList extends Model {
     //insert in to RecommendationLists
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare('INSERT INTO RecommendationLists (id, title, description, createdDate, creatorID) VALUES (:id, :title, :description, :createdDate, :creatorID)');
-    $stmt->execute(array(':id'=>$maxId, ':title'=>$keys["title"], ':description'=>$keys["desc"], 'createdDate'=>$date, 'creatorID'=>$creatorID));
+    $stmt->execute(array(':id'=>$maxId, ':title'=>$keys["title"], ':description'=>$keys["desc"], ':createdDate'=>$date, ':creatorID'=>$creatorID));
     //get max image id:maxIId
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare("SELECT MAX(id) FROM Images");
@@ -132,7 +132,7 @@ class RecommendationList extends Model {
     //insert into listCovers
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare('INSERT INTO ListCovers (id, listID) VALUES (:id, :listID)');
-    $stmt->execute(array(':id'=>$maxIId, 'listID'=>$maxId));
+    $stmt->execute(array(':id'=>$maxIId, ':listID'=>$maxId));
     //insert into recommend
     foreach ($keys["gameID"] as $chosenGameID) {
       $pdo = $GLOBALS["container"]->db;

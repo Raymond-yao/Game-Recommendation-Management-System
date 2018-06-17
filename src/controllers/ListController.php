@@ -79,8 +79,6 @@ class ListController extends Controller {
     $gameID = json_decode($params["gameID"]);
     $recReasons = json_decode($params["recReasons"]);
     if(isset($file["cover"])) {
-      $this->log($file["cover"]->getClientMediaType());
-      $this->log(__DIR__ . "/../../public/images/" . $random_name .".jpg");
       $file["cover"]->moveTo(__DIR__ . "/../../public/images/" . $random_name . ".jpg");
       $key = ["title"=>$title, "filename"=>$random_name, "type"=>"jpg", "desc"=>$desc, "gameID"=>$gameID, "recReasons"=>$recReasons];
     } else {
