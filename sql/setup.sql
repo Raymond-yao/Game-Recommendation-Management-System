@@ -133,7 +133,7 @@ CREATE TABLE `UserImages` (
 );
 
 
-INSERT INTO `users` VALUES (1, 'raymond', '123', 2, 3, "raymond@god.com", "overview");
+INSERT INTO `users` VALUES (1, 'raymond', '123', 3, 3, "raymond@god.com", "overview");
 INSERT INTO `users` VALUES (2, 'dante', '123', 3, 2, "dante@god.com", "overview");
 INSERT INTO `users` VALUES (3, 'ann', '123', 2, 1, "ann@god.com", "overview");
 INSERT INTO `users` VALUES (4, 'robin', '123', 3, 1, "robin@god.com", "overview");
