@@ -29,6 +29,8 @@ class ListController extends Controller {
         ],
         "games" => $list->getGames()
       ];
+      $list->viewCount($list->viewCount() + 1);
+      $list->save();
       return $this->render("json", $data);
     } else {
 
@@ -36,6 +38,15 @@ class ListController extends Controller {
       return $this->render("html", "list.html", $replacement);
     }    
   }
+
+  function searchGame() {
+    $params = $this->request->getQueryParams();
+    $result = RecommendationList::searchGame($params);
+    return $this->render("json", [
+      "games" => $result
+    ]);
+  }
+
   function getTopLists() {
     if ($this->request->isXhr()) {
       $topList = [];
@@ -73,10 +84,21 @@ class ListController extends Controller {
     $title = $params["title"];
     $desc = $params["desc"];
     $file = $this->request->getUploadedFiles();
-    $file["cover"]->moveTo(__DIR__ . "/../../public/images/1.jpg");
-    $key = ["title"=>$title, "filename"=>"1", "type"=>"jpg", "desc"=>$desc];
+    $random_name = uniqid();
+    $gameID = json_decode($params["gameID"]);
+    $recReasons = json_decode($params["recReasons"]);
+    if(isset($file["cover"])) {
+      $file["cover"]->moveTo(__DIR__ . "/../../public/images/" . $random_name . ".jpg");
+      $key = ["title"=>$title, "filename"=>$random_name, "type"=>"jpg", "desc"=>$desc, "gameID"=>$gameID, "recReasons"=>$recReasons];
+    } else {
+      $key = ["title"=>$title, "filename"=>null, "type"=>null, "desc"=>$desc, "gameID"=>$gameID, "recReasons"=>$recReasons];
+    }
+    
     
     $rec = RecommendationList::creatRecList($key);
+    $user = User::get($_COOKIE["account"]);
+    $user->listCount($user->listCount() + 1);
+    $user->save();
     return $this->render("json", ["status" => "success", "id" => $rec->id()]);
   }
 

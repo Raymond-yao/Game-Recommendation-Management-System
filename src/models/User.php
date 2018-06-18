@@ -140,6 +140,55 @@ class User extends Model {
       return getRecommendationLists($this->id);
     }
 
+    function getStat($args) {
+      $pdo = $GLOBALS["container"]->db;
+      $type = $args["type"];
+      $extreme_query = NULL;
+      switch ($type) {
+        case 'extreme_count':
+        if ($args["extreme"] === "max"){
+          $extreme_query = $pdo->prepare("SELECT MAX(data.listcount) AS ext FROM (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS data;");
+        } else {
+          $extreme_query = $pdo->prepare("SELECT MIN(data.listcount) AS ext FROM (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS data;");
+        }
+
+        $extreme_query->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $res = $extreme_query->fetch(PDO::FETCH_ASSOC)["ext"];
+        return [
+          "type" => strtoupper($args["extreme"]),
+          "value" => $res 
+        ];
+
+        break;
+        case 'count':
+        $stmt = $pdo->prepare("SELECT comp.username, comp.listcount FROM (SELECT data.username, COUNT(creatorID) AS listcount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;
+          ");
+        $stmt->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $data = $stmt->fetchAll();
+        return ["users" => $data];
+        break;
+        case 'average':
+        $stmt = $pdo->prepare("SELECT comp.username,comp.id ,comp.avgViewCount FROM (SELECT data.username,data.id, AVG(viewCount) AS avgViewCount FROM (SELECT viewCount,title,creatorID,username,fri.id,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;");
+        if ($args["extreme"] === "max"){
+          $extreme_query = $pdo->prepare("SELECT MAX(comp.avgViewCount) as ext FROM (SELECT data.username, AVG(viewCount) AS avgViewCount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;");
+        } else {
+          $extreme_query = $pdo->prepare("SELECT MIN(comp.avgViewCount) as ext FROM (SELECT data.username, AVG(viewCount) AS avgViewCount FROM (SELECT viewCount,title,creatorID,username,email FROM recommendationlists RIGHT JOIN (SELECT DISTINCT id, username,listcount,friendcount,email FROM users JOIN friends ON(friends.followeeID = users.id) WHERE friends.followerid = :id1 OR users.id  = :id2) AS fri ON creatorID = fri.id) AS data GROUP BY data.username) AS comp;");
+        }
+        $stmt->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $extreme_query->execute([":id1" => $this->id(), ":id2" => $this->id()]);
+        $data = $stmt->fetchAll();
+        $ext = $extreme_query->fetch(PDO::FETCH_ASSOC)["ext"];
+        return [
+          "extreme" => [
+            "type" => strtoupper($args["extreme"]),
+            "value" => $ext 
+          ],
+          "users"=> $data
+        ];
+        break;
+      }
+    }
+
     static function getRecommendationLists($id) {
       $pdo = $GLOBALS["container"]->db;
       $stmt = $pdo->prepare("SELECT * FROM recommendationlists LEFT JOIN (SELECT filename, listcovers.listID FROM images JOIN listcovers ON images.id = listcovers.id) AS cover ON (cover.listID = recommendationlists.id) WHERE (creatorID = :id);");
@@ -277,32 +326,42 @@ class User extends Model {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name");
         $name .= "%";
         $stmt->execute(array(':name' => $name));
+        $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users WHERE username LIKE :name) AS result");
+        $count_query->execute(array(':name' => $name));
         break;
         case 2:
         if ($id){
-          $stmt = $pdo->prepare(" SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2);");
+          $stmt = $pdo->prepare("SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2);");
           $name .= "%";
-          $stmt->execute(array(':name' => $name, ':id1' => $id, 'id2' => $id));
+          $stmt->execute(array(':name' => $name, ':id1' => $id, ':id2' => $id));
+          $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users WHERE username LIKE :name AND users.id NOT IN (SELECT id FROM users JOIN friends ON users.id = friends.followeeid AND followerid = :id1 UNION SELECT id FROM users WHERE id = :id2)) AS result");
+          $count_query->execute(array(':name' => $name, ':id1' => $id, ':id2' => $id));
         }
         break;
         case 3:
         if ($name === "") {
           $stmt = $pdo->prepare("SELECT * FROM users res WHERE NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id));");
           $stmt->execute();
+          $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users res WHERE NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id))) AS result");
+          $count_query->execute();
         } else {
           $stmt = $pdo->prepare("SELECT * FROM users res WHERE res.username LIKE :name AND NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id));");
           $name .= "%";
           $stmt->execute(array(':name' => $name));
+          $count_query = $pdo->prepare("SELECT COUNT(*) as count FROM (SELECT * FROM users res WHERE res.username LIKE :name AND NOT EXISTS( SELECT C.id FROM users C WHERE C.id <> res.id AND C.id NOT IN (SELECT followeeID FROM friends WHERE followerID = res.id))) AS result");
+          $count_query->execute(array(':name' => $name));
         }
         break;
       }
       $result = $stmt->fetchAll();
+      $count = $count_query->fetch(PDO::FETCH_ASSOC)["count"];
+      $count_query->closeCursor();
       $stmt->closeCursor();
       $res = [];
       foreach ($result as $tuple) {
         array_push($res, new User($tuple));
       }
-      return $res;
+      return ["count" => $count, "result" => $res];
     }
 
   }

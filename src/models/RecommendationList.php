@@ -65,6 +65,30 @@ class RecommendationList extends Model {
     }
   }
 
+  static function searchGame($params) {
+    $showing = $params["showing"];
+    $criteria = $params["criteria"];
+    $value = $params["value"];
+    $pdo = $GLOBALS["container"]->db;
+    $sql_head = "SELECT " . $showing;
+    if ($criteria === "year"){
+      $stmt = $pdo->prepare($sql_head . " FROM games WHERE salesDate > date(:year)");
+      $value .= "-1-1";
+      $stmt->execute([":year" => $value]);
+    } else {
+      $stmt = $pdo->prepare($sql_head. " FROM games WHERE company LIKE :name");
+      $value = "%" . $value . "%";
+      $stmt->execute([":name" => $value]);
+    }
+
+    $result = $stmt->fetchAll();
+    $res = [];
+    foreach ($result as $value) {
+      array_push($res, ["value" => $value[$showing] ]);
+    }
+    return $res;
+  }
+
   function createdDate() {
     $months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     $date = $this->attributes["createdDate"]["current"];
@@ -118,7 +142,7 @@ class RecommendationList extends Model {
     //insert in to RecommendationLists
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare('INSERT INTO RecommendationLists (id, title, description, createdDate, creatorID) VALUES (:id, :title, :description, :createdDate, :creatorID)');
-    $stmt->execute(array(':id'=>$maxId, ':title'=>$keys["title"], ':description'=>$keys["desc"], 'createdDate'=>$date, 'creatorID'=>$creatorID));
+    $stmt->execute(array(':id'=>$maxId, ':title'=>$keys["title"], ':description'=>$keys["desc"], ':createdDate'=>$date, ':creatorID'=>$creatorID));
     //get max image id:maxIId
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare("SELECT MAX(id) FROM Images");
@@ -132,7 +156,24 @@ class RecommendationList extends Model {
     //insert into listCovers
     $pdo = $GLOBALS["container"]->db;
     $stmt = $pdo->prepare('INSERT INTO ListCovers (id, listID) VALUES (:id, :listID)');
-    $stmt->execute(array(':id'=>$maxIId, 'listID'=>$maxId));
+    $stmt->execute(array(':id'=>$maxIId, ':listID'=>$maxId));
+    //insert into recommend
+    foreach ($keys["gameID"] as $chosenGameID) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare('INSERT INTO Recommend (listID, gameID) VALUES (:listID, :gameID)');
+      $stmt->execute(array(':listID'=>$maxId, ':gameID'=>$chosenGameID));
+    }
+    foreach ($keys["recReasons"] as $index => $recReasonsTest) {
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare("SELECT MAX(id) FROM RecommendationReasons");
+      $stmt->execute();
+      $maxRId = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(id)"];
+      $maxRId += 1;
+
+      $pdo = $GLOBALS["container"]->db;
+      $stmt = $pdo->prepare('INSERT INTO RecommendationReasons (id, content, listID, gameID) VALUES (:id, :content, :listID, :gameID)');
+      $stmt->execute(array(':id'=>$maxRId, ':content'=>$recReasonsTest, ':listID'=>$maxId, ':gameID'=>$keys["gameID"][$index]));
+    }
 
     return RecommendationList::get($maxId);
 
@@ -160,7 +201,8 @@ class RecommendationList extends Model {
         "name" => $t["name"],
         "date" => $t["salesDate"],
         "company" => $t["company"],
-        "cover" => $cover
+        "cover" => $cover,
+        "id" => $t["id"]
       ];
 
       $init = $t["init"];

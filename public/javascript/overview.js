@@ -24,6 +24,7 @@ $(function () {
       if (document.cookie.match(visit_id)) {
         $(".overview-follow-button").hide();
       } else {
+        $(".item-stat").hide();
         $(".overview-follow-button").on("click", toggleFollow);
         $(".overview-follow-button").data("followUser", visit_id)
         if (is_friend) {
@@ -39,8 +40,10 @@ $(function () {
   function viewSwitch() {
     if (viewState === "recommendation") {
       recommendationViewSwitch();
-    } else {
+    } else if (viewState === "friend") {
       friendView();
+    } else {
+      statView();
     }
   }
 
@@ -55,7 +58,7 @@ $(function () {
       listView();
     }
     $('[data-toggle="tooltip"]').tooltip();
-    $(".delete-dropdown").on("click", function(ev) {
+    $(".delete-dropdown, .delete-article").on("click", function(ev) {
       list_id = $(ev.currentTarget).data("delete");
     });
   };
@@ -76,7 +79,7 @@ $(function () {
       var stub_card = $('script[data-template="stub-card"]').text();
       $("#content-container").append(stub_card);
     } else {
-      $(".more-option").hide();
+      $(".more-option").remove();
     }
   }
 
@@ -85,9 +88,15 @@ $(function () {
     $.each(recommendations, function( index, rec ) {
       var id = rec["id"];
       var title = rec["title"];
-      var list = '<li class="list-group-item" id="list-' + id + '"><a class="list-view-link" href="/list/' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '">' + title + '</a></li>'
+      var list = '<li class="list-group-item" id="list-' + id + '" data-toggle="tooltip" data-placement="top" title="' + title + '"><a class="list-view-link" href="/list/' + id + '">' + title + '</a><div class="list-more-options"> <a href="/edit/' + id + '" class="btn edit" style="height:21px;font-size:14px">Edit</a> <a href="javascript:;" class="btn delete-article" data-toggle="modal" data-target="#deleteConfirm" data-delete="' + id + '" style="height:21px;font-size:14px">Delete</a></div></li>'
       $("ul.list-group").append(list);
     });
+    if (document.cookie.match(visit_id)){
+      var stub_list_item = $('script[data-template="stub-list"]').text();
+      $("ul.list-group").append(stub_list_item);
+    } else {
+      $(".list-more-options").remove();
+    }
   }
 
   function friendView() {
@@ -107,6 +116,118 @@ $(function () {
         setupFriendsAvatar(data);
       }
     });
+  }
+
+  function statView() {
+    $("div.settings-group").hide();
+    $("#content-container").empty();
+    stat_console = $('script[data-template="stat-console"]').text();
+    $("#content-container").append(stat_console);
+
+    $(".stat-type").on("click", function(ev) {
+      $(".stat-type.selected").removeClass("selected");
+      $(ev.currentTarget).addClass("selected");
+      $("#stat-container").empty();
+      $("#stat-container").append('<div id="chart-container"></div>');
+      var type = $(ev.currentTarget).data("stat");
+      var data = {
+        type: type
+      }
+      if (type === "count"){
+        var extreme_container = $("script[data-template=count-extrme]").text();
+        $("#stat-container").prepend(extreme_container);
+        $(".extreme-control").on("click", function(ev) {
+          $(".extreme-control.selected").removeClass("selected");
+          $(ev.currentTarget).addClass("selected");
+          $.ajax({
+            method: "GET",
+            url: "/stat",
+            data: {
+              type: "extreme_count",
+              extreme: $(ev.currentTarget).data("extreme")
+            },
+            success: function(data) {
+              $(".extreme-title").text(data["type"] + ":");
+              $(".extreme-value").text(data["value"]);
+            },
+            error: function() {
+              alert("sorry, an error occured");
+            }
+          });
+        });
+        $.ajax({
+          method: "GET",
+          url: "/stat",
+          data: data,
+          success: function(statData) {
+            google.charts.load('current', {packages: ['corechart']});
+
+            var drawChart = function() {
+              var chartData = [
+              ['Element', 'list count', { role: 'style' }]
+              ];
+              $.each(statData["users"], function(index, user) {
+                chartData.push([user["username"], user["listcount"] * 1, 'skyblue']);
+              });
+              var data = google.visualization.arrayToDataTable(chartData);
+              var chart = new google.visualization.BarChart($("#chart-container")[0]);
+
+              var options = {
+                title: "list count of friends",
+                width: 600,
+                height: 400,
+                bar: {groupWidth: "95%"},
+              };
+              chart.draw(data, options);
+            };
+
+            google.charts.setOnLoadCallback(drawChart);
+          }
+        });
+      } else {
+       var extreme_container = $("script[data-template=average-list]").text();
+       $("#stat-container").prepend(extreme_container);
+       $(".extreme-control").on("click", function(ev) {
+        $(".extreme-control.selected").removeClass("selected");
+        $(ev.currentTarget).addClass("selected");
+        var data = {
+          type: type,
+          extreme: $(ev.currentTarget).data("extreme")
+        }
+        $.ajax({
+          method: "GET",
+          url: "/stat",
+          data: data,
+          success: function(statData) {
+            $(".extreme-title").text(statData["extreme"]["type"] + ":");
+            $(".extreme-value").text(statData["extreme"]["value"]);
+            google.charts.load('current', {packages: ['corechart']});
+
+            var drawChart = function() {
+              var chartData = [
+              ['Element', 'average view count', { role: 'style' }]
+              ];
+              $.each(statData["users"], function(index, user) {
+                chartData.push([user["username"], user["avgViewCount"] * 1, 'skyblue']);
+              });
+              var data = google.visualization.arrayToDataTable(chartData);
+              var chart = new google.visualization.BarChart($("#chart-container")[0]);
+
+              var options = {
+                title: "Average view count of friends",
+                width: 600,
+                height: 400,
+                bar: {groupWidth: "95%"},
+              };
+              chart.draw(data, options);
+            };
+
+            google.charts.setOnLoadCallback(drawChart);
+          }
+        })
+      });
+     }
+   });
   }
 
   function profileCardAdder(profile) {
@@ -139,7 +260,6 @@ $(function () {
       }
     }
   }
-
 
   function toggleFollow(ev) {
     var follow_button = $(ev.currentTarget);
@@ -219,5 +339,5 @@ $(function () {
       }
     })
   });
-  
+
 })

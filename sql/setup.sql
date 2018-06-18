@@ -56,6 +56,7 @@ CREATE TABLE `RecommendationLists` (
   description CHAR(200),
   createdDate DATE,
   creatorID INTEGER NOT NULL,
+  viewCount INTEGER,
   FOREIGN kEY (creatorID) REFERENCES Users(id) ON UPDATE CASCADE
 );
 
@@ -147,12 +148,12 @@ INSERT INTO `friends` VALUES (2, 3);
 INSERT INTO `friends` VALUES (3, 1);
 INSERT INTO `friends` VALUES (4, 1);
 
-INSERT INTO `RecommendationLists` VALUES (1, 'Steam best games', 'Here are some games which I think is the best in Steam', DATE("2018-5-31"), 1);
-INSERT INTO `RecommendationLists` VALUES (2, 'Best indie games', 'Best indie games I ever play!', DATE("2018-5-31"), 1);
-INSERT INTO `RecommendationLists` VALUES (3, '2017 Summer Sales recommendations', 'Here are 10 games which I think is the best in Steam', DATE("2018-5-31"), 2);
-INSERT INTO `RecommendationLists` VALUES (4, 'EA Games collection', 'Best games EA has made ever', DATE("2018-5-31"), 3);
-INSERT INTO `RecommendationLists` VALUES (5, 'Ubisoft Potato', "Ubisoft's server is shitty, but it did make some really cool games!", DATE("2018-5-31"), 4);
-INSERT INTO `RecommendationLists` VALUES (6, '2016 Winter Sales recommendations', 'What Game should you play in 2016 winter!', DATE("2018-5-31"), 4);
+INSERT INTO `RecommendationLists` VALUES (1, 'Steam best games', 'Here are some games which I think is the best in Steam', DATE("2018-5-31"), 1, 17);
+INSERT INTO `RecommendationLists` VALUES (2, 'Best indie games', 'Best indie games I ever play!', DATE("2018-5-31"), 1, 22);
+INSERT INTO `RecommendationLists` VALUES (3, '2017 Summer Sales recommendations', 'Here are 10 games which I think is the best in Steam', DATE("2018-5-31"), 2, 30);
+INSERT INTO `RecommendationLists` VALUES (4, 'EA Games collection', 'Best games EA has made ever', DATE("2018-5-31"), 3, 99);
+INSERT INTO `RecommendationLists` VALUES (5, 'Ubisoft Potato', "Ubisoft's server is shitty, but it did make some really cool games!", DATE("2018-5-31"), 4, 10);
+INSERT INTO `RecommendationLists` VALUES (6, '2016 Winter Sales recommendations', 'What Game should you play in 2016 winter!', DATE("2018-5-31"), 4, 20);
 
 INSERT INTO `Games` VALUES(1, "Tom Clancy's Rainbow Six Siege", DATE("2015-12-1"), "Ubisoft", 9, "https://rainbow6.ubisoft.com/siege/en-ca/home/");
 INSERT INTO `Games` VALUES(2, "Assassin's Creed: Origins", DATE("2017-10-27"), "Ubisoft", 8.5, "https://store.steampowered.com/app/582160/Assassins_Creed_Origins/");
@@ -195,8 +196,8 @@ INSERT INTO `RecommendationReasons` VALUES(3, "I love being both a pirate and an
 INSERT INTO `RecommendationReasons` VALUES(4, "I love its graphic effect", 1, 4);
 INSERT INTO `RecommendationReasons` VALUES(5, "love its story", 1, 5);
 INSERT INTO `RecommendationReasons` VALUES(7, "love suffering", 1, 8);
-INSERT INTO `RecommendationReasons` VALUES(8, "I love its graphic effect", 2, 5);
-INSERT INTO `RecommendationReasons` VALUES(9, "good music, epic story ... from there I read a history of the honour bugs' kindom", 2, 4);
+INSERT INTO `RecommendationReasons` VALUES(8, "I love its graphic effect", 2, 4);
+INSERT INTO `RecommendationReasons` VALUES(9, "good music, epic story ... from there I read a history of the honour bugs' kindom", 2, 5);
 INSERT INTO `RecommendationReasons` VALUES(10, "A better CS with more complicated siege environment", 3, 1);
 INSERT INTO `RecommendationReasons` VALUES(11, "the culture of Egypt attracts me so much", 3, 2);
 INSERT INTO `RecommendationReasons` VALUES(12, "An interesting combination of pirates and assassin", 3, 3);

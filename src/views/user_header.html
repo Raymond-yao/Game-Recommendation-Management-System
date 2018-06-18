@@ -10,13 +10,15 @@
         <span class="search-icon" data-toggle="modal" data-target="#search-result-dialog" data-type="1">&#9906</span>
       </div>
       <a class="navbar-brand text-light" href="/overview"><div id="avatar"></div></a>
-      <ul class="navbar-nav">
+      <ul class="navbar-nav header-dropdown">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-light" href="#" id="avatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Unknown
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/settings">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item game-manager" data-toggle="modal" data-target="#game-manager-dialog" href="#">Game Manager</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/logout">Logout</a>
           </div>
@@ -37,11 +39,50 @@
         </div>
         <div class="modal-body">
           <div class="search-criteria-container">
-            <span class="search-criteria selected btn" data-type="1">MATCH NAME</span>
-            <span class="search-criteria btn" data-type="2">NOT FOLLOWED</span>
-            <span class="search-criteria btn" data-type="3">following EVERYONE</span>
+            <span class="search-criteria user-criteria selected btn" data-type="1">MATCH NAME</span>
+            <span class="search-criteria user-criteria btn" data-type="2">NOT FOLLOWED</span>
+            <span class="search-criteria user-criteria btn" data-type="3">following EVERYONE</span>
+          </div>
+          <div class="result-counter">
+            We found <span class="counter">0</span> results.
           </div>
           <div class="result-container" style="display: flex; flex-wrap: wrap;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="game-manager-dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="game-manager-title">Game Manager</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="search-criteria-container">
+            <div class="show-title">Showing:</div>
+            <span class="search-criteria game-criteria selected btn" data-type="name">Name</span>
+            <span class="search-criteria game-criteria btn" data-type="url">URL</span>
+            <div class="show-title year input-group">
+              <select class="custom-select" id="game-search-type">
+                <option selected value="null">Choose a criteria</option>
+                <option value="company">From Company</option>
+                <option value="year">From Year</option>
+              </select>
+              <input type="text" name="game-year" class="input-text" id="game-input-value">
+            </div>
+            <button id="search-game" class="btn btn-primary">Search Game</button>
+          </div>
+          <div class="result-counter">
+            We found <span class="counter">0</span> results.
+          </div>
+          <div class="result-container"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -117,12 +158,55 @@
 
         $(".result-container").append(template);
       }
-      $(".search-criteria").on("click", function(ev) {
-        $(".search-criteria.selected").removeClass("selected");
+
+      $(".search-criteria.game-criteria").on("click", function(ev) {
+        $(".search-criteria.game-criteria.selected").removeClass("selected");
         $(ev.currentTarget).addClass("selected");
-      })
-      $(".search-icon, .search-criteria").on("click", function(ev) {
+      });
+
+      $("#search-game").on("click", function(ev) {
+        $(".result-container").empty();
+        $("span.counter").text(0);
+        var showing = $(".search-criteria.game-criteria.selected").data("type");
+        var criteria = $("#game-search-type").val();
+        var input  = $("#game-input-value").val().trim();
+        var year = input * 1;
+        if (criteria === "null" || $("#game-input-value").val().trim() === "") {
+          alert("please specify a search criteria and input a value");
+        } else if (criteria === "year" && (isNaN(year) || (!isNaN(year) && year <= 0))) {
+          alert("please input a valid year");
+        } else {
+          var params = {
+            showing: showing,
+            criteria: criteria,
+            value: input
+          }
+
+          $.ajax({
+            method: "GET",
+            url: "/searchgame",
+            data: params,
+            success: function(data) {
+              var length = data["games"].length;
+              $("span.counter").text(length);
+              $.each(data["games"], function(index, game) {
+                var item = "<div class='alert alert-primary'>" + game["value"] + "</div>";
+                $(".result-container").append(item);
+              })
+            },
+            error: function() {
+              alert("sorry there is a problem");
+            }
+          })
+        }
+      });
+
+      $(".search-icon, .search-criteria.user-criteria").on("click", function(ev) {
         var type = $(ev.currentTarget).data("type");
+        $(".search-criteria.user-criteria.selected").removeClass("selected");
+        $('.search-criteria[data-type="' + type + '"]').addClass("selected");
+        $(".result-container").empty();
+        $("span.counter").text(0);
         var search = $("#search").val().trim();
         if (search.trim() !== "" || type === 3) {
           $.ajax({
@@ -134,6 +218,7 @@
             },
             success: function(data) {
               if (data["status"] === "success") {
+                $("span.counter").text(data["count"]);
                 $(".result-container").empty();
                 var result_list = data["result"];
                 $.each(result_list, function(i, profile) {

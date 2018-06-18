@@ -83,14 +83,11 @@ class AccountController extends Controller {
       break;
 
       case 'image':
-      $this->log($params["updateType"]);
       $files = $this->request->getUploadedFiles();
       if (isset($files["avatar"])) {
         $avatar = $files["avatar"];
         $ext = "." . explode("/", $avatar->getClientMediaType())[1];
         $filename = uniqid();
-        $this->log($filename);
-        $this->log($ext);
         $avatar->moveTo(__DIR__ . "/../../public/images/" . $filename . $ext);
         $user->avatar($filename . $ext);
       }
@@ -199,12 +196,28 @@ class AccountController extends Controller {
     return $this->render("json",$list_info);
   }
 
+  function stat() {
+    if (!isset($_COOKIE["account"])) {
+      return $this->render("json",array('status' => 'unauthorized' ));
+    }
+    $user = User::get($_COOKIE["account"]);
+    $params = $this->request->getQueryParams();
+    $args = ["type" => $params["type"]];
+    if ($params["type"] === "average" || $params["type"] === "extreme_count") {
+      $args["extreme"] = $params["extreme"];
+    }
+    $stat = $user->getStat($args);
+    return $this->render("json", $stat);
+  }
+
   function searchUser() {
     $params = $this->request->getParsedBody();
     $search = $params["search"];
     $type = $params["type"];
     if (trim($search) !== "" || $type === '3') {
-      $result = User::search($search, $type, $_COOKIE["account"]);
+      $res = User::search($search, $type, $_COOKIE["account"]);
+      $result = $res["result"];
+      $count = $res["count"];
       $users = [];
       foreach ($result as $user) {
         array_push($users, [
@@ -216,7 +229,8 @@ class AccountController extends Controller {
         ]);
       }
       return $this->render("json", [
-        "status" => "success", 
+        "status" => "success",
+        "count" => $count,
         "result" => $users
       ]);
     } else {
