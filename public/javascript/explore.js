@@ -44,7 +44,7 @@ function toggleIcon(e) {
 
 $(function(){
     
-    var random_list_id = Math.floor(Math.random() * 3) + 1;        
+    var random_list_id = Math.floor(Math.random() * 8) + 1;        
         $.ajax({
             method: "GET",
             url: "/toplists/" + random_list_id,
