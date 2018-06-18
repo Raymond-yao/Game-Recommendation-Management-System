@@ -134,9 +134,9 @@ CREATE TABLE `UserImages` (
 
 
 INSERT INTO `users` VALUES (1, 'raymond', '123', 2, 3, "raymond@god.com", "overview");
-INSERT INTO `users` VALUES (2, 'dante', '123', 1, 2, "dante@god.com", "overview");
-INSERT INTO `users` VALUES (3, 'ann', '123', 1, 1, "ann@god.com", "overview");
-INSERT INTO `users` VALUES (4, 'robin', '123', 2, 1, "robin@god.com", "overview");
+INSERT INTO `users` VALUES (2, 'dante', '123', 3, 2, "dante@god.com", "overview");
+INSERT INTO `users` VALUES (3, 'ann', '123', 2, 1, "ann@god.com", "overview");
+INSERT INTO `users` VALUES (4, 'robin', '123', 3, 1, "robin@god.com", "overview");
 INSERT INTO `users` VALUES (5, 'root', '123', 0, 0, "root@god.com", "overview");
 
 
@@ -180,7 +180,7 @@ INSERT INTO `Games` VALUES(13,"Superhot VR", DATE("2017-3-7"),"Superhot Team",7.
 INSERT INTO `Games` VALUES(14,"Skyrim VR", DATE("2018-4-3"),"Bethesda",7.8,"https://store.steampowered.com/agecheck/app/611670/");
 INSERT INTO `Games` VALUES(15,"Keep Talking and Nobody Explodes", DATE("2014-1-23"),"Steel Crate Games",8,"https://www.humblebundle.com/store/keep-talking-and-nobody-explodes?partner=pcgamer");
 INSERT INTO `Games` VALUES(16,"Dominions 5", DATE("2017-11-27"),"Illwinter Game Design",7.5,"https://store.steampowered.com/app/722060/Dominions_5__Warriors_of_the_Faith/");
-INSERT INTO `Games` VALUES(17,"Sid Meier’s Civilization 5", DATE("2010-9-21"),"Firaxis Games",8.8,"https://store.steampowered.com/app/8930/Sid_Meiers_Civilization_V/");
+INSERT INTO `Games` VALUES(17,"Sid Meiers Civilization 5", DATE("2010-9-21"),"Firaxis Games",8.8,"https://store.steampowered.com/app/8930/Sid_Meiers_Civilization_V/");
 INSERT INTO `Games` VALUES(18,"Endless Space 2", DATE("2017-5-18"),"AMPLITUDE Studios",7.8,"https://store.steampowered.com/app/392110/Endless_Space_2/");
 INSERT INTO `Games` VALUES(19,"Far cry 5", DATE("2018-3-26"),"Ubisoft Montreal",5.6,"https://store.steampowered.com/app/552520/Far_Cry_5/");
 INSERT INTO `Games` VALUES(20,"Stardew Valley", DATE("2016-2-16"),"ConcernedApe",9.4,"https://store.steampowered.com/app/413150/Stardew_Valley/");
